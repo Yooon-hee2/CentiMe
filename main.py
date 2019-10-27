@@ -4,25 +4,23 @@ import SortSizeData
 import Dictionary
 import typo_refiner
 import time
-
+import image
 
 ocr = OCRApi.OCRApi()
 
+url_list = image.true_image(image.get_image_url())
 
-# url_list = 아현함수()
+refiner = typo_refiner.TypoRefiner()
 
-# refiner = typo_refiner.TypoRefiner()
-# for url in enumerate(url_list):
-#     searchdata = SearchColumnData.SearchColumnData(ocr.detect_text(url))
-#     searchdata.find_category_in_sizetable()
-
-all_data = ocr.detect_text("https://warmgray.co.kr/warmgray/PT/TIDPT112/TIDPT112_c.jpg")
+for url in url_list:
+    searchdata = SearchColumnData.SearchColumnData(ocr.detect_text(url))
+    if searchdata.find_category_in_sizetable():
+        break
 
 # print(refiner("믿위"))
 
 # searchdata = SearchColumnData.SearchColumnData(all_data)
 # searchdata.find_category_in_sizetable()
-
 # sort = SortSizeData.SortSizeData(4, searchdata)
 # sort.sort_by_category()
 # searchdata.find_category_in_sizetable()

@@ -5,7 +5,7 @@ import Coordinate
 
 
 #api key setting
-credential_path = "C:/Users/yoonhee/Desktop/OCR/CentiMe/test-e94ee409efcc.json"
+credential_path = "C:/Users/ahyen/Desktop/ahyenbabo/CentiMe/test-e94ee409efcc.json"
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 
 class OCRApi:

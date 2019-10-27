@@ -9,8 +9,8 @@ import urllib
 import cv2
 from keras.models import load_model
 
-def get_image_url():
-    url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
+def get_image_url(url):
+    #url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
     #url = 'http://unnilook.co.kr/product/%EB%8B%A4%EC%9E%89-pants/6116/category/119/display/2/'
     #url = 'https://cre-me.co.kr/product/%ED%81%AC%EB%9F%AC%EC%89%AC-%EC%9D%BC%EC%9E%90-%EB%8D%B0%EB%8B%98-%ED%8C%AC%EC%B8%A0/1143/category/42/display/1/'
     #url = 'http://maybnous.com/product/%EC%98%86-%EC%82%AC%EC%9D%B4%EB%93%9C%EB%B0%94-%EC%8A%A4%ED%82%A4%EB%8B%88%ED%8C%AC%EC%B8%A02colors%ED%95%98%EC%9D%B4%EC%9B%A8%EC%8A%A4%ED%8A%B8%ED%8A%B8%EC%9E%84%EC%AB%80%EC%AB%80%EC%8A%A4%ED%8C%90/3204/category/61/display/1/'

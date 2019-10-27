@@ -50,9 +50,7 @@ class SearchColumnData:
         # for i in range(len(candidate_y_pos)):
         #     print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
 
-        if(len(candidate_y_pos) < 5):
-            return False
-
+        print(len(candidate_y_pos))
         t_candidate_y_pos = [int(x // 5 * 5) for x in candidate_y_pos]
 
         # for i in range(len(t_candidate_y_pos)):
@@ -71,17 +69,17 @@ class SearchColumnData:
                 t_candidate_y_pos[i] == max_y_coordinate[0]- 5:
                 size_category_collections.append(candidate_y_index[i])
 
-        for i in range(len(size_category_collections)):
-            print(size_category_collections[i], "size",len(size_category_collections) )
-        
+        if (len(size_category_collections) < 5):
+            return False
+
         self.is_same_column(size_category_collections)
 
-        # return candidate_y_index
+        return True
 
     def is_same_column(self, size_category_name):
-
-        for name in size_category_name:
-            print("hi", name)
+        #
+        # for name in size_category_name:
+        #     print("hi", name)
         
     #     # standard_index = 0
        

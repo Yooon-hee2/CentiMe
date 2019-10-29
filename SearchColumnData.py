@@ -58,12 +58,15 @@ class SearchColumnData:
 
         y_counter = Counter(t_candidate_y_pos)
 
-        max_y_coordinate = max(list(y_counter.items()), key = lambda a : a[1])
-        # print("max : " , max_y_coordinate)
+        max_y_coordinate = []
+        if len(y_counter) > 1:
+            max_y_coordinate = max(list(y_counter.items()), key = lambda a : a[1])
+            print("max : " , max_y_coordinate)
 
         size_category_collections = []
 
         # 밑에 +- 5 나중에 수정할것
+
         for i in range(len(t_candidate_y_pos)):
             if t_candidate_y_pos[i] == max_y_coordinate[0] or t_candidate_y_pos[i] == max_y_coordinate[0] + 5 or \
                 t_candidate_y_pos[i] == max_y_coordinate[0]- 5:

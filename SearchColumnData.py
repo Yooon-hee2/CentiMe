@@ -26,6 +26,7 @@ class SearchColumnData:
                     candidate_y_pos.append(self.data_list[i][1].y_pos)
             for j in range(len(Dictionary.index_dict['waist'])):
                 if self.data_list[i][0] == Dictionary.index_dict['waist'][j]:
+                    print('허리')
                     candidate_y_index.append(i)
                     candidate_y_pos.append(self.data_list[i][1].y_pos)    
             for j in range(len(Dictionary.index_dict['crotch_rise'])):
@@ -38,7 +39,6 @@ class SearchColumnData:
                     candidate_y_pos.append(self.data_list[i][1].y_pos)
             for j in range(len(Dictionary.index_dict['hip'])):
                 if self.data_list[i][0] == Dictionary.index_dict['hip'][j]:
-                    # print("hello", i)
                     candidate_y_index.append(i)
                     candidate_y_pos.append(self.data_list[i][1].y_pos)
             for j in range(len(Dictionary.index_dict['hem'])):
@@ -47,98 +47,65 @@ class SearchColumnData:
                     candidate_y_pos.append(self.data_list[i][1].y_pos)
 
 
-        # for i in range(len(candidate_y_pos)):
-        #     print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
+        for i in range(len(candidate_y_pos)):
+            print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
 
         print(len(candidate_y_pos))
         t_candidate_y_pos = [int(x // 5 * 5) for x in candidate_y_pos]
 
-        # for i in range(len(t_candidate_y_pos)):
-        #     print(t_candidate_y_pos[i])
+        for i in range(len(t_candidate_y_pos)):
+            print(t_candidate_y_pos[i])
 
         y_counter = Counter(t_candidate_y_pos)
 
         max_y_coordinate = []
-        if len(y_counter) > 1:
+        if len(y_counter) > 0:
             max_y_coordinate = max(list(y_counter.items()), key = lambda a : a[1])
             print("max : " , max_y_coordinate)
 
         size_category_collections = []
 
         # 밑에 +- 5 나중에 수정할것
+        if max_y_coordinate:
+            for i in range(len(t_candidate_y_pos)):
+                if t_candidate_y_pos[i] == max_y_coordinate[0] or t_candidate_y_pos[i] == max_y_coordinate[0] + 5 or \
+                    t_candidate_y_pos[i] == max_y_coordinate[0]- 5:
+                    size_category_collections.append(candidate_y_index[i])
 
-        for i in range(len(t_candidate_y_pos)):
-            if t_candidate_y_pos[i] == max_y_coordinate[0] or t_candidate_y_pos[i] == max_y_coordinate[0] + 5 or \
-                t_candidate_y_pos[i] == max_y_coordinate[0]- 5:
-                size_category_collections.append(candidate_y_index[i])
+        print(len(size_category_collections))
 
         if (len(size_category_collections) < 5):
+            print("인식에 실패하였습니다")
             return False
 
-        self.is_same_column(size_category_collections)
+        # self.is_same_column(size_category_collections)
 
-        return True
+        return self.is_same_column(size_category_collections)
 
     def is_same_column(self, size_category_name):
-        #
-        # for name in size_category_name:
-        #     print("hi", name)
-        
-    #     # standard_index = 0
-       
-        # for i in range(len(self.data_list)):
-        #     for j in range(len(size_category_name)):
-        #         if self.data_list[i][0] == size_category_name[j]:
-        #             standard_index = i
-        #             print(size_category_name[j])
-        #             break;
 
-        # print(size_category_name , "is")
-
-        same_column_index = []
+        same_column_data = []
+        size_num_by_category = []
 
         for i in range(len(size_category_name)):
+            temp, num_of_size, category_name = self.is_valid_location(size_category_name[i])
+            if len(temp) > 0:
+                same_column_data.append(temp)
+                size_num_by_category.append(num_of_size)
 
-            temp = self.is_valid_location(size_category_name[i])
-            same_column_index = temp
+        return same_column_data, size_num_by_category
 
         # self.is_one_word(same_column_index)
-
-        # for i in range(len(same_column_index)):
-        #     print(same_column_index[i].text)
-        
         # self.check_data_in_sizetable(same_column_index)
-
-        # same_column_data = []
-        # for i in range(len(same_column_index)):
-        #     # print(self.data_list[same_column_index[i]][0])
-        #     if(size_category_name == "사이즈"):
-        #         same_column_data.append(same_column_index[i])
-        #     else:
-        #         same_column_data.append(same_column_index[i].text)
-
-
-        #     # if i == 0:
-        #     #     same_column_data.append(same_column_index[i].text)
-        #     #     # print(self.data_list[same_column_index[i]][0])
-
-        #     # #의미 없는 숫자 누락, 예를 들면 수치와 완전히 무관하게 커진 숫자 혹은 작은 숫자. 
-        #     # else:
-        #     #     if self.string_to_number(same_column_index[i].text) >= self.string_to_number(same_column_index[i-1].text) \
-        #     #     and self.string_to_number(same_column_index[i].text) < self.string_to_number(same_column_index[i-1].text) + 10:
-        #     #         # print("correct : " , self.data_list[same_column_index[i]][0])
-        #     #         same_column_data.append(same_column_index[i].text)
-
-
-        # # for i in range(len(same_column_data)):
-        # #     print(same_column_data[i])
-
-        
-        # return same_column_data
 
     def string_to_number(self, string):
         try:
-            return int(string)
+            if int(string) < 150:
+                return int(string)
+            elif int(string) >= 150 and int(string) < 1000:
+                return int(string)/10
+            elif int(string) >= 1000:
+                return int(string)/100
         except ValueError:
             return float(string) 
 
@@ -161,17 +128,25 @@ class SearchColumnData:
             - int(self.data_list[index][1].x_pos)
         
         temp = []
+        count = 0
 
         for i, data in enumerate(self.data_list):
             temp_x_center, temp_y_center = obtain_center(data)
             # print(data[0] , " : " , abs(c_x_center - temp_x_center))
 
-            if temp_y_center > c_y_center and abs(c_x_center - temp_x_center) <= 20 \
-                and self.is_digit(data[0].replace(',', '.')):
+            if temp_y_center > c_y_center and abs(c_x_center - temp_x_center) <= 25:
+                data[0] = data[0].replace("cm", "")
+                data[0] = data[0].replace(',', '.')
+                if self.is_digit(data[0]):
                     index_container = Text.Text()
+                    index_container.category = self.data_list[index][0]
                     index_container.index = i
-                    index_container.text = data[0].replace(',', '.')
+                    index_container.text = self.string_to_number(data[0])
+                    index_container.height = temp_y_center
                     temp.append(index_container)
+                    count += 1
+
+        
 
         if len(temp) > 1:
             trimmed_index = len(temp)
@@ -181,12 +156,13 @@ class SearchColumnData:
                     temp = temp[:trimmed_index]
                     break
         
-        # temp = temp[:trimmed_index]
-        
-        if len(temp) > 1:
-            print("category : " , self.data_list[index][0])
-            print([x.text for x in temp])
-            return temp
+    
+        # print("category : " , self.data_list[index][0])
+        # print([x.text for x in temp])
+        return temp, count, self.data_list[index][0]
+
+
+
 
     # def is_one_word(self, same_column_index):
     #      for i in range(len(same_column_index) - 1):

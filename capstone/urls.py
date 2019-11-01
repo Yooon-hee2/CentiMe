@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 import crawling.urls
-import product.urls
+import clothes.urls
 import recommend.urls
 import login.views
 
@@ -26,6 +26,6 @@ urlpatterns = [
     path('', login.views.login, name='login'),
     path('accounts/', include('allauth.urls')),
     #path('info/', include('crawling.urls')),
-    path('list/', include('product.urls')),
+    path('list/', include('clothes.urls')),
     #path('recommend/', include('recommend.urls')),
 ]

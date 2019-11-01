@@ -1,0 +1,10 @@
+{% load socialaccount %}
+{% providers_media_js %}
+hi
+
+{% if user.is_authenticated %}
+<p>Welcome {{ user.first_name }} </p>
+<a href = "/accounts/logout">로그아웃</a>
+{% else %}
+<a href="{% provider_login_url 'google' %}">구글 로그인</a>
+{% endif %}

@@ -13,3 +13,34 @@ class Product(models.Model):
 
     def __str__(self):
         return self.url
+
+class Outer_Top(Product):
+    bust = models.IntegerField(default=0)
+    shoulder = models.IntegerField(default=0)
+    armhole = models.IntegerField(default=0)
+    sleeve = models.IntegerField(default=0)
+    sleevewidth = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)
+
+class Skirt(Product):
+    waist = models.IntegerField(default=0)
+    hip = models.IntegerField(default=0)
+    hem = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)
+
+class Ops(Product):
+    waist = models.IntegerField(default=0)
+    shoulder = models.IntegerField(default=0)
+    armhole = models.IntegerField(default=0)
+    sleeve = models.IntegerField(default=0)
+    sleevewidth = models.IntegerField(default=0)
+    hip = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)
+
+class Pants(Product):
+    waist = models.IntegerField(default=0)
+    hip = models.IntegerField(default=0)
+    thigh = models.IntegerField(default=0)
+    hem = models.IntegerField(default=0)
+    crotch_rise = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)

@@ -1,13 +1,8 @@
 from django.db import models
 from django.conf import settings
-    
+from crawling import models   
 # Create your models here.
-class Category(models.Model):
-    category = models.CharField(max_length=5)
 
-    def __str__(self):
-        return self.category
-        
 class Product(models.Model):
     objects = models.Manager()
     feature = models.ForeignKey(Category, on_delete=models.CASCADE)

@@ -24,9 +24,9 @@ class SearchColumnData:
                 if self.data_list[i][0] == Dictionary.index_dict['length'][j]:
                     candidate_y_index.append(i)
                     candidate_y_pos.append(self.data_list[i][1].y_pos)
+                    break
             for j in range(len(Dictionary.index_dict['waist'])):
                 if self.data_list[i][0] == Dictionary.index_dict['waist'][j]:
-                    print('허리')
                     candidate_y_index.append(i)
                     candidate_y_pos.append(self.data_list[i][1].y_pos)    
             for j in range(len(Dictionary.index_dict['crotch_rise'])):
@@ -74,8 +74,8 @@ class SearchColumnData:
 
         print(len(size_category_collections))
 
-        if (len(size_category_collections) < 5):
-            print("인식에 실패하였습니다")
+        if (len(size_category_collections) < 4):
+            print("카테고리가 5개 이하입니다")
             return False
 
         # self.is_same_column(size_category_collections)
@@ -134,8 +134,9 @@ class SearchColumnData:
             temp_x_center, temp_y_center = obtain_center(data)
             # print(data[0] , " : " , abs(c_x_center - temp_x_center))
 
-            if temp_y_center > c_y_center and abs(c_x_center - temp_x_center) <= 25:
+            if temp_y_center > c_y_center and abs(c_x_center - temp_x_center) <= 35:
                 data[0] = data[0].replace("cm", "")
+                data[0] = data[0].replace("CM", "")
                 data[0] = data[0].replace(',', '.')
                 if self.is_digit(data[0]):
                     index_container = Text.Text()

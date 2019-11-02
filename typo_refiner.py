@@ -58,7 +58,7 @@ class TypoRefiner():
         # min_distance = len(seperated) + self.max_distance
         for i, label in enumerate(self.labels):
             dist = self._obtain_dist(seperated, label)
-            if dist < 3:
+            if dist < 2:
                 # min_distance = dist
                 ret = self.words[i]
                 return ret

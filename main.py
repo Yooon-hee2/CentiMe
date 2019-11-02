@@ -33,7 +33,7 @@ ocr = OCRApi.OCRApi()
 
 
 refiner = typo_refiner.TypoRefiner()
-temp_data = ocr.detect_text('http://monody88.jpg2.kr/upload/191010/%EC%B9%BC%EB%A6%AC%EC%95%84%20%EC%BB%B7%ED%8C%85%20%EC%8A%AC%EB%A6%BC%EC%9D%BC%EC%9E%90%20%EB%8D%B0%EB%8B%98/info.jpg')
+temp_data = ocr.detect_text('http://gokidd.godohosting.com/bizos/goods/lv1022-0004m2.jpg')
 for index in range(len(temp_data)):
     temp_data[index][0] = refiner(temp_data[index][0])
 searchdata = SearchColumnData.SearchColumnData(temp_data)

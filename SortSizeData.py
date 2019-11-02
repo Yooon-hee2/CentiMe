@@ -20,6 +20,15 @@ class SortSizeData:
 
         cnt = Counter(self.size_number_list)
         mode = cnt.most_common(1)
+
+        # #for print
+        # for yoonhee in range(len(self.size_list)):
+        #     if self.size_list[yoonhee]:
+        #         print(self.size_list[yoonhee][0].category)
+        #         # for jj in range(0, mode[0][0]):
+        #         for jj in range(len(self.size_list[yoonhee])):
+        #             print(self.size_list[yoonhee][jj].text)
+
    
         complete_size_category = 0
         # find category that size datas are missing
@@ -29,7 +38,7 @@ class SortSizeData:
             elif len(self.size_list[yoonhee]) < mode[0][0]:
                 self.add_missing_data(mode[0][0], yoonhee, complete_size_category, mode[0][0] - len(self.size_list[yoonhee]))
     
-
+        size_name = ['S', 'M', 'L', 'XL' , '2XL']
 
       #for print
         for yoonhee in range(len(self.size_list)):

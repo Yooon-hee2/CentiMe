@@ -2,7 +2,7 @@ import Text
 import Dictionary
 from collections import Counter
 
-class SearchColumnData:
+class SearchColumnData():
     def __init__(self, data_list):
         self.data_list = data_list
 
@@ -20,48 +20,26 @@ class SearchColumnData:
         candidate_y_index = []
 
         for i in range(len(self.data_list)):
-            for j in range(len(Dictionary.index_dict['length'])):
-                if self.data_list[i][0] == Dictionary.index_dict['length'][j]:
-                    candidate_y_index.append(i)
-                    candidate_y_pos.append(self.data_list[i][1].y_pos)
-                    break
-            for j in range(len(Dictionary.index_dict['waist'])):
-                if self.data_list[i][0] == Dictionary.index_dict['waist'][j]:
-                    candidate_y_index.append(i)
-                    candidate_y_pos.append(self.data_list[i][1].y_pos)    
-            for j in range(len(Dictionary.index_dict['crotch_rise'])):
-                if self.data_list[i][0] == Dictionary.index_dict['crotch_rise'][j]:
-                    candidate_y_index.append(i)
-                    candidate_y_pos.append(self.data_list[i][1].y_pos)
-            for j in range(len(Dictionary.index_dict['thigh'])):
-                if self.data_list[i][0] == Dictionary.index_dict['thigh'][j]:
-                    candidate_y_index.append(i)
-                    candidate_y_pos.append(self.data_list[i][1].y_pos)
-            for j in range(len(Dictionary.index_dict['hip'])):
-                if self.data_list[i][0] == Dictionary.index_dict['hip'][j]:
-                    candidate_y_index.append(i)
-                    candidate_y_pos.append(self.data_list[i][1].y_pos)
-            for j in range(len(Dictionary.index_dict['hem'])):
-                if self.data_list[i][0] == Dictionary.index_dict['hem'][j]:
-                    candidate_y_index.append(i)
-                    candidate_y_pos.append(self.data_list[i][1].y_pos)
+            for category_list in Dictionary.index_dict.values():
+                for category in category_list:
+                     if self.data_list[i][0] == category:
+                        candidate_y_index.append(i)
+                        candidate_y_pos.append(self.data_list[i][1].y_pos)
+                        break
 
+        # for i in range(len(candidate_y_pos)):
+        #     print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
 
-        for i in range(len(candidate_y_pos)):
-            print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
-
-        print(len(candidate_y_pos))
         t_candidate_y_pos = [int(x // 5 * 5) for x in candidate_y_pos]
 
-        for i in range(len(t_candidate_y_pos)):
-            print(t_candidate_y_pos[i])
+        # for i in range(len(t_candidate_y_pos)):
+        #     print(t_candidate_y_pos[i])
 
         y_counter = Counter(t_candidate_y_pos)
 
         max_y_coordinate = []
         if len(y_counter) > 0:
             max_y_coordinate = max(list(y_counter.items()), key = lambda a : a[1])
-            print("max : " , max_y_coordinate)
 
         size_category_collections = []
 
@@ -72,10 +50,9 @@ class SearchColumnData:
                     t_candidate_y_pos[i] == max_y_coordinate[0]- 5:
                     size_category_collections.append(candidate_y_index[i])
 
-        print(len(size_category_collections))
 
         if (len(size_category_collections) < 4):
-            print("카테고리가 5개 이하입니다")
+            print("it's not image about size")
             return False
 
         # self.is_same_column(size_category_collections)
@@ -128,7 +105,6 @@ class SearchColumnData:
             - int(self.data_list[index][1].x_pos)
         
         temp = []
-        count = 0
 
         for i, data in enumerate(self.data_list):
             temp_x_center, temp_y_center = obtain_center(data)
@@ -145,7 +121,7 @@ class SearchColumnData:
                     index_container.text = self.string_to_number(data[0])
                     index_container.height = temp_y_center
                     temp.append(index_container)
-                    count += 1
+                
 
         
 
@@ -157,10 +133,11 @@ class SearchColumnData:
                     temp = temp[:trimmed_index]
                     break
         
+
     
         # print("category : " , self.data_list[index][0])
         # print([x.text for x in temp])
-        return temp, count, self.data_list[index][0]
+        return temp, len(temp), self.data_list[index][0]
 
 
 

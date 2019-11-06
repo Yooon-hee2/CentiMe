@@ -5,7 +5,7 @@ import Text
 from collections import Counter
 
 
-class SortSizeData:
+class SortSizeData():
     def __init__(self, category_num, data_list, size_list, size_number_list):
         self.category_num = category_num
         self.data_list = data_list
@@ -13,23 +13,38 @@ class SortSizeData:
         self.size_number_list = size_number_list
 
     def sort_by_category(self):
-        if self.category_num == 4:
-            self.sort_jeans_data()
 
-    def sort_jeans_data(self):
+        self.missing_data_finder()
+
+        if self.category_num == 4:
+            complete_size_dict = {'waist' : 0, 'hip' : 0, 'thigh' : 0, 'hem' : 0, 'crotch_rise' : 0, 'length' : 0}
+
+            size_name = ['S', 'M', 'L', 'XL' , '2XL']
+
+            for size_by_category in self.size_list:
+                for category_title, category_name in Dictionary.index_dict.items():
+                    for category in category_name:
+                        if category == size_by_category[0].category:
+                            for sizes in size_by_category:
+                                complete_size_dict[category_title] = sizes.text
+                        
+            print(complete_size_dict)
+
+        return complete_size_dict
+
+    def missing_data_finder(self):
 
         cnt = Counter(self.size_number_list)
         mode = cnt.most_common(1)
+        print("mode : " , mode)
 
-        # #for print
+        # #for print before add missing size data
         # for yoonhee in range(len(self.size_list)):
         #     if self.size_list[yoonhee]:
         #         print(self.size_list[yoonhee][0].category)
         #         # for jj in range(0, mode[0][0]):
         #         for jj in range(len(self.size_list[yoonhee])):
         #             print(self.size_list[yoonhee][jj].text)
-
-   
         complete_size_category = 0
         # find category that size datas are missing
         for yoonhee in range(len(self.size_list)):
@@ -38,7 +53,6 @@ class SortSizeData:
             elif len(self.size_list[yoonhee]) < mode[0][0]:
                 self.add_missing_data(mode[0][0], yoonhee, complete_size_category, mode[0][0] - len(self.size_list[yoonhee]))
     
-        size_name = ['S', 'M', 'L', 'XL' , '2XL']
 
       #for print
         for yoonhee in range(len(self.size_list)):
@@ -47,6 +61,7 @@ class SortSizeData:
                 for jj in range(0, mode[0][0]):
                 # for jj in range(len(self.size_list[yoonhee])):
                     print(self.size_list[yoonhee][jj].text)
+
 
 
     def add_missing_data(self, maximum_size, missing_index, complete_index, missing_number):
@@ -77,6 +92,7 @@ class SortSizeData:
         temp_container.category = self.size_list[missing_index][0].category
 
         missing_index_in_category = 0
+        
         for index,x in enumerate(temp):
             if index != x:
                 missing_index_in_category = index

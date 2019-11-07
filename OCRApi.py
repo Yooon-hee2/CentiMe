@@ -10,23 +10,20 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 
 
 class OCRApi:
-    def detect_text(self, url):
+    def detect_text(self, input_image):
         from google.cloud import vision
         client = vision.ImageAnnotatorClient()
 
         # with io.open(path, 'rb') as image_file:
         #     content = image_file.read()
 
-        image = vision.types.Image()
-        image.source.image_uri = url
-        # image = cv2.cvtColor(cv2.UMat(vision.types.Image(content=content)), cv2.COLOR_BGR2GRAY)
-        # image = cv2.imread(path)
-        # gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-        # img = cv2.threshold(gray_image,127,255,cv2.THRESH_BINARY)
+        # image = vision.types.Image()
+        # image.source.image_uri = url
         # response = client.text_detection(image=image)
+        
+        real_image = vision.types.Image(content=cv2.imencode('.jpg', input_image)[1].tostring())
         response = client.text_detection(
-            image=image,
+            image=real_image,
             image_context={"language_hints": ["ko"]})
         texts = response.text_annotations
         text_data_all = []

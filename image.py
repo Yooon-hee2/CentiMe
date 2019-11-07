@@ -51,7 +51,6 @@ def get_image_url(url):
                         address = "https:" + img_src
                     else:
                         address = domain + img_src
-
                 else:
                     address = img_src
 
@@ -127,8 +126,10 @@ def url_to_image(url):
 def true_image(image_url):
     X = []
     error_num = 0
+    origin_image = []
     for i in image_url:
         try:
+            origin_image.append(url_to_image(i))
             image_temp = url_to_image(i)
             ###print("성공")
             resized_image = cv2.resize(image_temp, (224, 224))
@@ -152,16 +153,17 @@ def true_image(image_url):
     cnt = 0
     for i in prediction:
         if i >= 0.5:
-            ###print("True")
-            result.append(image_url[cnt])
-            # cv2.imshow('RE', X[cnt])
-            # cv2.waitKey()
-            # cv2.destroyAllWindows()
+            #print("True")
+            #for image url result.append(image_url[cnt])
+            result.append(origin_image[cnt])
+            cv2.imshow('RE', origin_image[cnt])
+            cv2.waitKey()
+            cv2.destroyAllWindows()
         # else :
         #     print("False")
         cnt += 1
 
-    #print(result)
+    # print(result)
     return result
 
 #true_image(get_image_url())

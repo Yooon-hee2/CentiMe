@@ -19,13 +19,14 @@ class SearchColumnData():
         candidate_y_pos = []
         candidate_y_index = []
 
-        for i in range(len(self.data_list)):
+        for i, text in enumerate(self.data_list):
             for category_list in Dictionary.index_dict.values():
                 for category in category_list:
-                     if self.data_list[i][0] == category:
+                     if text[0] == category:
                         candidate_y_index.append(i)
-                        candidate_y_pos.append(self.data_list[i][1].y_pos)
+                        candidate_y_pos.append((text[1].y_pos + text[3].y_pos)/2)
                         break
+
 
         # for i in range(len(candidate_y_pos)):
         #     print(candidate_y_pos[i], "size : ", len(candidate_y_pos))

@@ -7,12 +7,14 @@ class TextCoupler():
     def __init__(self, data_list):
         
         self.prefix_words = [
-            '총'
+            '총',
+            '팔',
+            '소매',
         ]
 
         self.suffix_words = [
             '길이',
-            '기장'
+            '기장',
         ]
 
         self.data_list = data_list
@@ -32,8 +34,9 @@ class TextCoupler():
         prefix_x, prefix_y = obtain_center(self.data_list[prefix_index])
         suffix_x, suffix_y = obtain_center(self.data_list[suffix_index])
 
-
-        if abs(prefix_x - suffix_x) <= 20 and abs(prefix_y - suffix_y) <= 10:
+        # print(prefix_x, prefix_y)
+        # print(suffix_x, suffix_y)
+        if abs(prefix_x - suffix_x) <= 40 and abs(prefix_y - suffix_y) <= 10:
             return True
 
         else:
@@ -60,7 +63,10 @@ class TextCoupler():
                     self.data_list[prefix_word][0] = self.data_list[prefix_word][0] + self.data_list[suffix_word][0]
                     self.data_list[prefix_word][2] = self.data_list[suffix_word][2]
                     self.data_list[prefix_word][3] = self.data_list[suffix_word][3]
-                    # delete_index.append(suffix_word) 
-     
+                    delete_index.append(suffix_word) 
+
+        self.data_list = [x for i, x in enumerate(self.data_list) if i not in delete_index]
+
+        
         return self.data_list
 

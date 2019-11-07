@@ -75,8 +75,8 @@ class OCRApi:
             for text in texts:
                 text_data = []
                 text_data.append(text.description)
-                print('\n"{}"'.format(text.description))
-                # print(i)
+                #print('\n"{}"'.format(text.description))
+                #print(i)
 
                 i = i + 1
 
@@ -91,8 +91,9 @@ class OCRApi:
                 vertices = (['({},{})'.format(vertex.x, vertex.y)
                              for vertex in text.bounding_poly.vertices])
 
-                print('bounds: {}'.format(','.join(vertices)))
+                #print('bounds: {}'.format(','.join(vertices)))
         else:
             print("fail to OCR")
+            return False
 
         return text_data_all

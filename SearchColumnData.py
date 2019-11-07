@@ -102,8 +102,6 @@ class SearchColumnData():
 
         category = self.data_list[index][0]
         c_x_center, c_y_center = obtain_center(self.data_list[index])
-        data_length = int(self.data_list[index][2].x_pos) \
-            - int(self.data_list[index][1].x_pos)
         
         temp = []
 
@@ -112,6 +110,7 @@ class SearchColumnData():
             # print(data[0] , " : " , abs(c_x_center - temp_x_center))
 
             if temp_y_center > c_y_center and abs(c_x_center - temp_x_center) <= 35:
+               
                 data[0] = data[0].replace("cm", "")
                 data[0] = data[0].replace("CM", "")
                 data[0] = data[0].replace(',', '.')
@@ -140,30 +139,4 @@ class SearchColumnData():
         # print([x.text for x in temp])
         return temp, len(temp), self.data_list[index][0]
 
-
-
-
-    # def is_one_word(self, same_column_index):
-    #      for i in range(len(same_column_index) - 1):
-    #         if self.data_list[same_column_index[i]][1].y_pos == self.data_list[same_column_index[i + 1]][1].y_pos:
-    #             self.data_list[same_column_index[i]][0] = self.data_list[same_column_index[i]][0] + self.data_list[same_column_index[i + 1]][0]
-    #             # print(self.data_list[same_column_index[i]][0])
-    #             del same_column_index[i+1]
-    #             return same_column_index
-
-
-    # def check_data_in_sizetable(self, same_column_index, category):
-
-    #     if len(same_column_index) > 2 and category != "사이즈":
-    #         trimmed_index = len(same_column_index)
-    #         for i, elem in enumerate(same_column_index):
-    #             if i > 0 and self.data_list[same_column_index[i].index][2].y_pos - self.data_list[same_column_index[i-1].index][2].y_pos > 200:
-    #                 trimmed_index = i
-    #                 break
-            
-    #         same_column_index = same_column_index[:trimmed_index]
-            
-
-    #     if category != "사이즈":
-    #         for j in range(len(same_column_index)):
-    #             print(same_column_index[j].index , "   " ,  same_column_index[j].text, self.data_list[same_column_index[j].index][2].y_pos)            
+           

@@ -19,8 +19,8 @@ class TypoRefiner():
             '총장',
             '전체길이',
             '끝단',
-            '총'
-
+            '총',
+            '암홀'
         ]
         self.labels = [self._seperate(word) for word in self.words]
         self.max_distance = 3

@@ -6,6 +6,7 @@ import typo_refiner
 import time
 import text_crawling
 import text_size_finder
+import text_coupler
 
 ocr = OCRApi.OCRApi()
 
@@ -18,12 +19,12 @@ ocr = OCRApi.OCRApi()
 
 # if not result:
 #     import image
-#     url_list = image.true_image(image.get_image_url(url))
+#     image_list = image.true_image(image.get_image_url(url))
 
 #     refiner = typo_refiner.TypoRefiner()
 
-#     for url in url_list:
-#         temp_data = ocr.detect_text(url)
+#     for image in image_list:
+#         temp_data = ocr.detect_text(image)
 #         for index in range(len(temp_data)):
 #             temp_data[index][0] = refiner(temp_data[index][0])
 #         searchdata = SearchColumnData.SearchColumnData(temp_data)
@@ -46,15 +47,12 @@ ocr = OCRApi.OCRApi()
 # sort.sort_by_category()
 
 # 줄글이미지일때
-# refiner = typo_refiner.TypoRefiner()
-# temp_data = ocr.detect_text('https://dododaily.com/web/upload/NNEditor/20190923/3017%E1%84%89%E1%85%A1%E1%86%BC%E1%84%89%E1%85%A61_shop1_160924.jpg')
-# for index in range(len(temp_data)):
-#     temp_data[index][0] = refiner(temp_data[index][0])
-# searchdata = text_size_finder.TextSizeFinder(temp_data)
-# searchdata.find_category_in_size_image()
+refiner = typo_refiner.TypoRefiner()
+temp_data = ocr.detect_text('http://perbit.co.kr/web/upload/NNEditor/20190909/df_shop1_155548.jpg')
+for index in range(len(temp_data)):
+    temp_data[index][0] = refiner(temp_data[index][0])
 
-import image
-image_list = image.true_image(image.get_image_url('http://www.feeling-on.com/product/detail.html?product_no=979&cate_no=55&display_group=1'))
-for image in image_list:
-        temp_data = ocr.detect_text(image)
-        break
+coupler = text_coupler.TextCoupler(temp_data)
+completed_data = coupler.concatenate()
+searchdata = text_size_finder.TextSizeFinder(completed_data)
+searchdata.find_category_in_size_image()

@@ -23,6 +23,7 @@ class TextSizeFinder():
             for category_list in Dictionary.index_dict.values():
                 for category in category_list:
                      if text[0] == category:
+                        print(text[0])
                         candidate_y_index.append(i)
                         candidate_y_pos.append((text[1].y_pos + text[3].y_pos)/2)
                         break
@@ -31,10 +32,11 @@ class TextSizeFinder():
             print("it's not image about size")
             return False
 
-        for i in range(len(candidate_y_pos)):
-            print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
+        print(candidate_y_index)
+        # for i in range(len(candidate_y_pos)):
+        #     print(candidate_y_pos[i], "size : ", len(candidate_y_pos))
 
-        t_candidate_y_pos = [int(x // 5 * 5) for x in candidate_y_pos]
+        t_candidate_y_pos = [int(x // 6 * 6) for x in candidate_y_pos]
 
         y_counter = Counter(t_candidate_y_pos)
         y_value_group = []
@@ -43,13 +45,15 @@ class TextSizeFinder():
             if counter_item[1] > 3:
                 y_value_group.append(counter_item[0])
 
+        print(y_counter)
+
         size_category_collections = {}
         size_category_order = []
 
         for size_group in y_value_group:
             y_pos_list = []
             for index, y_pos in enumerate(t_candidate_y_pos):
-                if size_group == y_pos or size_group + 5 == y_pos or size_group - 5 == y_pos:
+                if size_group == y_pos or size_group + 6 == y_pos or size_group - 6 == y_pos:
                     y_pos_list.append(candidate_y_index[index])
                     size_category_order.append(self.data_list[candidate_y_index[index]][0])
             size_category_collections[size_group] = y_pos_list
@@ -69,7 +73,7 @@ class TextSizeFinder():
                 data[0] = data[0].replace(',', '.')
                 data[0] = data[0].replace('am', "")
                 data[0] = data[0].replace('-', "")
-                if group[0] == (y_center // 5 * 5) or  group[0] == (y_center // 5 * 5) + 5 or group[0] == (y_center // 5 * 5) - 5:
+                if group[0] == (y_center // 6 * 6) or  group[0] == (y_center // 6 * 6) + 6 or group[0] == (y_center // 6 * 6) - 6:
                     if self.is_digit(data[0]):
                         size_data_list.append(data[0])
 

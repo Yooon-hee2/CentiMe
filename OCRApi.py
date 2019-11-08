@@ -1,7 +1,11 @@
 import io
 import os
 import cv2
-import Coordinate
+
+class Coordinate:
+    def __init__(self):
+            self.x_pos = 0
+            self.y_pos = 0
 
 
 #api key setting
@@ -40,7 +44,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 #                 i = i + 1
 
 #                 for vertex in text.bounding_poly.vertices:
-#                     coordinate_container = Coordinate.Coordinate()
+#                     coordinate_container = Coordinate()
 #                     coordinate_container.x_pos = vertex.x
 #                     coordinate_container.y_pos = vertex.y
 #                     text_data.append(coordinate_container)
@@ -81,7 +85,7 @@ class OCRApi:
                 i = i + 1
 
                 for vertex in text.bounding_poly.vertices:
-                    coordinate_container = Coordinate.Coordinate()
+                    coordinate_container = Coordinate()
                     coordinate_container.x_pos = vertex.x
                     coordinate_container.y_pos = vertex.y
                     text_data.append(coordinate_container)

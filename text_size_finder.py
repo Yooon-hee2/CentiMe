@@ -1,11 +1,11 @@
-import Dictionary
+
 from collections import Counter
 
 class TextSizeFinder():
 
-    def __init__(self, category_num, data_list):
+    def __init__(self, category_type, data_list):
         self.data_list = data_list
-        self.category_num = category_num
+        self.category_type = category_type
 
     def is_digit(self, str):
         try:
@@ -16,12 +16,17 @@ class TextSizeFinder():
             return False
 
     def find_category_in_size_image(self):
+
+        ocr_dict = { 'length': ['총길이', '총장', '총기장', '전체길이'], 'bust': ['가슴', '품'],  'shoulder': ['어깨'], 'armhole': ['암홀', '팔통'],
+                 'waist': ['허리'], 'hip': ['엉덩이', '힙'], 'hem': ['밑단', '끝단', '밑폭', '발목'], 'crotch_rise': ['밑위'],
+                'sleeve': ['소매', '팔', '팔길이'], 'sleevewidth': ['소매', '팔둘레', '팔뚝단면', '팔단면'], 
+                 'thigh': ['허벅지']}
     
         candidate_y_pos = []
         candidate_y_index = []
 
         for i, text in enumerate(self.data_list):
-            for category_list in Dictionary.index_dict.values():
+            for category_list in ocr_dict.values():
                 for category in category_list:
                      if text[0] == category:
                         candidate_y_index.append(i)
@@ -55,12 +60,8 @@ class TextSizeFinder():
             size_category_order.append(temp_size_category_order)
             size_category_collections[size_group] = y_pos_list
 
-        return self.extract_size_data(size_category_collections, size_category_order)
-
-    def extract_size_data(self, size_collection, size_category_order):
-
         size_data_list = []
-        for group in size_collection.items():
+        for group in size_category_collections.items():
             temp_size_data_list = []
             for i, data in enumerate(self.data_list):
                 y_center = (data[1].y_pos + data[3].y_pos)/2
@@ -79,32 +80,30 @@ class TextSizeFinder():
         dict_without_size = {}
         complete_size_dict = {}
 
-        if self.category_num == 1 or self.category_num == 2:
+        if self.category_type == 'OUTER' or self.category_type == 'TOP':
             dict_without_size = {'bust' : 0, 'shoulder' : 0, 'armhole' : 0, 'sleeve' : 0, 'sleevewidth' : 0, 'length' : 0}
-        if self.category_num == 3:
+        if self.category_type == 'SKIRT':
             dict_without_size = {'waist' : 0, 'hip' : 0, 'hem' : 0, 'length' : 0}
-        if self.category_num == 4:
+        if self.category_type == 'PANTS':
             dict_without_size = {'waist' : 0, 'hip' : 0, 'thigh' : 0, 'hem' : 0, 'crotch_rise' : 0, 'length' : 0}
-        if self.category_num == 5:
+        if self.category_type == 'OPS':
             dict_without_size = {'waist' : 0,'bust' : 0, 'shoulder' : 0, 'armhole' : 0, 'sleeve' : 0, 'sleevewidth' : 0, 'hip' : 0, 'length' : 0}
 
         if len(size_data_list) > 1:
             for j, size_list in enumerate(size_data_list):
                 dict_without_size = {}
                 for jj, size in enumerate(size_list):
-                    for category_title, category_name in Dictionary.index_dict.items():
+                    for category_title, category_name in ocr_dict.items():
                         for category in category_name:
                             if category == size_category_order[j][jj]:
                                 dict_without_size[category_title] = size
                 complete_size_dict[size_name[j]] = dict_without_size
         else:
             for jj, size in enumerate(size_list):
-                for category_title, category_name in Dictionary.index_dict.items():
+                for category_title, category_name in ocr_dict.items():
                     for category in category_name:
                         if category == size_category_order[j][jj]:
                             dict_without_size[category_title] = size
             complete_size_dict['FREE'] = dict_without_size
-
-        print (complete_size_dict) 
 
         return complete_size_dict

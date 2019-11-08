@@ -24,16 +24,16 @@ class SortSizeData():
         if self.category_num == 1 or self.category_num == 2:
             dict_without_size = {'bust' : 0, 'shoulder' : 0, 'armhole' : 0, 'sleeve' : 0, 'sleevewidth' : 0, 'length' : 0}
         if self.category_num == 3:
-            dict_without_size = {'bust' : 0, 'shoulder' : 0, 'armhole' : 0, 'sleeve' : 0, 'sleevewidth' : 0, 'length' : 0}
-        if self.category_num == 4:
             dict_without_size = {'waist' : 0, 'hip' : 0, 'hem' : 0, 'length' : 0}
+        if self.category_num == 4:
+            dict_without_size = {'waist' : 0, 'hip' : 0, 'thigh' : 0, 'hem' : 0, 'crotch_rise' : 0, 'length' : 0}
         if self.category_num == 5:
             dict_without_size = {'waist' : 0,'bust' : 0, 'shoulder' : 0, 'armhole' : 0, 'sleeve' : 0, 'sleevewidth' : 0, 'hip' : 0, 'length' : 0}
 
 
         if len(self.size_list[0]) > 1:
             for num in range(len(self.size_list[0])):
-                dict_without_size = {}
+                #dict_without_size = {}
                 for n in range(len(self.size_list)):
                     for category_title, category_name in Dictionary.index_dict.items():
                         for category in category_name:
@@ -48,7 +48,6 @@ class SortSizeData():
                         if category == self.size_list[n][num].category:
                             dict_without_size[category_title] = self.size_list[n][num].text
             complete_size_dict['FREE'] = dict_without_size
-        
         
         print(complete_size_dict)
 
@@ -108,7 +107,6 @@ class SortSizeData():
                     and missing_y.height >= complete_y.height - 5:
                     temp.append(i)
                     break
-
 
         temp_container = Text.Text()
         temp_container.category = self.size_list[missing_index][0].category

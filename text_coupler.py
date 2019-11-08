@@ -10,6 +10,7 @@ class TextCoupler():
             '총',
             '팔',
             '소매',
+            '전체'
         ]
 
         self.suffix_words = [

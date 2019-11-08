@@ -121,10 +121,7 @@ class SearchColumnData():
                     index_container.text = self.string_to_number(data[0])
                     index_container.height = temp_y_center
                     temp.append(index_container)
-                
-
-        
-
+            
         if len(temp) > 1:
             trimmed_index = len(temp)
             for ii, elem in enumerate(temp):
@@ -133,8 +130,6 @@ class SearchColumnData():
                     temp = temp[:trimmed_index]
                     break
         
-
-    
         # print("category : " , self.data_list[index][0])
         # print([x.text for x in temp])
         return temp, len(temp), self.data_list[index][0]

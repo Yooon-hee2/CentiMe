@@ -35,7 +35,7 @@ ocr = OCRApi.OCRApi()
 
 
 refiner = typo_refiner.TypoRefiner()
-temp_data = ocr.detect_text('http://daybin.co.kr/web/upload9/224-4.jpg')
+temp_data = ocr.detect_text('http://www.shopperland.co.kr/web/upload/NNEditor/20190420/8z_shop1_002215.jpg')
 for index in range(len(temp_data)):
     temp_data[index][0] = refiner(temp_data[index][0])
 
@@ -43,12 +43,12 @@ coupler = text_coupler.TextCoupler(temp_data)
 completed_data = coupler.concatenate()
 
 # 표이미지일때
-searchdata = SearchColumnData.SearchColumnData(completed_data)
-size_list, size_number_list = searchdata.find_category_in_sizetable()
+# searchdata = SearchColumnData.SearchColumnData(completed_data)
+# size_list, size_number_list = searchdata.find_category_in_sizetable()
 
-sort = SortSizeData.SortSizeData(4, completed_data, size_list, size_number_list)
-sort.sort_by_category()
+# sort = SortSizeData.SortSizeData(4, completed_data, size_list, size_number_list)
+# sort.sort_by_category()
 
 # 줄글이미지일때
-# searchdata = text_size_finder.TextSizeFinder(completed_data)
-# searchdata.find_category_in_size_image()
+searchdata = text_size_finder.TextSizeFinder(4,completed_data)
+searchdata.find_category_in_size_image()

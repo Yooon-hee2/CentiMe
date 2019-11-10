@@ -1,0 +1,35 @@
+<body>
+{% for result,value in re_dic.items %}
+{{result}} {{value}}<br>
+{% endfor %}
+<form action="{% url 'crawling:crawlingstore' %}">
+
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="fit1" name="fit" class="custom-control-input" value="보통핏" checked>
+  <label class="custom-control-label" for="fit1">보통핏</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="fit2" name="fit" class="custom-control-input" value="오버핏">
+  <label class="custom-control-label" for="fit2">오버핏</label>
+</div>
+<br>
+
+{% for i in re_dic.keys %}
+<div >
+  <input required type="radio" id="{{i}}" name="size" value="{{i}}">
+  <label for="{{i}}">{{i}}</label>
+  <br>
+</div>
+{% endfor %}
+
+
+<input type="submit" value="size register"/>
+</form>
+</body>
+<!--
+<form action="{% url 'recommend:recent_item' fit='보통핏' %}">
+<input type="submit" value="recommend">
+</form>-->
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>

@@ -5,42 +5,53 @@ from django.conf import settings
 
 class Product(models.Model):
     objects = models.Manager()
-    feature = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    feature = models.ForeignKey(Category, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE )
     size = models.CharField(max_length=5)
-    fit = models.CharField(max_length=5)
+    fit = models.CharField(max_length=5, default='보통')
     url = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.url
+    class Meta:
+        ordering = ['-id']
+        
+    # def __str__(self):
+    #     return self.url
 
-class Outer_Top(Product):
-    bust = models.IntegerField(default=0)
-    shoulder = models.IntegerField(default=0)
-    armhole = models.IntegerField(default=0)
-    sleeve = models.IntegerField(default=0)
-    sleevewidth = models.IntegerField(default=0)
-    length = models.IntegerField(default=0)
+class Outer(Product):
+    bust = models.FloatField(default=0)
+    shoulder = models.FloatField(default=0)
+    armhole = models.FloatField(default=0)
+    sleeve = models.FloatField(default=0)
+    sleevewidth = models.FloatField(default=0)
+    length = models.FloatField(default=0)
+
+class Top(Product):
+    bust = models.FloatField(default=0)
+    shoulder = models.FloatField(default=0)
+    armhole = models.FloatField(default=0)
+    sleeve = models.FloatField(default=0)
+    sleevewidth = models.FloatField(default=0)
+    length = models.FloatField(default=0)
 
 class Skirt(Product):
-    waist = models.IntegerField(default=0)
-    hip = models.IntegerField(default=0)
-    hem = models.IntegerField(default=0)
-    length = models.IntegerField(default=0)
+    waist = models.FloatField(default=0)
+    hip = models.FloatField(default=0)
+    hem = models.FloatField(default=0)
+    length = models.FloatField(default=0)
 
 class Ops(Product):
-    waist = models.IntegerField(default=0)
-    shoulder = models.IntegerField(default=0)
-    armhole = models.IntegerField(default=0)
-    sleeve = models.IntegerField(default=0)
-    sleevewidth = models.IntegerField(default=0)
-    hip = models.IntegerField(default=0)
-    length = models.IntegerField(default=0)
+    waist = models.FloatField(default=0)
+    shoulder = models.FloatField(default=0)
+    armhole = models.FloatField(default=0)
+    sleeve = models.FloatField(default=0)
+    sleevewidth = models.FloatField(default=0)
+    hip = models.FloatField(default=0)
+    length = models.FloatField(default=0)
 
 class Pants(Product):
-    waist = models.IntegerField(default=0)
-    hip = models.IntegerField(default=0)
-    thigh = models.IntegerField(default=0)
-    hem = models.IntegerField(default=0)
-    crotch_rise = models.IntegerField(default=0)
-    length = models.IntegerField(default=0)
+    waist = models.FloatField(default=0)
+    hip = models.FloatField(default=0)
+    thigh = models.FloatField(default=0)
+    hem = models.FloatField(default=0)
+    crotch_rise = models.FloatField(default=0)
+    length = models.FloatField(default=0)

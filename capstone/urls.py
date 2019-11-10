@@ -25,7 +25,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login.views.login, name='login'),
     path('accounts/', include('allauth.urls')),
-    #path('info/', include('crawling.urls')),
+    path('info/', include('crawling.urls')),
     path('list/', include('clothes.urls')),
-    #path('recommend/', include('recommend.urls')),
+    path('recommend/', include('recommend.urls')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

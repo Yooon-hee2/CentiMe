@@ -8,8 +8,8 @@ import text_crawling
 
 ocr = OCRApi.OCRApi()
 
-url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
-#url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
+#url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
+url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
 
 result = text_crawling.textcrawling(url)
 for i in result:
@@ -30,7 +30,7 @@ if not result:
             break
 
 
-# import image
+# import image_classification
 # url_list = image.true_image(image.get_image_url(url))
 #
 # refiner = typo_refiner.TypoRefiner()

@@ -75,7 +75,6 @@ class TableSizeFinder():
 
         self.size_list = same_column_data
         self.size_number_list = size_num_by_category
-
         self.sort_by_category()
        
         return self.result

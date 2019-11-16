@@ -44,3 +44,4 @@ result = finder.find_category_in_sizetable()
 # result = finder.find_category_in_size_image()
 
 print(result)
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="./jquery-3.4.1.min/jquery-3.4.1.min.js"></script>
+  <script src="./js/recommend_controller.js"></script>
+  <link href="./css/recommend_window.css" type="text/css" rel="stylesheet" />
+  <link href="./css/toggle_button.css" type="text/css" rel="stylesheet" />
+</head>
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800');
+
+  body {
+    font-family: 'Nanum Gothic';
+  }
+</style>
+<body>
+  <div id="recommend_container">
+    <div style =" position: absolute; top: 5px; right: 5px;">
+    <label class="toggle-label">
+      <div class="recommendation-toggle">
+        <input id ="pop_toggle" checked class="toggle-state" type="checkbox" name="check" value="check" />
+        <div id = "pops" class="toggle-inner">
+          <div class="indicator"></div>
+        </div>
+        <div class="active-bg"></div>
+      </div>
+    </label>
+    </div>
+
+    <img src="./images/img_shirt.png" style="width: 100px; height: 100px; margin: 20px 100px 10px;">
+    <div class="tab-slider--nav">
+      <ul class="tab-slider--tabs">
+        <li class="tab-slider--trigger active" style="padding-right:20%" rel="tab1">normal</li>
+        <li class="tab-slider--trigger" rel="tab2">over-fit</li>
+      </ul>
+    </div>
+    <div class="tab-slider--container">
+      <div id="tab1" class="tab-slider--body">
+
+        <div style="text-align: right;">
+          <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
+          <span style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
+        </div>
+        <table class="size-table">
+          <thead>
+            <tr id="active-size-list">
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="active-size-info">
+              
+            </tr>
+          </tbody>
+        </table>
+        <span id="active-size"></span>
+        <!-- <button type="button" class="collapsible">
+           <img src="./images/ic_arrow_down.png" style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
+        </button> -->
+      </div>
+      <div id="tab2" class="tab-slider--body">
+          <div style="text-align: right;">
+              <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
+              <span style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
+            </div>
+            <table class="size-table">
+              <thead>
+                <tr id="active-list-large">
+      
+                </tr>
+              </thead>
+              <tbody>
+                <tr id = "active-info-large">
+                  
+                </tr>
+              </tbody>
+            </table>
+            <span id = "active-size-large"></span>
+            <!-- <button type="button" class="collapsible">
+               <img src="./images/ic_arrow_down.png" style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
+            </button> -->
+      </div>
+    </div>
+
+
+    </div>
+    <div id="recent_details_container">
+      <table class="size-table">
+        <thead>
+          <tr>
+            <th scope="cols">어깨</th>
+            <th scope="cols">가슴</th>
+            <th scope="cols">암홀</th>
+            <th scope="cols">소매기장</th>
+            <th scope="cols">소매단</th>
+            <th scope="cols">총장</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>+3</th>
+            <td>-1</th>
+            <td>+2</th>
+            <td>0</th>
+            <td>+2</th>
+            <td>0</th>
+          </tr>
+        </tbody>
+      </table>
+      <table class="size-table">
+        <thead>
+          <tr>
+            <th scope="cols">어깨</th>
+            <th scope="cols">가슴</th>
+            <th scope="cols">암홀</th>
+            <th scope="cols">소매기장</th>
+            <th scope="cols">소매단</th>
+            <th scope="cols">총장</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>+3</th>
+            <td>-1</th>
+            <td>+2</th>
+            <td>0</th>
+            <td>+2</th>
+            <td>0</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>

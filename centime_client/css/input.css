@@ -1,0 +1,63 @@
+*,
+:before,
+:after {
+  box-sizing: border-box;
+}
+  
+textarea {
+    resize: none;
+}
+  
+.input_group {
+    position: relative;
+    margin: 20px 0;
+  }
+  
+  input,
+  textarea {
+    background: none;
+    color: #bbbbbb;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 220px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #bbbbbb;
+  }
+  
+  input:focus,
+  textarea:focus {
+    outline: none;
+  }
+  
+  input:focus~label,
+  input:valid~label,
+  textarea:focus~label,
+  textarea:valid~label {
+    top: -14px;
+    font-size: 10px;
+    color: rgb(255, 145, 123);
+  }
+  
+  input:focus~.bar:before,
+  textarea:focus~.bar:before {
+    width: 220px;
+  }
+  
+  .bar {
+    position: relative;
+    display: block;
+    width: 220px;
+  }
+  
+  .bar:before {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 0px;
+    position: absolute;
+    background: rgb(255, 145, 123);
+    transition: 300ms ease all;
+    left: 0%;
+  }

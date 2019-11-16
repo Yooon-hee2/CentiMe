@@ -1,0 +1,27 @@
+{
+    "name": "Centi Me",
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "description" : "draft",
+
+    "icons": {
+        "128": "./images/img_centime_logo.png"
+    },
+
+     "background":
+    {
+        "scripts": ["./jquery-3.4.1.min/jquery-3.4.1.min.js",
+            "./js/element_controller.js", "./js/recommend_controller.js"]
+    },
+
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "http://*/",
+        "https://*/"
+      ]
+}

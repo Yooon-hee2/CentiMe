@@ -39,10 +39,11 @@ def parse(sel_size, find_category):
 
     if sel_size == 0:
         return url, result
-
+    sel_num=0
     for li in key_list:
         if li == sel_size:
             sel_num = key_list.index(li)
-    result = result[key_list[sel_num]]
-    return url, key_list[sel_num], result
+            break
+    re_result = result[key_list[sel_num]]
+    return url, key_list[sel_num], re_result
     

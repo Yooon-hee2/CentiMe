@@ -97,6 +97,7 @@ def split_word(slist, content_list):
         return result_list
     else:
         result_list = strange_ary(slist, size_num, tmp, size_call)
+        print(result_list)
         return result_list
 
 def strange_ary(slist, size_num, tmp, ary):
@@ -164,6 +165,7 @@ def textcrawling(str, fi_category):
         re_data[item[0]] = {name: value for name, value in zip(dic_list, item[1:])}
     return re_data
 
-if __name__ == '__main__':
-    #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
-    textcrawling("https://store.musinsa.com/app/product/detail/957880/0", "PANTS")
+# if __name__ == '__main__':
+#     #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
+#     textcrawling("https://store.musinsa.com/app/product/detail/957880/0", "PANTS")
+    

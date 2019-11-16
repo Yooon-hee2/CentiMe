@@ -9,27 +9,25 @@ searching_dic = {'OUTER': ['아우터', 'OUTER', '자켓', '코트', '가디건'
                      'SKIRT': ['SKIRT','스커트','skirt'],
                      'PANTS': ['BOTTOM', 'bottom', 'pants', 'PANTS', '바지', '하의','팬츠'],
                      'OPS': ['DRESS','드레스','dress','OPS','ops']}  # 카테고리 딕셔너리 만들기
-
+cate_dic = {'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
+                'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
+                'SKIRT': ['waist', 'hip', 'hem', 'length'],
+                'PANTS': ['waist', 'hip', 'thigh', 'hem', 'crotch_rise', 'length'],
+                'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']}
 def prepare_category(dic_val):
     for dic, val in searching_dic.items():
         for vl in val:
             if vl == dic_val:
                 sh = dic
-
-    cate_dic = {'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
-                'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
-                'SKIRT': ['waist', 'hip', 'hem', 'length'],
-                'PANTS': ['waist', 'hip', 'thigh', 'hem', 'crotch_rise', 'length'],
-                'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']}
     # 카테고리 항목 딕셔너리
     # return cate_dic[sh]
     return cate_dic[sh]
 
-def category_parse():
+def category_parse(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     #url = str
-    url = "https://m.ba-on.com/product/list.html?cate_no=35"
+    #url = "https://m.ba-on.com/product/list.html?cate_no=35"
     response = req.get(url, headers=headers)
     html = response.content
     soup = BeautifulSoup(html, "lxml", from_encoding='ANSI')

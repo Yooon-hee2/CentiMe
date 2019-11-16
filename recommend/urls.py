@@ -21,6 +21,6 @@ app_name = 'recommend'
 
 urlpatterns = [
     path('', views.recommend_main, name = 'main'),
-    path('recent/<str:fit>/', views.recent_recommend, name = 'recent_item'),
+    path('recent/', views.recent_recommend, name = 'recent_item'),
     #path('crawling/pants/', PantsRecommendListView.as_view(), name='pants'),
 ]

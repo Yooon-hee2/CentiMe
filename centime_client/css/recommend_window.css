@@ -1,0 +1,129 @@
+#recommend_container{
+    padding: 10px 5px;
+    width: 400px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .tab-slider--nav {
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+  }
+
+  .tab-slider--tabs {
+    display: block;
+    margin: 10px 70px;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    border-radius: 35px;
+    overflow: hidden;
+    background: #eee;
+    height: 35px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .tab-slider--tabs:after {
+    content: "";
+    width: 50%;
+    background: rgb(255, 145, 123);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 250ms ease-in-out;
+    border-radius: 35px;
+  }
+
+  .tab-slider--tabs.slide:after {
+    left: 50%;
+  }
+
+  .tab-slider--trigger {
+    font-size: 12px;
+    line-height: 1;
+    font-weight: bold;
+    color: rgb(255, 145, 123);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 11px 20px;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    display: inline-block;
+    transition: color 250ms ease-in-out;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .tab-slider--trigger.active {
+    color: #fff;
+  }
+
+  .tab-slider--body {
+    margin-bottom: 20px;
+  }
+
+  table.size-table {
+    font-family: "Nanum Gothic";
+    vertical-align: middle;
+    border-collapse: collapse;
+    text-align: center;
+    border-radius: 1em;
+    overflow: hidden;
+    margin: 0 10px 20px;
+  }
+
+  table.size-table tr:first-child th {
+    border-top: 0;
+  }
+
+  table.size-table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  table.size-table tr td:first-child,
+  table.size-table tr th:first-child {
+    border-left: 0;
+  }
+
+  table.size-table tr td:last-child,
+  table.size-table tr th:last-child {
+    border-right: 0;
+  }
+
+  table.size-table th {
+    font-size: 8px;
+    padding: 10px;
+    font-weight: bold;
+    color: #fff;
+    border: 3px dashed #bbbbbb;
+    background: rgb(255, 145, 123);
+  }
+
+  table.size-table td {
+    font-size: 20px;
+    width: 155px;
+    padding: 10px;
+    border: 3px dashed #bbbbbb;
+    background: #eee;
+  }
+
+  /* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+#recent_details_container {
+  display: none;
+  overflow: hidden;
+}

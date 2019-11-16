@@ -17,7 +17,7 @@ class TableSizeFinder():
         self.result = {}
         self.ocr_dict = { 'length': ['총길이', '총장', '총기장', '전체길이'], 'bust': ['가슴', '품'],  'shoulder': ['어깨'], 'armhole': ['암홀', '팔통'],
                  'waist': ['허리'], 'hip': ['엉덩이', '힙'], 'hem': ['밑단', '끝단', '밑폭', '발목'], 'crotch_rise': ['밑위'],
-                'sleeve': ['소매', '팔', '팔길이'], 'sleevewidth': ['소매', '팔둘레', '팔뚝단면', '팔단면'], 
+                'sleeve': ['소매', '팔', '팔길이', '소매기장'], 'sleevewidth': ['소매단면', '팔둘레', '팔뚝단면', '팔단면'], 
                  'thigh': ['허벅지']}
 
     def is_digit(self, str):
@@ -59,9 +59,8 @@ class TableSizeFinder():
                     t_candidate_y_pos[i] == max_y_coordinate[0]- 5:
                     size_category_collections.append(candidate_y_index[i])
 
-
         if (len(size_category_collections) < 4):
-            print("it's not image about size")
+            print("it's not image about size table")
             return False
 
         same_column_data = []
@@ -158,22 +157,23 @@ class TableSizeFinder():
         if self.category_type == 'OPS':
             dict_without_size = {'waist' : 0,'bust' : 0, 'shoulder' : 0, 'armhole' : 0, 'sleeve' : 0, 'sleevewidth' : 0, 'hip' : 0, 'length' : 0}
 
+
         if len(self.size_list[0]) > 1:
             for num in range(len(self.size_list[0])):
-                dict_without_size = {}
+                temp_dict = dict_without_size
                 for n in range(len(self.size_list)):
                     for category_title, category_name in self.ocr_dict.items():
                         for category in category_name:
                             if category == self.size_list[n][num].category:
-                                dict_without_size[category_title] = self.size_list[n][num].text
-                complete_size_dict[size_name[num]] = dict_without_size
+                                temp_dict[category_title] = self.size_list[n][num].text
+                complete_size_dict[size_name[num]] = temp_dict
         else:
-            dict_without_size = {}
+            temp_dict = dict_without_size
             for n in range(len(self.size_list)):
                 for category_title, category_name in self.ocr_dict.items():
                     for category in category_name:
-                        if category == self.size_list[n][num].category:
-                            dict_without_size[category_title] = self.size_list[n][num].text
+                        if category == self.size_list[n][0].category:
+                            dict_without_size[category_title] = self.size_list[n][0].text
             complete_size_dict['FREE'] = dict_without_size
         
         self.result = complete_size_dict

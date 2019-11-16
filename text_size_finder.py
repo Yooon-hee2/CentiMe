@@ -17,10 +17,10 @@ class TextSizeFinder():
 
     def find_category_in_size_image(self):
 
-        ocr_dict = { 'length': ['총길이', '총장', '총기장', '전체길이'], 'bust': ['가슴', '품'],  'shoulder': ['어깨'], 'armhole': ['암홀', '팔통'],
-                 'waist': ['허리'], 'hip': ['엉덩이', '힙'], 'hem': ['밑단', '끝단', '밑폭', '발목'], 'crotch_rise': ['밑위'],
-                'sleeve': ['소매', '팔', '팔길이'], 'sleevewidth': ['소매', '팔둘레', '팔뚝단면', '팔단면'], 
-                 'thigh': ['허벅지']}
+        ocr_dict = { 'length': ['총길이', '총장', '총기장', '전체길이'], 'bust': ['가슴', '가슴단면' '품'],  'shoulder': ['어깨', '어깨단면'], 'armhole': ['암홀', '팔통', '암홀단면'],
+                 'waist': ['허리단면'], 'hip': ['엉덩이', '힙단면'], 'hem': ['밑단', '끝단', '밑폭', '발목'], 'crotch_rise': ['밑위'],
+                'sleeve': ['소매길이', '팔', '팔길이'], 'sleevewidth': ['소매', '팔둘레', '팔뚝단면', '팔단면'], 
+                 'thigh': ['허벅지', '허벅지단면']}
     
         candidate_y_pos = []
         candidate_y_index = []
@@ -34,7 +34,7 @@ class TextSizeFinder():
                         break
 
         if (len(candidate_y_pos) < 4):
-            print("it's not image about size")
+            print("it's not image about size text")
             return False
 
         t_candidate_y_pos = [int(x // 6 * 6) for x in candidate_y_pos]
@@ -45,7 +45,6 @@ class TextSizeFinder():
         for counter_item in y_counter.items():
             if counter_item[1] > 3:
                 y_value_group.append(counter_item[0])
-
 
         size_category_collections = {}
         size_category_order = []
@@ -60,6 +59,7 @@ class TextSizeFinder():
             size_category_order.append(temp_size_category_order)
             size_category_collections[size_group] = y_pos_list
 
+        
         size_data_list = []
         for group in size_category_collections.items():
             temp_size_data_list = []
@@ -91,19 +91,21 @@ class TextSizeFinder():
 
         if len(size_data_list) > 1:
             for j, size_list in enumerate(size_data_list):
-                dict_without_size = {}
+                temp_dict = dict_without_size
                 for jj, size in enumerate(size_list):
                     for category_title, category_name in ocr_dict.items():
                         for category in category_name:
                             if category == size_category_order[j][jj]:
-                                dict_without_size[category_title] = size
-                complete_size_dict[size_name[j]] = dict_without_size
+                                temp_dict[category_title] = size
+                complete_size_dict[size_name[j]] = temp_dict
         else:
-            for jj, size in enumerate(size_list):
-                for category_title, category_name in ocr_dict.items():
-                    for category in category_name:
-                        if category == size_category_order[j][jj]:
-                            dict_without_size[category_title] = size
-            complete_size_dict['FREE'] = dict_without_size
+            for n, size_list in enumerate(size_data_list):
+                temp_dict = dict_without_size
+                for m, size in enumerate(size_list):
+                    for category_title, category_name in ocr_dict.items():
+                        for category in category_name:
+                            if category == size_category_order[n][m]:
+                                temp_dict[category_title] = size
+                complete_size_dict['FREE'] = temp_dict
 
         return complete_size_dict

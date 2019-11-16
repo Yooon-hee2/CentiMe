@@ -19,19 +19,29 @@ class TextRefiner():
             '전체길이',
             '끝단',
             '총',
-            '암홀'
+            '암홀',
+            '팔통',
+            '어깨',
+            '가슴'
         ]
 
         self.prefix_words = [
             '총',
             '팔',
             '소매',
-            '전체'
+            '전체',
+            '허리',
+            '허벅지',
+            '힙',
+            '암홀',
+            '가슴',
+            '어깨'
         ]
 
         self.suffix_words = [
             '길이',
             '기장',
+            '단면'
         ]
 
         self.labels = [self._seperate(word) for word in self.words]

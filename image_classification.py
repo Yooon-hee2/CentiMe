@@ -8,7 +8,7 @@ import numpy as np
 import urllib
 import cv2
 from keras.models import load_model
-
+import ssl
 
 def get_image_url(url):
     html = urllib.request.urlopen(url)
@@ -44,7 +44,8 @@ def get_image_url(url):
 
 
 def url_to_image(url):
-    resp = urllib.request.urlopen(url)
+    context = ssl._create_unverified_context()
+    resp = urllib.request.urlopen(url, context=context)
     image = np.asarray(bytearray(resp.read()), dtype="uint8")
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
     return image
@@ -200,17 +201,17 @@ def classification (url):
     for i in prediction:
         argmax = np.argmax(i)
         if argmax == 1:
-            print("line")
-            cv2.imshow('line', crop_list[cnt])
-            cv2.waitKey()
-            cv2.destroyAllWindows()
+            # print("line")
+            # cv2.imshow('line', crop_list[cnt])
+            # cv2.waitKey()
+            # cv2.destroyAllWindows()
             line.append(crop_list[cnt])
         elif argmax == 2:
-            print("table")
-            cv2.imshow('table', crop_list[cnt])
-            cv2.waitKey()
-            cv2.destroyAllWindows()
+            # print("table")
+            # cv2.imshow('table', crop_list[cnt])
+            # cv2.waitKey()
+            # cv2.destroyAllWindows()
             table.append(crop_list[cnt])
         cnt += 1
 
-#classification('http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1')
+    return table, line

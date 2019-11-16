@@ -3,7 +3,7 @@ import table_size_finder
 import text_refiner
 import text_crawling
 import text_size_finder
-
+import image_classification
 # ocr = OCRApi.OCRApi()
 
 # #url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
@@ -14,8 +14,8 @@ import text_size_finder
 #     print(i)
 
 # if not result:
-#     import image
-#     image_list = image.true_image(image.get_image_url(url))
+#     import image_classification
+#     table_list, line_list = image_classification.classification(url)
 
 #     refiner = typo_refiner.TypoRefiner()
 
@@ -27,21 +27,37 @@ import text_size_finder
 #         if searchdata.find_category_in_sizetable():
 #             break
 
+url = 'http://biznshoe.com/product/detail.html?product_no=3237&cate_no=56&display_group=1'
+import image_classification
+table_list, line_list = image_classification.classification(url)
+category = 'TOP'
 
 ocr = OCRApi.OCRApi()
-temp_data = ocr.detect_text('http://daybin.co.kr/web/upload10/117-4.jpg')
 
-refiner = text_refiner.TextRefiner(temp_data)
-completed_data = refiner.concatenate()
+result = 0
 
 # for table image
+for table in table_list:
+    temp_data = ocr.detect_text(table)
+    if temp_data:
+        refiner = text_refiner.TextRefiner(temp_data)
+        completed_data = refiner.concatenate()
+        finder = table_size_finder.TableSizeFinder(category,completed_data)
+        result = finder.find_category_in_sizetable()
+        if result:
+            break
 
-finder = table_size_finder.TableSizeFinder('PANTS',completed_data)
-result = finder.find_category_in_sizetable()
- 
-# for text image
-# finder = text_size_finder.TextSizeFinder('PANTS',completed_data)
-# result = finder.find_category_in_size_image()
-
+if result == 0:
+    for line in line_list:
+        temp_data = ocr.detect_text(line)
+        if temp_data:
+            refiner = text_refiner.TextRefiner(temp_data)
+            completed_data = refiner.concatenate()
+            finder = text_size_finder.TextSizeFinder(category,completed_data)
+            result = finder.find_category_in_size_image()
+            if result:
+                break
+            
 print(result)
+
 

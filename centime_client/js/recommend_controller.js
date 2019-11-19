@@ -35,9 +35,14 @@ $(document).ready(() => {
         window.close();
         chrome.browserAction.setPopup({ popup: "popup.html" });
     });
-    
-    
 
+    $(".collapsible").click(function() {
+        if($("#collapse-content").css("display") == "none"){
+            $("#collapse-content").show("fast");
+        } else {
+            $("#collapse-content").hide("fast");
+        }
+    });
 
     // $("#recent_details_container").hide();
     // $('body').css({

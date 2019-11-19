@@ -2,9 +2,23 @@
     text-align: right;
 }
 
-
-#main_container {
-    padding: 25px 10px;
+#register-container, #main_container{
+    padding: 10px 5px;
     width: 100px;
     text-align: center;
 }
+
+.collapsible {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+  }
+  
+  /* Style the collapsible content. Note: hidden by default */
+  #collapse-content {
+    display: none;
+    overflow: hidden;
+  }

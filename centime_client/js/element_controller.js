@@ -1,4 +1,6 @@
 $(document).ready(() => {
+
+
     var cate_dic = {
         'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
         'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
@@ -7,15 +9,34 @@ $(document).ready(() => {
         'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']
     };
     
-    $("#login_button").click(() => {
-        $("#login_container").hide();
-        //$("#body_size_input_container").show();
-        $('#main-wrapper').show();
-        alert("Welcome");
-    });
+    // $("#login_button").click(() => {
+    //     $.ajax({
+    //         type: "GET",
+    //         ContentType: 'application/json',
+    //         url: "http://127.0.0.1:8000/accounts/google/login",
+    //         success: function (data) {
+    //             chrome.windows.create({'url': 'http://127.0.0.1:8000/accounts/google/login', 'type': 'popup'}, function(window) {
+    //             });
+    //             console.log(data.url)
+    //             $("#login_container").hide();
+    //             $('#main-wrapper').show();
+    //             chrome.browserAction.setPopup({ popup:"popup.html" });
 
-    $("#input_size_menu").click(() => {
-        $("#main-wrapper").hide();
+    //         },
+    //         failure:
+    //         function (err) {
+    //                 console.log(err);
+    //             },
+    //         error: function (request, status, error) {
+    //             alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+    //         }
+    //     });
+    //     //$("#body_size_input_container").show();
+        
+    // });
+
+    $("#input-size-menu").click(() => {
+        $("#register-container").hide();
         $("#clothes_category_input_container").show();
         $('body').css({
             'background-color': '#fff'
@@ -63,7 +84,6 @@ $(document).ready(() => {
                         }
                     });
                     $('#main-wrapper').show();
-                
                 }   
             });
         });
@@ -76,70 +96,73 @@ $(document).ready(() => {
     // });
 
     
-
-
-
-
-
+    $("#register-menu").click(() => {
+        $("#main-wrapper").hide();
+        $("#register-container").show();
+        $('body').css({
+            'background-color': '#fff'
+        });
+    });
 
     var fit = '보통핏';
     var size = 'S';
-    $(document).on('click','#like_menu',function(){
+    $(document).on('click','#like-menu',function(){
         
-        
-        // chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-        //     var url = tabs[0].url;
-        //     alert(url)
-        // });
-        
-        $("#main-wrapper").hide();
+        $("#register-container").hide();
         $("#like_container").show();
         $('body').css({
             'background-color': 'rgb(255, 145, 123)'
-        }); 
-        var url = "https://m.ba-on.com/product/list.html?cate_no=35";
+        });
         
-        $.ajax({
-            type: "GET",
-            ContentType: 'application/json',
-            url: "http://127.0.0.1:8000/info/",
-            data: JSON.stringify({ url: url }),
-            dataType: "json",
-            success: function (data) {
-                var re_data = data['re_dic'];
-                var button = document.getElementById("fit1");
-                button.addEventListener("click", function () {
-                    fit = $("#fit1").text();
-                    $("#like_container").hide();
-                    for (var key in re_data) {
-                        var tmp = '<button class="fit_button" id="size_sel">' + key + '</button>';
-                        $("#size_container").append(tmp);
-                    }
-                    re_data = [];
-                    this.removeEventListener("click", arguments.callee);
-                }, false);
-                button.removeEventListener("click", function () { });
-                var button2 = document.getElementById("fit2");
-                button2.addEventListener("click", function () {
-                    fit = $("#fit2").text();
-                    $("#like_container").hide();
-                    for (var key in re_data) {
-                        var tmp = '<button class="fit_button" id="size_sel">' + key + '</button>';
-                        $("#size_container").append(tmp);  
-                    }
-                    re_data = [];
-                    this.removeEventListener("click",arguments.callee);
-                }, false);
-                button2.removeEventListener("click", function () { });
-                $("#size_container").show();
-            },
-                failure:
-                function (err) {
-                    alert("정보를 찾을 수 없습니다.")
+        chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+            var url = tabs[0].url;
+            alert(url) //current url
+
+            //var url = "https://m.ba-on.com/product/list.html?cate_no=35";
+            $.ajax({
+                type: "GET",
+                ContentType: 'application/json',
+                url: "http://127.0.0.1:8000/info/",
+                data: JSON.stringify({ url: url }),
+                dataType: "json",
+                success: function (data) {
+                    var re_data = data['re_dic'];
+                    var button = document.getElementById("fit1");
+                    button.addEventListener("click", function () {
+                        console.log("hi")
+                        fit = $("#fit1").text();
+                        $("#like_container").hide();
+                        for (var key in re_data) {
+                            var tmp = '<button class="fit_button" id="size_sel">' + key + '</button>';
+                            $("#size_container").append(tmp);
+                        }
+                        re_data = [];
+                        this.removeEventListener("click", arguments.callee);
+                    }, false);
+                    button.removeEventListener("click", function () { });
+                    var button2 = document.getElementById("fit2");
+                    button2.addEventListener("click", function () {
+                        fit = $("#fit2").text();
+                        $("#like_container").hide();
+                        for (var key in re_data) {
+                            var tmp = '<button class="fit_button" id="size_sel">' + key + '</button>';
+                            $("#size_container").append(tmp);  
+                        }
+                        re_data = [];
+                        this.removeEventListener("click",arguments.callee);
+                    }, false);
+                    button2.removeEventListener("click", function () { });
+                    $("#size_container").show();
                 },
-                error:function(request,status,error){
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                 }
+                    failure:
+                    function (err) {
+                        alert("정보를 찾을 수 없습니다.")
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                     }
+        
+        });
        
         }); 
         var checked = false;
@@ -178,9 +201,6 @@ $(document).ready(() => {
             $(this).attr('src', "./images/img_heart_fill.png");
         });    
     });
-
-    
-
 
     
     $(".collapsible").click(function() {
@@ -266,10 +286,14 @@ $(document).ready(() => {
         chrome.browserAction.setPopup({ popup:"recommend_window.html" });
     });
     
-    
-        
 
-
+    $(".collapsible").click(function() {
+        if($("#collapse-content").css("display") == "none"){
+            $("#collapse-content").show("fast");
+        } else {
+            $("#collapse-content").hide("fast");
+        }
+    });
 
 
     $(".tab-slider--nav li").click(function() {
@@ -317,7 +341,8 @@ $(document).ready(() => {
 
     $(".tab-slider--body").hide();
     $(".tab-slider--body:first").show();
-    $("#main-wrapper").hide();
+    // $("#main-wrapper").hide();
+    $("#register-container").hide();
     $("#like_container").hide();
     $("#size_container").hide();
     $("#recommend_container").hide();

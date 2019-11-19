@@ -71,13 +71,11 @@
   }
 
   table.size-table {
-    font-family: "Nanum Gothic";
-    vertical-align: middle;
+    font-family: 'Do Hyeon';
     border-collapse: collapse;
     text-align: center;
     border-radius: 1em;
     overflow: hidden;
-    margin: 0 10px 20px;
   }
 
   table.size-table tr:first-child th {
@@ -116,14 +114,17 @@
   }
 
   /* Style the button that is used to open and close the collapsible content */
-.collapsible {
-  cursor: pointer;
-  border: none;
-  outline: none;
-}
-
-/* Style the collapsible content. Note: hidden by default */
-#recent_details_container {
-  display: none;
-  overflow: hidden;
-}
+  .collapsible {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+  }
+  
+  /* Style the collapsible content. Note: hidden by default */
+  #collapse-content {
+    display: none;
+    overflow: hidden;
+  }

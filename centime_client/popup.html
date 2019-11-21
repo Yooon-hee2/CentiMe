@@ -116,33 +116,6 @@
   <div id="clothes_size_input_container">
     <form id="size-form">
       <strong style = "font-size: 15px;">등록하려는 옷의 수치를 입력해주세요</strong>
-      <!--<div class="input_group">
-        <input type="number" required /><span class="highlight"></span><span class="bar"></span>
-        <label class="clothes_size">어깨</label>
-      </div>
-      <div class="input_group">
-        <input type="number" required /><span class="highlight"></span><span class="bar"></span>
-        <label class="clothes_size">가슴</label>
-      </div>
-      <div class="input_group">
-        <input type="number" required /><span class="highlight"></span><span class="bar"></span>
-        <label class="clothes_size">암홀</label>
-      </div>
-      <div class="input_group">
-        <input type="number" required /><span class="highlight"></span><span class="bar"></span>
-        <label class="clothes_size">소매기장</label>
-      </div>
-      <div class="input_group">
-        <input type="number" required /><span class="highlight"></span><span class="bar"></span>
-        <label class="clothes_size">소매단</label>
-      </div>
-      <div class="input_group">
-        <input type="number" required /><span class="highlight"></span><span class="bar"></span>
-        <label class="clothes_size">총장</label>
-      </div> 
-      <div id="btn-box">
-        <button class="submit_button_small">완료</button>
-      </div>-->
     </form>
   </div>
 
@@ -215,31 +188,39 @@
       </div>
     </div>
 
-
     <div id="collapse-content">
-      <table class="size-table">
-        <thead>
-          <tr>
-            <th scope="cols">어깨</th>
-            <th scope="cols">가슴</th>
-            <th scope="cols">암홀</th>
-            <th scope="cols">소매기장</th>
-            <th scope="cols">소매단</th>
-            <th scope="cols">총장</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>+3</th>
-            <td>-1</th>
-            <td>+2</th>
-            <td>0</th>
-            <td>+2</th>
-            <td>0</th>
-          </tr>
-        </tbody>
-      </table>
-      
+      <!-- 한 history당 한 size-history div-->
+      <div id="size-history" style="height: 60px;">
+        <span style="font-size: 15px; margin-right: 190px;"> 2019.11.05 </span>
+        <span style="font-size: 15px; margin-right: 12px; float: right; "> 삭제 </span>
+        <div id="thumbnail" style="float: left; width: 20%;">
+          <img src="./images/img_temp_thumbnail.png" style="width: 80px; height: 110px;">
+        </div>
+        <div id="tablearea" style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;">
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th scope="cols">어깨</th>
+                <th scope="cols">가슴</th>
+                <th scope="cols">암홀</th>
+                <th scope="cols">소매기장</th>
+                <th scope="cols">소매단</th>
+                <th scope="cols">총장</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>+3</th>
+                <td>-1</th>
+                <td>+2</th>
+                <td>0</th>
+                <td>+2</th>
+                <td>0</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     
   </div>

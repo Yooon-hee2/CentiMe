@@ -1,6 +1,5 @@
 $(document).ready(() => {
 
-
     var cate_dic = {
         'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
         'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
@@ -8,32 +7,6 @@ $(document).ready(() => {
         'PANTS': ['waist', 'hip', 'thigh', 'hem', 'crotch_rise', 'length'],
         'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']
     };
-    
-    // $("#login_button").click(() => {
-    //     $.ajax({
-    //         type: "GET",
-    //         ContentType: 'application/json',
-    //         url: "http://127.0.0.1:8000/accounts/google/login",
-    //         success: function (data) {
-    //             chrome.windows.create({'url': 'http://127.0.0.1:8000/accounts/google/login', 'type': 'popup'}, function(window) {
-    //             });
-    //             console.log(data.url)
-    //             $("#login_container").hide();
-    //             $('#main-wrapper').show();
-    //             chrome.browserAction.setPopup({ popup:"popup.html" });
-
-    //         },
-    //         failure:
-    //         function (err) {
-    //                 console.log(err);
-    //             },
-    //         error: function (request, status, error) {
-    //             alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-    //         }
-    //     });
-    //     //$("#body_size_input_container").show();
-        
-    // });
 
     $("#input-size-menu").click(() => {
         $("#register-container").hide();
@@ -51,8 +24,14 @@ $(document).ready(() => {
                 var info = '<div class="input_group"><input name="'+sel_list[i]+'" type="number" required /><span class="highlight"></span><span class="bar"></span><label class="clothes_size">' + sel_list[i] + '</label></div>';
                 $("#size-form").append(info);
             }
-            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">완료</button></div>');
-        
+
+            $("#size-form").append('<strong style="margin-bottom: 20px; font-size: 12px;">어떤 핏으로 입으셨나요 ?</strong>');
+            $("#size-form").append('<label class="clothes_fit_container">몸에 딱 맞는 보통핏<input type="radio" checked="checked" name="fit-radio" value="NORMAL-FIT"><span class="checkmark" ></span></label>');
+            $("#size-form").append('<label class="clothes_fit_container">넉넉한 오버핏<input type="radio" name="fit-radio" value="OVER-FIT"><span class="checkmark"></span></label>');
+            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">등록하기</button></div>');
+            
+            var sel_fit = $("input[name='fit-radio']:checked").val();
+
             $("#size-form").submit((event) => {
                 event.preventDefault();
                 if ($("#size-form").get(0).checkValidity()) {
@@ -348,5 +327,6 @@ $(document).ready(() => {
     $("#recommend_container").hide();
     $("#clothes_category_input_container").hide();
     $("#clothes_size_input_container").hide();
+    $("#clothes_fit_input_container").hide();
 
 });

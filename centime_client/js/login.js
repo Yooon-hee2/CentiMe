@@ -11,8 +11,7 @@ $(document).ready(() => {
                 chrome.windows.create({'url': 'http://127.0.0.1:8000/accounts/google/login', 'type': 'popup'}, function(window) {
                 });
                 console.log(data.url)
-                $("#login_container").hide();
-                $('#main-wrapper').show();
+                window.close();
                 chrome.browserAction.setPopup({ popup:"popup.html" });
             },
             failure:

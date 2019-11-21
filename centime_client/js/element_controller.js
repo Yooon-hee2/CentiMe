@@ -51,8 +51,12 @@ $(document).ready(() => {
                 var info = '<div class="input_group"><input name="'+sel_list[i]+'" type="number" required /><span class="highlight"></span><span class="bar"></span><label class="clothes_size">' + sel_list[i] + '</label></div>';
                 $("#size-form").append(info);
             }
-            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">완료</button></div>');
-        
+
+            $("#size-form").append('<strong style="margin-bottom: 20px; font-size: 12px;">어떤 핏으로 입으셨나요 ?</strong>');
+            $("#size-form").append('<label class="clothes_fit_container">몸에 딱 맞는 보통핏<input type="radio" checked="checked" name="radio" value="NORMAL-FIT"><span class="checkmark" ></span></label>');
+            $("#size-form").append('<label class="clothes_fit_container">넉넉한 오버핏<input type="radio" name="radio" value="OVER-FIT"><span class="checkmark"></span></label>');
+            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">등록하기</button></div>');
+            
             $("#size-form").submit((event) => {
                 event.preventDefault();
                 if ($("#size-form").get(0).checkValidity()) {
@@ -348,5 +352,6 @@ $(document).ready(() => {
     $("#recommend_container").hide();
     $("#clothes_category_input_container").hide();
     $("#clothes_size_input_container").hide();
+    $("#clothes_fit_input_container").hide();
 
 });

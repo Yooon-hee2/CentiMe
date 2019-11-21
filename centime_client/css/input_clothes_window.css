@@ -1,11 +1,11 @@
-#clothes_category_input_container{
+#clothes_category_input_container, #clothes_fit_input_container{
     width: 200px;
     text-align: center;
     padding: 10px 10px 10px 20px;
 }
 
 /* The container */
-.clothes_category_container {
+.clothes_category_container, .clothes_fit_container {
     margin: 10px;
     display: block;
     position: relative;
@@ -19,6 +19,12 @@
 
 /* Hide the browser's default radio button */
 .clothes_category_container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.clothes_fit_container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -45,6 +51,15 @@
     background-color: rgb(255, 145, 123);
 }
 
+/* On mouse-over, add a grey background color */
+.clothes_fit_container:hover input~.checkmark {
+    background-color: #bbbbbb;
+}
+
+/* When the radio button is checked, add a pink background */
+.clothes_fit_container input:checked~.checkmark {
+    background-color: rgb(255, 145, 123);
+}
 
 #clothes_size_input_container{
     width: 250px;

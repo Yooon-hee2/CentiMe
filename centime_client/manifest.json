@@ -10,12 +10,12 @@
 
      "background":
     {
-        "scripts": ["./jquery-3.4.1.min/jquery-3.4.1.min.js",
+        "scripts": ["./jquery-3.4.1.min/jquery-3.4.1.min.js", "./js/login.js",
             "./js/element_controller.js", "./js/recommend_controller.js"]
     },
 
     "browser_action": {
-        "default_popup": "popup.html"
+        "default_popup": "login.html"
     },
 
     "permissions": [

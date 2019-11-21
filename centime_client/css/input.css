@@ -35,8 +35,8 @@ textarea {
   input:valid~label,
   textarea:focus~label,
   textarea:valid~label {
-    top: -14px;
-    font-size: 10px;
+    top: -10px;
+    font-size: 15px;
     color: rgb(255, 145, 123);
   }
   

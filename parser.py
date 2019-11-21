@@ -14,6 +14,7 @@ django.setup()
 from crawling.models import Category
 from clothes.models import Outer, Top, Skirt, Pants, Ops
 from django.conf.global_settings import AUTH_USER_MODEL
+
 def parse(sel_size, find_category):
     #ocr = OCRApi.OCRApi()
 

@@ -9,6 +9,7 @@ class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE )
     size = models.CharField(max_length=5)
     fit = models.CharField(max_length=5, default='보통')
+    thumbnail = models.TextField(blank=True, null=True)
     url = models.TextField(blank=True, null=True)
 
     class Meta:

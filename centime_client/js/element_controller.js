@@ -1,5 +1,7 @@
 $(document).ready(() => {
 
+    // thumbnail_finder();
+
     var cate_dic = {
         'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
         'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
@@ -93,16 +95,28 @@ $(document).ready(() => {
             'background-color': 'rgb(255, 145, 123)'
         });
         
-        chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-            var url = tabs[0].url;
-            alert(url) //current url
+        var urlArray = new Array();
 
+        chrome.history.search({text: '', maxResults: 10}, function(data) {
             //var url = "https://m.ba-on.com/product/list.html?cate_no=35";
+            var j = 0;
+            data.forEach(function(page) {
+                urlArray.push(page.url)
+            });
+            for(j = 0 ; j < urlArray.length ; j++){
+                console.log(urlArray[j]);
+            } //for check
+            categoryUrl = urlArray[1]; //category url
+            currentUrl = urlArray[0]; // current url
+            var url = currentUrl
+            alert(url) //current url;
+            alert(categoryUrl)
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
                 url: "http://127.0.0.1:8000/info/",
                 data: JSON.stringify({ url: url }),
+                //data: JSON.stringify({ url : url, category_url : categoryUrl }),
                 dataType: "json",
                 success: function (data) {
                     var re_data = data['re_dic'];
@@ -315,9 +329,6 @@ $(document).ready(() => {
             });
       });
       
-
-    
-
     $(".tab-slider--body").hide();
     $(".tab-slider--body:first").show();
     // $("#main-wrapper").hide();

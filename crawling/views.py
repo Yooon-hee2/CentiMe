@@ -19,6 +19,17 @@ def main(request):
     context = {'re_dic':size_data_all}
     return JsonResponse(context)
 #########카테고리어찌담아올지 생각해############
+
+#윤희가 짠 코드, 이상할 가능성큼. 에러때매 잘 되는지 확인을 못해소 참고만 해죠
+# def main(request):
+#     url_data = json.loads(request.body)
+#     current_url = url_data['url']
+#     category_url = url_data['category_url']
+#     cate = category.category_parse(category_url)
+#     url_parsed, size_data_all = parser.parse(0, cate, current_url)
+#     context = {'re_dic':size_data_all}
+#     return JsonResponse(context)
+
 @csrf_exempt     
 def PersonalStore(request): #추천할때 사이즈 없는걸로 쿼리해서 추천
     jsondata = {}       

@@ -15,11 +15,14 @@ from crawling.models import Category
 from clothes.models import Outer, Top, Skirt, Pants, Ops
 from django.conf.global_settings import AUTH_USER_MODEL
 
+# def parse(sel_size, find_category, current_url): //윤희
 def parse(sel_size, find_category):
     #ocr = OCRApi.OCRApi()
 
+    #url = current_url //윤희
+
     url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
-    #url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
+    #url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1' 
 
     result = text_crawling.textcrawling(url, find_category)
     key_list = list(result.keys())

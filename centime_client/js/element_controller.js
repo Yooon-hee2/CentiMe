@@ -24,16 +24,9 @@ $(document).ready(() => {
                 var info = '<div class="input_group"><input name="'+sel_list[i]+'" type="number" required /><span class="highlight"></span><span class="bar"></span><label class="clothes_size">' + sel_list[i] + '</label></div>';
                 $("#size-form").append(info);
             }
-
-            $("#size-form").append('<strong style="margin-bottom: 20px; font-size: 12px;">어떤 핏으로 입으셨나요 ?</strong>');
-            $("#size-form").append('<label class="clothes_fit_container">몸에 딱 맞는 보통핏<input type="radio" checked="checked" name="fit-radio" value="NORMAL-FIT"><span class="checkmark" ></span></label>');
-            $("#size-form").append('<label class="clothes_fit_container">넉넉한 오버핏<input type="radio" name="fit-radio" value="OVER-FIT"><span class="checkmark"></span></label>');
-            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">등록하기</button></div>');
-            
-            var sel_fit = $("input[name='fit-radio']:checked").val();
-
-            $("#size-form").submit((event) => {
-                event.preventDefault();
+            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">완료</button></div>');
+        
+            $("#size-form").submit(() => {
                 if ($("#size-form").get(0).checkValidity()) {
                     $('#clothes_size_input_container').hide().prop('required', false);
                     $('body').css({
@@ -43,7 +36,6 @@ $(document).ready(() => {
                     $.each( $("#size-form").serializeArray(), function(key, val){
                         data += ',"' + val.name + '":"' + val.value + '"';
                     });
-                    alert(data)
                     data = '{'+ data.substr(1) +'}';
                     $.ajax({
                         type: "POST",
@@ -63,6 +55,8 @@ $(document).ready(() => {
                         }
                     });
                     $('#main-wrapper').show();
+                    $("#size-form *").remove();
+
                 }   
             });
         });
@@ -187,6 +181,8 @@ $(document).ready(() => {
     });
     
     $("#recommend_menu").click(() => {
+        $("#size-table-list *").remove();
+        $("#size-table-info *").remove();
         $("#main-wrapper").hide();
         $("#recommend_container").show();
         $.ajax({
@@ -214,7 +210,8 @@ $(document).ready(() => {
                 console.log(err);
                 },
             error: function (request, status, error) {
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                alert("쇼핑몰에 접근해주세요")
                 }
             });
 
@@ -223,13 +220,32 @@ $(document).ready(() => {
         $("#recommend_container").hide();
         $("#main-wrapper").show();
     });
+    var togglecount = 0;
     $("#recotoggle").click(() => {
-        $("input:checkbox[id='re_toggle']").prop("checked", true);
-        $("#back_button").hide();
-        chrome.browserAction.setPopup({ popup:"recommend_window.html" });
+        $("#size-table-list *").remove();
+        $("#size-table-info *").remove();
+        //alert(togglecount)
+        if (togglecount == 0) {
+            $("input:checkbox[id='recotoggle']").prop("checked", true);
+            togglecount++;
+            $("#back_button").hide();
+            chrome.browserAction.setPopup({ popup: "recommend_window.html" });
+        }
+        else if (togglecount == 1) {
+            $("#recommend_container").hide();
+            togglecount = 0;
+            $("input:checkbox[id='re_toggle']").prop("checked", false);
+            $("input:checkbox[id='recotoggle']").prop("checked", false);
+            $("#back_button").show();
+            $("#main-wrapper").show();
+            chrome.browserAction.setPopup({ popup: "popup.html" });
+        }
     });
 
-    $("#toggleclick").click(() => {
+    $("#re_toggle").click(() => {
+        $("#size-table-list *").remove();
+        $("#size-table-info *").remove();
+        //alert(togglecount)
         $("#main-wrapper").hide();
         $("#back_button").hide();
         $("#recommend_container").show();
@@ -258,11 +274,13 @@ $(document).ready(() => {
                 console.log(err);
                 },
             error: function (request, status, error) {
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                alert("쇼핑몰에 접근해주세요")
                 }
-            });
+        });
+        togglecount++;
         $("input:checkbox[id='recotoggle']").prop("checked", true);
-        chrome.browserAction.setPopup({ popup:"recommend_window.html" });
+        chrome.browserAction.setPopup({ popup: "recommend_window.html" });
     });
     
 
@@ -275,7 +293,9 @@ $(document).ready(() => {
     });
 
 
-    $(".tab-slider--nav li").click(function() {
+    $(".tab-slider--nav li").click(function () {
+        $("#size-table-list-large *").remove()
+        $("#size-table-info-large *").remove()
         $(".tab-slider--body").hide();
         var activeTab = $(this).attr("rel");
         $("#"+activeTab).fadeIn();

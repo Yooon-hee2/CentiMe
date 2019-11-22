@@ -156,3 +156,5 @@ CORS_ALLOW_METHOD = [
     'GET',
     'POST',
 ]
+USE_TZ = True
+TIME_ZONE = 'Asia/Seoul'

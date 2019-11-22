@@ -24,7 +24,8 @@ $(document).ready(() => {
             console.log(err);
             },
         error: function (request, status, error) {
-            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            alert("쇼핑몰로 접근해주세요")
+            //alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         });
 

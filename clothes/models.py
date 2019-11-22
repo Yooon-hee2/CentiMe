@@ -10,6 +10,8 @@ class Product(models.Model):
     size = models.CharField(max_length=5)
     fit = models.CharField(max_length=5, default='보통')
     url = models.TextField(blank=True, null=True)
+    date = models.DateField(auto_now_add=True)
+
 
     class Meta:
         ordering = ['-id']

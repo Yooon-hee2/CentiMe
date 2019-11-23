@@ -104,15 +104,15 @@ $(document).ready(() => {
             for(j = 0 ; j < urlArray.length ; j++){
                 console.log(urlArray[j]);
             } //for check, will be erased
-            currentUrl = urlArray[0]; // current url 상품 url
-            for(i = 1 ; j < urlArray.length ; j++){
+            var currentUrl = urlArray[0]; // current url 상품 url
+            var categoryUrl;
+            for(i = 1 ; i < urlArray.length ; i++){
                 if (currentUrl.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0] 
                 == urlArray[i].replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0]){
-                    categoryUrl = urlArray[i]; //category url 카테고리 url
+                    categoryUrl = urlArray[i];
                     break;
                 }
             }
-            //var url = currentUrl
             alert(currentUrl); //current url for test
             alert(categoryUrl); //category url for test
             $.ajax({
@@ -120,7 +120,7 @@ $(document).ready(() => {
                 ContentType: 'application/json',
                 url: "http://127.0.0.1:8000/info/",
                 data: JSON.stringify({ url: url }),
-                //data: JSON.stringify({ url : url, category_url : categoryUrl }),
+                //data: JSON.stringify({ url : currentUrl, category_url : categoryUrl }),
                 dataType: "json",
                 success: function (data) {
                     var re_data = data['re_dic'];

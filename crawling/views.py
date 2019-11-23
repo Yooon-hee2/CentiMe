@@ -26,7 +26,7 @@ def main(request):
 #     current_url = url_data['url']
 #     category_url = url_data['category_url']
 #     cate = category.category_parse(category_url)
-#     url_parsed, size_data_all = parser.parse(0, cate, current_url)
+#     url_parsed, size_data_all = parser.parse(0, cate, current_url, category_url)
 #     context = {'re_dic':size_data_all}
 #     return JsonResponse(context)
 

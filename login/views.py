@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
 # Create your views here.
 def login(request):
     return render(request, 'login/login.html')
-    # context = {'url' : 'C:/Users/yoonhee/Desktop/centime/CentiMe/login/templates/login/login.html'}
-    # return JsonResponse(context)
 
 def done(request):
-    context={'message':"ok"}
-    return JsonResponse(context)
+    context={'message':"success"}
+    # return render(request,'login/done.html'), JsonResponse(context)
+    # return render(request,'login/done.html', {'message' : "success"})
+    return render(request,'login/done.html')
+
 
 #def check_login(request):
 

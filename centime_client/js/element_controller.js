@@ -1,7 +1,5 @@
 $(document).ready(() => {
 
-    // thumbnail_finder();
-
     var cate_dic = {
         'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
         'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
@@ -98,19 +96,25 @@ $(document).ready(() => {
         var urlArray = new Array();
 
         chrome.history.search({text: '', maxResults: 10}, function(data) {
-            //var url = "https://m.ba-on.com/product/list.html?cate_no=35";
-            var j = 0;
+            var url = "https://m.ba-on.com/product/list.html?cate_no=35";
+            var i,j = 0;
             data.forEach(function(page) {
                 urlArray.push(page.url)
             });
             for(j = 0 ; j < urlArray.length ; j++){
                 console.log(urlArray[j]);
-            } //for check
-            categoryUrl = urlArray[1]; //category url
-            currentUrl = urlArray[0]; // current url
-            var url = currentUrl
-            alert(url) //current url;
-            alert(categoryUrl)
+            } //for check, will be erased
+            currentUrl = urlArray[0]; // current url 상품 url
+            for(i = 1 ; j < urlArray.length ; j++){
+                if (currentUrl.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0] 
+                == urlArray[i].replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0]){
+                    categoryUrl = urlArray[i]; //category url 카테고리 url
+                    break;
+                }
+            }
+            //var url = currentUrl
+            alert(currentUrl); //current url for test
+            alert(categoryUrl); //category url for test
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',

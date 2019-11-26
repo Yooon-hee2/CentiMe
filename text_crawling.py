@@ -97,7 +97,7 @@ def split_word(slist, content_list):
         return result_list
     else:
         result_list = strange_ary(slist, size_num, tmp, size_call)
-        print(result_list)
+        #print(result_list)
         return result_list
 
 def strange_ary(slist, size_num, tmp, ary):

@@ -20,14 +20,16 @@ def parse(sel_size, find_category):
     #url = "https://store.musinsa.com/app/product/detail/957880/0"
     url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
     #url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
-
+    #url = "https://www.daybin.co.kr/product/detail.html?product_no=5428&cate_no=152&display_group=1"
+    #url = "https://www.daybin.co.kr/product/detail.html?product_no=5273&cate_no=152&display_group=1"
     result = text_crawling.textcrawling(url, find_category)
     key_list = list(result.keys())
-
+    #result = ''
     if not result:
         import image_classification
+        ocr = OCRApi.OCRApi()
         table_list, line_list = image_classification.classification(url)
-
+        #print("text no")
         # for table image
         for table in table_list:
             temp_data = ocr.detect_text(table)
@@ -48,8 +50,9 @@ def parse(sel_size, find_category):
                         finder = text_size_finder.TextSizeFinder(find_category,completed_data)
                         result = finder.find_category_in_size_image()
                         if result:
+                            
                             break
-
+    #print(result)
     if sel_size == 0:
         return url, result
     sel_num=0
@@ -59,4 +62,8 @@ def parse(sel_size, find_category):
             break
     re_result = result[key_list[sel_num]]
     return url, key_list[sel_num], re_result
+
+if __name__ == '__main__':
+     #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
+    parse(0, "PANTS")
     

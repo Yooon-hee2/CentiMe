@@ -9,7 +9,7 @@ class Coordinate:
 
 
 #api key setting
-credential_path = "./test-e94ee409efcc.json"
+credential_path = "capstone/test-e94ee409efcc.json"
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 
 # 이게 진짜 class

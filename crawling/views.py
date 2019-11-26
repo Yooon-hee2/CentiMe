@@ -31,23 +31,23 @@ def PersonalStore(request): #추천할때 사이즈 없는걸로 쿼리해서 �
         if cate == 'OUTER':
             query = Category.objects.filter(category=cate).first()
             Outer.objects.create(user = request.user, feature=query, bust=save_val[0],
-            shoulder=save_val[1],armhole=save_val[2],sleeve=save_val[3], sleevewidth=save_val[4],length=save_val[5])
+            shoulder=save_val[1],armhole=save_val[2],sleeve=save_val[3], sleevewidth=save_val[4],length=save_val[5], fit = save_val[6])
         elif cate == 'TOP':
             query = Category.objects.filter(category=cate).first()
             Top.objects.create(user = request.user, feature=query, bust=save_val[0],
-            shoulder=save_val[1],armhole=save_val[2],sleeve=save_val[3], sleevewidth=save_val[4],length=save_val[5])
+            shoulder=save_val[1],armhole=save_val[2],sleeve=save_val[3], sleevewidth=save_val[4],length=save_val[5], fit = save_val[6])
         elif cate == 'SKIRT':
             query = Category.objects.filter(category=cate).first()
             Skirt.objects.create(user = request.user, feature=query, waist=save_val[0],
-            hip=save_val[1], hem=save_val[2], length=save_val[3])
+            hip=save_val[1], hem=save_val[2], length=save_val[3], fit = save_val[4])
         elif cate == 'PANTS':
             query = Category.objects.filter(category=cate).first()
             Pants.objects.create(user = request.user, feature=query, waist=save_val[0],
-            hip=save_val[1], thigh=save_val[2], hem=save_val[3],crotch_rise=save_val[4],length=save_val[5]) 
+            hip=save_val[1], thigh=save_val[2], hem=save_val[3],crotch_rise=save_val[4],length=save_val[5], fit = save_val[6]) 
         elif cate == 'OPS':
             query = Category.objects.filter(category=cate).first()
             Ops.objects.create(user = request.user, feature=query, waist=save_val[0],
-            shoulder=save_val[1], armhole=save_val[2], sleeve=save_val[3], sleevewidth=save_val[4], hip=save_val[5], length=save_val[6])
+            shoulder=save_val[1], armhole=save_val[2], sleeve=save_val[3], sleevewidth=save_val[4], hip=save_val[5], length=save_val[6], fit = save_val[7])
         
         res['result'] = 'Create post successful!'
         return JsonResponse(res)

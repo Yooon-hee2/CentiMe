@@ -15,7 +15,7 @@ import parser
 import category
 import operator
 import numpy as np
-from datetime import datetime
+from datetime import *
 import arrow
 
 
@@ -38,8 +38,8 @@ def error_calc(parsedkey_list, parsedvalue_list, storedvalue_list):
         for c_li in range(len(storedvalue_list)):
             for d_li in range(len(dic_list)):
                 if c_li == d_li:
-                    item.append(abs(storedvalue_list[c_li] - float(dic_list[d_li])))
-                    item_re.append((storedvalue_list[c_li] - float(dic_list[d_li])))
+                    item.append(abs(float(storedvalue_list[c_li]) - float(dic_list[d_li])))
+                    item_re.append((float(storedvalue_list[c_li]) - float(dic_list[d_li])))
                     break
         chosen[parsedkey_list[cnt]] = {name: value for name, value in zip(list(dic.keys()),item_re)}
         error_dic[parsedkey_list[cnt]] = sum(item)
@@ -54,40 +54,45 @@ def error_calc(parsedkey_list, parsedvalue_list, storedvalue_list):
     return reco
 
 def trend_recommend(request):
+    jsondata = request.GET['fit']
+    fit = jsondata
     cate = category.category_parse("https://m.ba-on.com/product/list.html?cate_no=35")
     url_parsed, size_data_all = parser.parse(0, cate)
     key_set = list(size_data_all.keys())
     value_set = list(size_data_all.values())  #딕셔너리 리스트
     query = Category.objects.filter(category=cate).first().category
     clothes_info = apps.get_model('clothes', query)
-    clothes_info = clothes_info.objects.filter(user=request.user, fit=fit).order_by('id')
-    date_list = []
-    size_list = []
-    calc_list = []
+    clothes_info = clothes_info.objects.filter(user=request.user, fit=fit).order_by('id').values()
+    
     parsed = list(value_set[0].keys()) #허리, 총장, 밑위 등
-    mydate = datetime.date.today
-    mydate_trans = myDate.strftime("%Y-%m-%d")
-    first = clothes_info[0].values()
+    mydate = datetime.today()
+    mydate_trans = mydate.strftime("%Y-%m-%d")
+    first = clothes_info[0]
     firstdate = first['date'].strftime("%Y-%m-%d")
+    calc_list = []
 
-    for key in parsed: #허리
-        for i in range(clothes_info.count()):
-            query = clothes_info[i].values()
-            query = query['date']
-            query = query.strftime("%Y-%m-%d") 
+    for key in parsed:  #허리
+        date_list = []
+        size_list = []
+        for i in range(len(clothes_info)):
+            query_obj = clothes_info[i]
+            query = query_obj['date']
+            query = query.strftime("%Y-%m-%d")
             date1 = arrow.get(firstdate)   
             date2 = arrow.get(query)
-            difference = (date2 - date1).days    
-            for k, vl in query.items():
-                if k == parsed:
+            difference = (date2 - date1).days
+            for k, vl in query_obj.items():
+                if k == key:
                     size_list.append(vl)
                     date_list.append(difference)
+        
         p = np.polyfit(date_list, size_list, 4)
         day = (arrow.get(mydate_trans) - arrow.get(firstdate)).days
         predict = np.polyval(p, day)
-        calc_list.append(predict)
-
+       
+        calc_list.append(round(predict,2))
     reco = error_calc(key_set, value_set, calc_list)
+    print(reco)
     if len(reco) == 1:
         context = {'reco': reco}
         return JsonResponse(context)          
@@ -133,12 +138,44 @@ def recent_recommend(request):  #기본 추천 - 절대값 결과 두개 일 때
             context = {'reco': reco[list(reco.keys())[-1]]}
             return JsonResponse(context)
 
+def all_list(request):
+    jsondata = request.GET['fit']
+    fit = jsondata
+    cate = category.category_parse("https://m.ba-on.com/product/list.html?cate_no=35")
+    url_parsed, size_data_all = parser.parse(0, cate)
+    key_set = list(size_data_all.keys())
+    value_set = list(size_data_all.values())  #딕셔너리 리스트
+    query = Category.objects.filter(category=cate).first().category
+    clothes_info = apps.get_model('clothes', query)
+    clothes_info = list(clothes_info.objects.all().filter(user=request.user, fit=fit).order_by('-id').values())
+    calc_list = []
+    date_list = []
+    res = []
+    for cnt in range(len(clothes_info)):
+        calc_item = []
+        for k, vl in clothes_info[cnt].items():
+            if k in list(value_set[0].keys()):
+                calc_item.append(vl)
+        date = clothes_info[cnt]
+        registerdate = date['date'].strftime("%Y-%m-%d")
+        date_list.append(registerdate)
+        calc_list.append(calc_item)
 
-class PantsRecommendListView(ListView):
-    model = Pants
-    template_name = 'recommend/sizerecommend.html'
-    ordering = ['-date_created']
+    reco_dic = {}
+    for i in range(len(calc_list)):
+        reco = error_calc(key_set, value_set, calc_list[i])
+        if len(reco) == 1:
+            reco = reco
+        else:
+            if fit == "보통핏":
+                reco = reco[list(reco.keys())[0]]
+            else:
+                reco = reco[list(reco.keys())[-1]]
+        res.append(list(reco.values()))
 
-    def get_queryset(self):
-        queryset = Outer.objects.filter(user=self.request.user)
-        return queryset
+    for ct in range(len(date_list)):
+        reco_dic[ct] = [date_list[ct],calc_list[ct],res[ct]]
+    context = {'reco_dic':reco_dic}
+    return JsonResponse(context)
+
+

@@ -165,7 +165,7 @@ def textcrawling(str, fi_category):
         re_data[item[0]] = {name: value for name, value in zip(dic_list, item[1:])}
     return re_data
 
-# method for extracting thumbnail
+# method for extracting thumbnail 썸네일추출
 def thumbnail_finder(categoryUrl, currentUrl):
     
     import requests
@@ -192,8 +192,6 @@ def thumbnail_finder(categoryUrl, currentUrl):
             print(e)
         return final_url
 
-    # url = 'http://daybin.co.kr/product/list.html?cate_no=77'
-    # purl = 'http://daybin.co.kr/product/detail.html?product_no=5429&cate_no=77&display_group=1'
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
     req = requests.get(categoryUrl, headers=headers)
@@ -202,11 +200,11 @@ def thumbnail_finder(categoryUrl, currentUrl):
 
     image_candidates = soup('a')
     for image in image_candidates:
-        if urljoin(purl,image.get('href')) == currentUrl:
+        if urljoin(currentUrl,image.get('href')) == currentUrl:
             if image.img:
                 print(get_image_url(image.img['src']))
                 return get_image_url(image.img['src'])
+
 # if __name__ == '__main__':
 #     #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
 #     textcrawling("https://store.musinsa.com/app/product/detail/957880/0", "PANTS")
-# thumbnail_finder()

@@ -12,10 +12,15 @@ import category
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 import json
+from category import category_parse
+from parser import parse
 
 def main(request):
+    # from importlib import reload
+    # reload(parser)
+    parser.temp()
     cate = category.category_parse("https://m.ba-on.com/product/list.html?cate_no=35")
-    url_parsed, size_data_all = parser.parse(0, cate)
+    url_parsed, size_data_all, temp = parser.parse(0, cate)
     context = {'re_dic':size_data_all}
     return JsonResponse(context)
 #########카테고리어찌담아올지 생각해############

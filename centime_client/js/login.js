@@ -33,3 +33,5 @@ $(document).ready(() => {
         window.close();
     });
 });
+
+//로그인 전체부분

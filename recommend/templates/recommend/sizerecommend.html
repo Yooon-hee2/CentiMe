@@ -1,0 +1,40 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'recommend:recent_item' fit='보통핏' %}">보통핏</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'recommend:recent_item' fit='오버핏' %}">오버핏</a>
+  </li>
+</ul>
+
+<div style="font-size:25px;">
+{%for key,item in reco_info_mid.items%}
+    '<strong>{{key}}</strong>' 사이즈를 추천합니다. <br>
+    <div style="font-size:15px">- {{item}}
+    {%endfor%}
+ {%for key,item in reco_info_over.items%}
+    '<strong>{{key}}</strong>' 사이즈를 추천합니다. <br>
+    <div style="font-size:15px">- {{item}}
+    {%endfor%}
+</div>
+
+<head>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+<style>
+    .nav-pills > li > a.active {
+    background-color: #FF7E79!important;
+    }
+    a:link {
+    color:grey;
+    text-decoration:none;
+    }
+    form {
+    display: inline;
+    }
+</style>

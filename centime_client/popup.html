@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="./jquery-3.4.1.min/jquery-3.4.1.min.js"></script>
+  <script src="./js/element_controller.js"></script>
+  <link href="./css/input.css" type="text/css" rel="stylesheet" />
+
+  <link href="./css/input_body_window.css" type="text/css" rel="stylesheet" />
+  <link href="./css/main_window.css" type="text/css" rel="stylesheet" />
+  <link href="./css/like_fit_window.css" type="text/css" rel="stylesheet" />
+  <link href="./css/recommend_window.css" type="text/css" rel="stylesheet" />
+  <link href="./css/input_clothes_window.css" type="text/css" rel="stylesheet" />
+  <link href="./css/toggle_button.css" type="text/css" rel="stylesheet" />
+</head>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap');
+    body {
+      font-family: 'Do Hyeon';
+    }
+
+    #login_container {
+      padding: 30px 10px;
+      width: 250px;
+      text-align: center;
+    }
+
+    #login_button {
+      margin-top: 10px;
+      padding: 15px 5px;
+      width: 230px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      outline: 0;
+      font-family: 'Do Hyeon';
+      }
+  </style>
+<body>
+  <!-- <div id="login_container">
+    <img src="./images/img_centime_logo2.png"
+      style="width: 200px; height: 100px; margin-bottom: 30px; text-align: center;">
+    <button id="login_button" style="background-color:rgb(255, 145, 123); border: none;">구글 아이디로 로그인</button>
+  </div> -->
+
+  <div id="main-wrapper">
+    <label class="toggle-label">
+      <div class="recommendation-toggle">
+        <input id ="re_toggle" class="toggle-state" type="checkbox" name="check" value="check" />
+        <div id="toggleclick" class="toggle-inner">
+          <div class="indicator"></div>
+        </div>
+        <div class="active-bg"></div>
+      </div>
+    </label>
+    <div id="main_container">
+      <div class="main_menu">
+        <img id="register-menu" src="./images/img_register.png" style="width: 90px; height: 100px;">
+      </div>
+      <div class="main_menu">
+        <img id="recommend_menu" src="./images/img_recommend.png" style="width: 90px; height: 100px; margin-top: 4px">
+      </div>
+    </div>
+  </div>
+
+  <div id = "register-container">
+    <div class="size_input_menu">
+        <img id="input-size-menu" src="./images/img_register_size.png" style="width: 90px; height: 110px; margin-top: 8px">
+    </div>
+    <div class="size_input_menu">
+        <img id="like-menu" src="./images/img_register_clothes.png" style="width: 90px; height: 110px; margin-top: 4px">
+    </div>
+  </div>
+
+  <div id="like_container">
+    <button class="fit_button" id="fit1">보통핏</button>
+    <button class="fit_button" id="fit2">오버핏</button>
+  </div>
+
+  <div id="size_container">
+  </div>
+
+  <div id=clothes_category_input_container>
+    <strong style = "font-size: 15px;">등록하려는 옷의</strong>
+    <br>
+    <strong style="margin-bottom: 5px; font-size: 15px;">카테고리를 선택해주세요</strong>
+    <label class="clothes_category_container">outer
+      <input type="radio" checked="checked" name="radio" value="OUTER">
+      <span class="checkmark"></span>
+    </label>
+    <label class="clothes_category_container">top
+      <input type="radio" name="radio" value="TOP">
+      <span class="checkmark"></span>
+    </label>
+    <label class="clothes_category_container">pants
+      <input type="radio" name="radio" value="PANTS">
+      <span class="checkmark"></span>
+    </label>
+    <label class="clothes_category_container">skirt
+      <input type="radio" name="radio" value="SKIRT">
+      <span class="checkmark"></span>
+    </label>
+    <label class="clothes_category_container">one-piece
+      <input type="radio" name="radio" value="OPS">
+      <span class="checkmark"></span>
+    </label>
+    <div class="btn-box">
+      <button id="category_register" class="submit_button_small" type="submit">완료</button>
+    </div>
+  </div>
+
+  <div id="clothes_size_input_container">
+    <form id="size-form">
+      <strong style = "font-size: 15px;">등록하려는 옷의 수치를 입력해주세요</strong>
+    </form>
+  </div>
+
+
+  <div id="recommend_container">
+    <div style =" position: absolute; top: 5px; right: 5px;">
+    <label class="toggle-label">
+      <div class="recommendation-toggle">
+        <input id ="recotoggle" class="toggle-state" type="checkbox" name="check" value="check" />
+        <div class="toggle-inner">
+          <div class="indicator"></div>
+        </div>
+        <div class="active-bg"></div>
+      </div>
+    </label>
+    </div>
+    <img id="back_button" src="./images/ic_back.png" style="width: 20px; height: 20px; float: left;">
+    
+    <img src="./images/img_onepiece.png" style="width: 100px; height: 100px; margin: 20px 100px 10px;">
+    <div class="tab-slider--nav">
+      <ul class="tab-slider--tabs">
+        <li class="tab-slider--trigger active" style="padding-right:20%" rel="tab1">normal</li>
+        <li class="tab-slider--trigger" rel="tab2">over-fit</li>
+      </ul>
+    </div>
+
+    <div class="tab-slider--container">
+      <div id="tab1" class="tab-slider--body">
+        <div style="text-align: right;">
+          <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
+          <span style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
+        </div>
+        <table class="size-table">
+          <thead>
+            <tr id="size-table-list">
+            </tr>
+          </thead>
+          <tbody>
+            <tr id = "size-table-info">
+            </tr>
+          </tbody>
+        </table>
+        <span id="reco_size"></span>
+        <button type="button" class="collapsible">
+           <img src="./images/ic_arrow_down.png" style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
+        </button>
+      </div>
+      <div id="tab2" class="tab-slider--body">
+          <div style="text-align: right;">
+              <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
+              <span style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
+            </div>
+            <table class="size-table">
+              <thead>
+                <tr id="size-table-list-large">
+      
+                </tr>
+              </thead>
+              <tbody>
+                <tr id = "size-table-info-large">
+                  
+                </tr>
+              </tbody>
+            </table>
+            <span id = "reco_size_large"></span>
+            <button type="button" class="collapsible">
+               <img src="./images/ic_arrow_down.png" style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
+            </button>
+
+      </div>
+    </div>
+
+    <div id="collapse-content">
+      <!-- 한 history당 한 size-history div-->
+      <div id="size-history" style="height: 60px;">
+        <span style="font-size: 15px; margin-right: 190px;"> 2019.11.05 </span>
+        <span style="font-size: 15px; margin-right: 12px; float: right; "> 삭제 </span>
+        <div id="thumbnail" style="float: left; width: 20%;">
+          <img src="./images/img_temp_thumbnail.png" style="width: 80px; height: 110px;">
+        </div>
+        <div id="tablearea" style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;">
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th scope="cols">어깨</th>
+                <th scope="cols">가슴</th>
+                <th scope="cols">암홀</th>
+                <th scope="cols">소매기장</th>
+                <th scope="cols">소매단</th>
+                <th scope="cols">총장</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>+3</th>
+                <td>-1</th>
+                <td>+2</th>
+                <td>0</th>
+                <td>+2</th>
+                <td>0</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+</body>
+
+
+</html>

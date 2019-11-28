@@ -21,11 +21,13 @@ import clothes.urls
 import recommend.urls
 import login.views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', login.views.login, name='login'),
+    path('', login.views.login, name = 'login'),
+    path('done/', login.views.done, name= 'done'),
     path('accounts/', include('allauth.urls')),
-    #path('info/', include('crawling.urls')),
+    path('info/', include('crawling.urls')),
     path('list/', include('clothes.urls')),
-    #path('recommend/', include('recommend.urls')),
+    path('recommend/', include('recommend.urls')),
 ]

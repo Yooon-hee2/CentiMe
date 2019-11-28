@@ -1,0 +1,36 @@
+
+#body_size_input_container {
+    padding: 30px 10px;
+    width: 250px;
+    text-align: center;
+}
+
+.input_group {
+  position: relative;
+  margin: 20px 0;
+}
+.body_size {
+  color: #bbbbbb;
+  font-size: 12px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 300ms ease all;
+}
+
+#submit_button {
+  margin-top: 6px;
+  padding: 15px 5px;
+  width: 100px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  background: rgb(255, 145, 123);
+  cursor: pointer;
+  border-radius: 10px;
+  outline: 0;
+  border: 0;
+}

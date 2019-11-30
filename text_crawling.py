@@ -13,7 +13,7 @@ def prepare_index(list):
     # 항목별 포괄 단어 딕셔너리
 
     return ([index_dic[key] for key in list])
-ㅣ
+
 
 def remove_tag(content):
     cleanr = re.compile('<.*?>')

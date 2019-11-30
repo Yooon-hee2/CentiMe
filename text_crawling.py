@@ -7,7 +7,7 @@ import category
 
 def prepare_index(list):
     index_dic = {'bust': ['가슴+', '품'], 'shoulder': ['어깨+'], 'armhole': ['암홀+', '팔통+', '팔단면', '소매품'],
-                 'sleeve': ['소매+', '팔+', '전체팔길이'], 'sleevewidth': ['팔둘레', '팔뚝단면', '팔단면'],
+                 'sleeve': ['소매길이', '팔+', '전체팔길이', '팔길이', '팔소매'], 'sleevewidth': ['소매단면', '팔둘레', '팔뚝단면', '팔단면', '팔통', '소매너비', '소매둘레'],
                  'length': ['총장+', '총길이+', '총+', '전체길이', '기장'],
                  'waist': ['허리+'], 'hip': ['엉덩이+', '힙+'], 'hem': ['밑단+', '치마밑단', '바지밑단', '끝단'], 'crotch_rise': ['밑위+'],
                  'thigh': ['허벅지+']}
@@ -39,12 +39,10 @@ def text_num_split(item):
 
 def split_word(slist, content_list):
     mid_list = []
-    split_list = []
     ary = []
     size_call = []
     size_num = []
-    text_list = []
-    size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl', 'one size']
+    size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl']
     # 넘어온 리스트에서 중복된 문장 지우기
     content_list = orderedset(content_list)
     # print("content_list = ", content_list)
@@ -53,13 +51,7 @@ def split_word(slist, content_list):
         text = re.sub('[=+,#/\?:^$@*\"※~&%ㆍ!』│\\‘|\(\)\[\]\<\>`\'…》cm]', '', content_list[i])
         # print("text ; ", text)
         mid_list.append(text.replace('/', "") and text.replace('\\xa0', '') and text.split())
-    # for i in content_list:
-    #     mid_list.append(i.split('/') and i.replace("\\xa0", "") and i.split())
-    #     # mid_list.append(i.split('/') and i.replace("\\xa0", "") and i.split())
 
-    if len(mid_list) == 1:
-        mid_list[0].insert(0, 'one size')
-    # print(mid_list)
     # 수치, 항목 모두 다 떼고 리스트에 저장함. 인덱싱으로 필요 정보 따로 result에 옮겨 담기
     for k in mid_list:
         for j in size:
@@ -73,17 +65,10 @@ def split_word(slist, content_list):
             size_num.append(k[ary[ins] + 1:])
         else:
             size_num.append(k[ary[ins] + 1:ary[ins + 1]])  # 항목과 수치가 번갈아 나오지 않을때 사용
-    # print("size_num : ", size_num)
+
     result_list = [[0] for low in range(len(mid_list))]
     count = 0
     tmp = [0] * len(slist)
-
-    for i in range(len(mid_list)):
-        for j in range(len(mid_list[i])):
-            if type(mid_list[i][j]) == str:
-                text = re.split('[가-힣]+', mid_list[i][j])
-                # print("tetet", text)
-                # mid_list[i][j] = text
 
     for x in mid_list:
         for sl in slist:
@@ -100,8 +85,8 @@ def split_word(slist, content_list):
                             else:
                                 tmp[store_id] = sh  # 숫자가 아니면 tmp에 담아라
                             break
-                        except IndexError as e:
-                            print(e)
+                        except IndexError:
+                            pass
                 if exitOuterLoop == True:
                     break
             if exitOuterLoop == False:
@@ -130,17 +115,19 @@ def split_word(slist, content_list):
 
 
 def strange_ary(slist, size_num, tmp, ary):
+    tmp_result = []
     result_list = [[0] for low in range(len(size_num))]
+
     for it in tmp:
-        if it == 0:
-            tmp.remove(it)
+        if it != 0:
+            tmp_result.append(it)
 
     for t in range(len(size_num)):
         for y in slist:
             exitOuterLoop = False
             for y_tp in y:
                 y = re.compile(y_tp)
-                for x in range(len(tmp)):
+                for x in range(len(tmp_result)):
                     if y.search(tmp[x]):
                         exitOuterLoop = True
                         result_list[t].append(size_num[t][x])
@@ -170,8 +157,11 @@ def modify_result(result_list, size_call):
                 text = re.sub('[가-힣]+', '', result_list[i][j])
                 result_list[i][j] = text
 
-    for i in range(len(result_list)):
-        result_list[i][0] = size_call[i]
+    if len(result_list) == 1:
+            result_list[0][0] = 'one size'
+    else:
+        for i in range(len(result_list)):
+            result_list[i][0] = size_call[i]
     return result_list
 
 def textcrawling(str, fi_category):
@@ -190,17 +180,22 @@ def textcrawling(str, fi_category):
         if (tf != None):
             for j in tf:
                 k = j.parent.name
-                print(k)
                 if (k == "td" or k == "tr" or k == "th"):
-                    tf = soup.find(text=re.compile(j)).find_parent('table')
-                    # print("tf1 : ", tf)
+                    try :
+                        tf = soup.find(text=re.compile(j)).find_parent('table')
+                    except AttributeError:
+                        pass
                 elif (j.parent.find_parent('td') or j.parent.find_parent('tr') or j.parent.find_parent('th')):
-                    tf = soup.find(text=re.compile(j)).find_parent('table')
-                    # print("tf2: ", tf)
+                    try :
+                        tf = soup.find(text=re.compile(j)).find_parent('table')
+                    except AttributeError:
+                        pass
                 elif (j.parent.find_parent('p')):
-                    tf = j.parent.find_parent('p')
+                    try :
+                        tf = j.parent.find_parent('p')
+                    except AttributeError:
+                        pass
                     # tf = soup.find(text=re.compile(j)).find_parent('p')
-                    # print("tf3: ", tf)
 
                 # elif (j.parent.find_parent('p').find_previous_sibling('p')):
                 #     tf = soup.find(text=re.compile(j)).find_parent('p').find_previous_sibling('p')
@@ -221,19 +216,23 @@ def textcrawling(str, fi_category):
 
 
 # if __name__ == '__main__':
-#     # textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
-#     # textcrawling("https://store.musinsa.com/app/product/detail/957880/0", "PANTS")
-#     # textcrawling("https://mutnam.com/product/detail.html?product_no=33763&cate_no=52&display_group=2", "PANTS")
-#     # textcrawling("http://www.loveandpop.kr/product/detail.html?product_no=4094&cate_no=47&display_group=1", "PANTS") ##안됨!!!! 숫자이상하게 쪼개짐
-#     # textcrawling("https://modernclass.kr/product/detail.html?product_no=1947&cate_no=27&display_group=1", "PANTS") ##/문제 : 해결, 사이즈 외의 문자열
-#     # textcrawling("https://hun-s.com/product/detail.html?product_no=12604&cate_no=55&display_group=2", "PANTS") #안됨
-#     # textcrawling("https://hun-s.com/product/detail.html?product_no=13181&cate_no=55&display_group=2", "PANTS") ##문제!!!!!!!!!
-#     # textcrawling("https://creamcheese.co.kr/product/detail.html?product_no=325&cate_no=26&display_group=2", "PANTS") #총기장이 맨위에 있음
-#     textcrawling("http://like-you.kr/product/detail.html?product_no=7338&cate_no=45&display_group=2", "PANTS") ##|문제 : 해결, 문자 숫자 분리 문제 사이즈명칭
-#     # textcrawling("http://thejoon.com/product/authentic-wide-blue-denim-%EC%99%80%EC%9D%B4%EB%93%9C%EB%8D%B0%EB%8B%98/9541/category/264/display/1/", "PANTS") ##문자 숫자 분리
-#     # textcrawling("https://modernclass.kr/product/detail.html?product_no=1947&cate_no=27&display_group=1", "PANTS") ##예외처리로 되긴됨, 사이즈 외의 문자열 없애는 방법은??
-#     # textcrawling("https://ba-on.com/product/detail.html?product_no=4092&cate_no=34&display_group=1", "TOP") #총장X 어떤 단어로 parse?
-#     # textcrawling("https://ba-on.com/product/detail.html?product_no=4078&cate_no=33&display_group=2", "OUTER")
-#     # textcrawling("https://ba-on.com/product/detail.html?product_no=4075&cate_no=35&display_group=1", "SKIRT")
-#     # textcrawling("https://ba-on.com/product/detail.html?product_no=3896&cate_no=36&display_group=1", "OPS")
-#     # textcrawling("https://www.daybin.co.kr/product/detail.html?product_no=5273&cate_no=152&display_group=1", "PANTS")
+    # textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
+    # textcrawling("https://store.musinsa.com/app/product/detail/957880/0", "PANTS")
+    # textcrawling("https://mutnam.com/product/detail.html?product_no=33763&cate_no=52&display_group=2", "PANTS")
+    # textcrawling("http://www.loveandpop.kr/product/detail.html?product_no=4094&cate_no=47&display_group=1", "PANTS") ##안됨!!!! 숫자이상하게 쪼개짐
+    # textcrawling("https://modernclass.kr/product/detail.html?product_no=1947&cate_no=27&display_group=1", "PANTS") ##/문제 : 해결, 사이즈 외의 문자열
+    # textcrawling("https://hun-s.com/product/detail.html?product_no=12604&cate_no=55&display_group=2", "PANTS") #안됨
+    # textcrawling("https://hun-s.com/product/detail.html?product_no=13181&cate_no=55&display_group=2", "PANTS") ##문제!!!!!!!!!
+    # textcrawling("https://creamcheese.co.kr/product/detail.html?product_no=325&cate_no=26&display_group=2", "PANTS") #총기장이 맨위에 있음
+    # textcrawling("http://like-you.kr/product/detail.html?product_no=7338&cate_no=45&display_group=2", "PANTS") ##|문제 : 해결, 문자 숫자 분리 문제 사이즈명칭
+    # textcrawling("http://thejoon.com/product/authentic-wide-blue-denim-%EC%99%80%EC%9D%B4%EB%93%9C%EB%8D%B0%EB%8B%98/9541/category/264/display/1/", "PANTS") ##문자 숫자 분리
+    # textcrawling("https://modernclass.kr/product/detail.html?product_no=1947&cate_no=27&display_group=1", "PANTS") ##예외처리로 되긴됨, 사이즈 외의 문자열 없애는 방법은??
+    # textcrawling("https://ba-on.com/product/detail.html?product_no=4092&cate_no=34&display_group=1", "TOP") #총장X 어떤 단어로 parse?
+    # textcrawling("https://ba-on.com/product/detail.html?product_no=4078&cate_no=33&display_group=2", "OUTER")
+    # textcrawling("https://ba-on.com/product/detail.html?product_no=4075&cate_no=35&display_group=1", "SKIRT")
+    # textcrawling("https://ba-on.com/product/detail.html?product_no=3896&cate_no=36&display_group=1", "OPS")
+    # textcrawling("https://www.daybin.co.kr/product/detail.html?product_no=5273&cate_no=152&display_group=1", "PANTS")
+    # textcrawling("https://store.musinsa.com/app/product/detail/948037/0", "OUTER")
+    # textcrawling("https://store.musinsa.com/app/product/detail/864404/0", "OUTER")
+    # textcrawling("https://store.musinsa.com/app/product/detail/1190282/0","TOP")
+    # textcrawling("https://store.musinsa.com/app/product/detail/1230848/0", "SKIRT")

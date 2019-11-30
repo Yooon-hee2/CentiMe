@@ -35,9 +35,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
 
     }
 
-    alert("ahyeonbabo");
     if (prev > 0) {
-        alert("ahyeonbabo1");
         html += '<a href=# id="prev"><--- prev    </a> ';
     }
     // for(var i=first; i <= last; i++){
@@ -45,7 +43,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
     // }
 
     if (last < totalPage) {
-        alert("ahyeonbabo2");
         html += '<a href=# id="next">    next ---></a>';
     }
     //alert(html)
@@ -258,7 +255,6 @@ $(document).ready(() => {
                 size = $(this).text();
                 if (checked == false) {
                     checked = true
-
                     $.ajax({
                         type: "POST",
                         ContentType: 'application/json',
@@ -271,6 +267,12 @@ $(document).ready(() => {
                             alert("success");
                             $("#main-wrapper").show();
                             $("#size_container *").remove();
+                        },
+                        beforeSend: function () {
+                            $("#loading").show();
+                        },
+                        complete: function () {
+                            $("#loading").hide();
                         },
                         failure:
                             function (err) {
@@ -430,6 +432,9 @@ $(document).ready(() => {
                         }
                     }
                 },
+                beforeSend: function () {
+                    $("#cate_ui").attr("src", "https://berserkon.com/images/loading-transparent-animated-gif.gif");
+                },
                 failure:
                     function (err) {
                         console.log(err);
@@ -500,9 +505,9 @@ $(document).ready(() => {
                         }
                     }
                 },
-                // complete: function () {
-                //     $("#loading").hide();
-                // },
+                beforeSend: function () {
+                    $("#cate_ui").attr("src", "https://berserkon.com/images/loading-transparent-animated-gif.gif");
+                },
                 failure:
                     function (err) {
                         console.log(err);
@@ -574,12 +579,6 @@ $(document).ready(() => {
 
                         }
                         paging(Object.keys(recommend_data).length, dataPerPage, pageCount, 1, container, index);
-                    },
-                    beforeSend: function () {
-                        $("#loading").show();
-                    },
-                    complete: function () {
-                        $("#loading").hide();
                     },
                     failure:
                         function (err) {
@@ -705,8 +704,6 @@ $(document).ready(() => {
             });
         });
     });
-
-
 
 
     $(".tab-slider--body").hide();

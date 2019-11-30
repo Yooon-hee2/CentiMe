@@ -60,7 +60,7 @@ class TableSizeFinder():
                     size_category_collections.append(candidate_y_index[i])
 
         if (len(size_category_collections) < 4):
-            print("it's not image about size table")
+            #print("it's not image about size table")
             return False
 
         same_column_data = []
@@ -197,7 +197,7 @@ class TableSizeFinder():
         if missing_number == 0 or maximum_size == 1:
             return 0
 
-        print("missing index : ", missing_index)
+       # print("missing index : ", missing_index)
         temp = []
 
         for i, complete_y in enumerate(self.size_list[complete_index]):

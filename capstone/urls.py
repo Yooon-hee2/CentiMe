@@ -25,6 +25,7 @@ import login.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login.views.login, name = 'login'),
+    path('checklogin/', login.views.check_login, name= 'check_login'),
     path('done/', login.views.done, name= 'done'),
     path('accounts/', include('allauth.urls')),
     path('info/', include('crawling.urls')),

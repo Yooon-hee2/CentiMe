@@ -30,97 +30,63 @@
       </label>
     </div>
 
-    <img src="./images/img_shirt.png" style="width: 100px; height: 100px; margin: 20px 100px 10px;">
+    <img id = "cate_ui" src="./images/img_shirt.png" style="width: 100px; height: 100px; margin: 20px 100px 10px;">
     <div class="tab-slider--nav">
       <ul class="tab-slider--tabs">
-        <li class="tab-slider--trigger active" style="padding-right:20%" rel="tab1">normal</li>
-        <li class="tab-slider--trigger" rel="tab2">over-fit</li>
+        <li class="tab-slider--trigger active" style="padding-right:20%" value="보통핏" rel="tab1">normal</li>
+        <li class="tab-slider--trigger" value="오버핏" rel="tab2">over-fit</li>
       </ul>
     </div>
+
     <div class="tab-slider--container">
       <div id="tab1" class="tab-slider--body">
-
         <div style="text-align: right;">
           <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
-          <span style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
+          <span id="tab1_trend" style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
         </div>
         <table class="size-table">
           <thead>
-            <tr id="active-size-list">
-
+            <tr id="size-table-list">
             </tr>
           </thead>
           <tbody>
-            <tr id="active-size-info">
-
+            <tr id = "size-table-info">
             </tr>
           </tbody>
         </table>
-        <span id="active-size"></span>
+        <span id="reco_size"></span>
         <button type="button" class="collapsible">
-          <img src="./images/ic_arrow_down.png"
-            style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
+           <img src="./images/ic_arrow_down.png" style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
         </button>
       </div>
       <div id="tab2" class="tab-slider--body">
-        <div style="text-align: right;">
-          <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
-          <span style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
-        </div>
-        <table class="size-table">
-          <thead>
-            <tr id="active-list-large">
+          <div style="text-align: right;">
+              <img src="./images/img_flow_chart.png" style="width: 14px; height: auto;">
+              <span id="tab2_trend" style="font-size: 12px; margin-right: 20px;">추세로 보기</span>
+            </div>
+            <table class="size-table">
+              <thead>
+                <tr id="size-table-list-large">
+      
+                </tr>
+              </thead>
+              <tbody>
+                <tr id = "size-table-info-large">
+                  
+                </tr>
+              </tbody>
+            </table>
+            <span id = "reco_size_large"></span>
+            <button type="button" class="collapsible">
+               <img src="./images/ic_arrow_down.png" style="width: 15px; height: 15px; align-content: right; margin-left: 5px">
+            </button>
 
-            </tr>
-          </thead>
-          <tbody>
-            <tr id="active-info-large">
-
-            </tr>
-          </tbody>
-        </table>
-        <span id="active-size-large"></span>
-        <button type="button" class="collapsible">
-          <img src="./images/ic_arrow_down.png"
-            style="width: 15px; height: 15px; align-content: center; margin-left: 5px">
-        </button>
       </div>
     </div>
-
+    
   </div>
   <div id="collapse-content">
-    <!-- 한 history당 한 size-history div-->
-    <div id="size-history" style="height: 60px;">
-      <span style="font-size: 15px; margin-left: 8px;"> 2019.11.05 </span>
-      <span style="font-size: 15px; margin-right: 12px; float: right; "> 삭제 </span>
-      <div id="thumbnail" style="float: left; width: 20%; vertical-align: middle;">
-        <img src="./images/img_temp_thumbnail.png" style="width: 80px; height: 100px;">
-      </div>
-      <div id="tablearea" style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;">
-        <table class="size-table">
-          <thead>
-            <tr>
-              <th scope="cols">어깨</th>
-              <th scope="cols">가슴</th>
-              <th scope="cols">암홀</th>
-              <th scope="cols">소매기장</th>
-              <th scope="cols">소매단</th>
-              <th scope="cols">총장</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>+3</th>
-              <td>-1</th>
-              <td>+2</th>
-              <td>0</th>
-              <td>+2</th>
-              <td>0</th>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    
   </div>
 </body>
 

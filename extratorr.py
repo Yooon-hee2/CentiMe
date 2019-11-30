@@ -15,10 +15,12 @@ from crawling.models import Category
 from clothes.models import Outer, Top, Skirt, Pants, Ops
 from django.conf.global_settings import AUTH_USER_MODEL
 
-def parse(sel_size, find_category):
+def parse(sel_size, find_category, current_url, category_url):
     #ocr = OCRApi.OCRApi()
+    url = current_url
+    thumbnail_url = text_crawling.thumbnail_finder(category_url, current_url)
     #url = "https://store.musinsa.com/app/product/detail/957880/0"
-    url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
+    #url = "http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2"
     #url = 'http://daybin.co.kr/product/detail.html?product_no=5348&cate_no=152&display_group=1'
     #url = "https://www.daybin.co.kr/product/detail.html?product_no=5428&cate_no=152&display_group=1"
     #url = "https://www.daybin.co.kr/product/detail.html?product_no=5273&cate_no=152&display_group=1"
@@ -61,9 +63,9 @@ def parse(sel_size, find_category):
             sel_num = key_list.index(li)
             break
     re_result = result[key_list[sel_num]]
-    return url, key_list[sel_num], re_result
+    return url, key_list[sel_num], re_result, thumbnail_url
 
-if __name__ == '__main__':
-     #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
-    parse(0, "PANTS")
+# if __name__ == '__main__':
+#      #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")
+#     parse(0, "PANTS")
     

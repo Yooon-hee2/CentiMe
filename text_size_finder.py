@@ -34,7 +34,7 @@ class TextSizeFinder():
                         break
 
         if (len(candidate_y_pos) < 4):
-            print("it's not image about size text")
+            #print("it's not image about size text")
             return False
 
         t_candidate_y_pos = [int(x // 6 * 6) for x in candidate_y_pos]

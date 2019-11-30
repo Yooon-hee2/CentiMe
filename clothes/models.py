@@ -11,7 +11,7 @@ class Product(models.Model):
     fit = models.CharField(max_length=5, default='보통')
     url = models.TextField(blank=True, null=True)
     date = models.DateField(auto_now_add=True)
-
+    thumbnail = models.TextField(blank=True, null=True)
 
     class Meta:
         ordering = ['-id']

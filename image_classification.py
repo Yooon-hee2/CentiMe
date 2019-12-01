@@ -80,7 +80,7 @@ def preprocess(image):
 
 def dilate(gray_image):
     kernel = np.ones((7, 7), np.uint8)
-    dilation_image = cv2.dilate(gray_image, kernel, iterations=7)
+    dilation_image = cv2.dilate(gray_image, kernel, iterations=6)
     return dilation_image
 
 
@@ -192,7 +192,7 @@ def classification (url):
 
     resize_list = np.array(resize_list)
     resize_list = resize_list.astype(float)/255
-    model = load_model('./crop_VGGNet.h5')
+    model = load_model('./new_crop_VGGNet.h5')
     prediction = model.predict(resize_list)
 
     table = []

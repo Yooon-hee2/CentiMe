@@ -1,19 +1,14 @@
 //var totalData = 1000;    // 총 데이터 수
-var dataPerPage = 4;    // 한 페이지에 나타낼 데이터 수
+var dataPerPage = 4;      // 한 페이지에 나타낼 데이터 수
 var pageCount = 5;        // 한 화면에 나타낼 페이지 수
 index = 0;
 
 function paging(totalData, dataPerPage, pageCount, currentPage, container, index) { //container = [날짜, [오차 수치 묶음]]
     //alert(container[0].slice(3, container[0].length))
     var totalPage = Math.ceil(totalData / dataPerPage);    // 총 페이지 수
-    var pageGroup = Math.ceil(currentPage / pageCount);    // 페이지 그룹
-    var last = pageGroup * pageCount;
-    var last = pageCount;
-    if (last > totalPage)
-        last = totalPage;
-    var first = last - (pageCount - 1);
-    next = currentPage + 1;
-    var prev = first - 1;
+    
+    var next = currentPage + 1;
+    var prev = currentPage - 1;
     var html = "";
     var cnt = 0;
 
@@ -32,20 +27,17 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
         ins += '<div style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;"><table class="size-table"><thead><tr id = "registered_info">';
         ins += container[cnt].slice(2, 2 + slicenum) + '</tr></thead><tbody><tr id = "registered_num">' + container[cnt].slice(slicenum + 2, container[cnt].length) + '</tr></tbody></table></div></div></p><br/><br/><br/>';
         html += ins;
-
     }
-
+    
     if (prev > 0) {
-        html += '<a href=# id="prev"><--- prev    </a> ';
+        html += "<a href=# id='prev'><--- prev    </a> ";
     }
-    // for(var i=first; i <= last; i++){
-    //     html += "<a href='#' id=" + i + ">" + i + "</a> ";
-    // }
+    
 
-    if (last < totalPage) {
-        html += '<a href=# id="next">    next ---></a>';
+    if (next <= totalPage) {
+        html += "<a href=# id='next'>    next ---></a>";
     }
-    //alert(html)
+    
     $("#collapse-content").html(html);    // 페이지 목록 생성
     $("#collapse-content a").css("color", "black");
     $("#collapse-content a#" + currentPage).css({
@@ -63,15 +55,13 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
         if ($id == "next") {
             selectedPage = next;
             index += 4;
-
         }
         else if ($id == "prev") {
             selectedPage = prev;
             index -= 4;
         }
-
-        alert(index)
-        paging(totalData, dataPerPage, pageCount, selectedPage, container, index);
+        
+        paging(totalData, dataPerPage, pageCount, selectedPage, container,index);
     });
 
 }
@@ -131,7 +121,7 @@ $(document).ready(() => {
                     $.ajax({
                         type: "POST",
                         ContentType: 'application/json',
-                        url: "http://127.0.0.1:8000/info/personal/",
+                        url: "http://15.164.138.38:8000/info/personal/",
                         data: JSON.stringify({ sel_category: sel_category, data: data }),
                         dataType: "json",
                         success: function (data) {
@@ -182,7 +172,7 @@ $(document).ready(() => {
         chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
             currentUrl = tabs[0].url;
         });
-        chrome.history.search({ text: '', maxResults: 10 }, function (data) {
+        chrome.history.search({ text: '', maxResults: 20 }, function (data) {
             var i, j = 0;
             data.forEach(function (page) {
                 urlArray.push(page.url)
@@ -193,8 +183,10 @@ $(document).ready(() => {
             for (i = 1; i < urlArray.length; i++) {
                 if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                     == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                    categoryUrl = urlArray[i];
-                    break;
+                    if (currentUrl != urlArray[i]) {
+                        categoryUrl = urlArray[i];
+                        break;
+                    }
                 }
             }
             //   alert(currentUrl); //current url for test
@@ -203,7 +195,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://127.0.0.1:8000/info/",
+                url: "http://15.164.138.38:8000/info/",
                 data: { url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -258,7 +250,7 @@ $(document).ready(() => {
                     $.ajax({
                         type: "POST",
                         ContentType: 'application/json',
-                        url: "http://127.0.0.1:8000/info/store/",
+                        url: "http://15.164.138.38:8000/info/store/",
                         data: JSON.stringify({ fit: fit, size: size, url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) }),
                         dataType: "json",
                         success: function (data) {
@@ -315,14 +307,17 @@ $(document).ready(() => {
             for (i = 1; i < urlArray.length; i++) {
                 if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                     == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                    categoryUrl = urlArray[i];
-                    break;
+                    if (currentUrl != urlArray[i]) {
+                        categoryUrl = urlArray[i];
+                        break;
+                    }
                 }
             }
+            //alert(categoryUrl)
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://127.0.0.1:8000/recommend/recent/",
+                url: "http://15.164.138.38:8000/recommend/recent/",
                 data: { fit: '보통핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -406,14 +401,16 @@ $(document).ready(() => {
             for (i = 1; i < urlArray.length; i++) {
                 if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                     == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                    categoryUrl = urlArray[i];
-                    break;
+                    if (currentUrl != urlArray[i]) {
+                        categoryUrl = urlArray[i];
+                        break;
+                    }
                 }
             }
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://127.0.0.1:8000/recommend/recent/",
+                url: "http://15.164.138.38:8000/recommend/recent/",
                 data: { fit: '보통핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -481,14 +478,16 @@ $(document).ready(() => {
             for (i = 1; i < urlArray.length; i++) {
                 if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                     == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                    categoryUrl = urlArray[i];
-                    break;
+                    if (currentUrl != urlArray[i]) {
+                        categoryUrl = urlArray[i];
+                        break;
+                    }
                 }
             }
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://127.0.0.1:8000/recommend/recent/",
+                url: "http://15.164.138.38:8000/recommend/recent/",
                 data: { fit: '오버핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -538,22 +537,24 @@ $(document).ready(() => {
                 for (i = 1; i < urlArray.length; i++) {
                     if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                         == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                        categoryUrl = urlArray[i];
-                        break;
+                        if (currentUrl != urlArray[i]) {
+                            categoryUrl = urlArray[i];
+                            break;
+                        }
                     }
                 }
-
+                var container = [];
                 $.ajax({
                     type: "GET",
                     ContentType: 'application/json',
-                    url: "http://127.0.0.1:8000/recommend/all/",
+                    url: "http://15.164.138.38:8000/recommend/all/",
                     data: { fit: fit_data, url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                     dataType: "json",
                     success: function (data) {
-                        var container = [];
-
+                        container = [];
+                    
                         var recommend_data = data['reco_dic']; //{'count': [날짜 - 등록된 수치 - 오차 수치-thumbnail],'count': [날짜 - 등록된 수치 - 오차 수치]..}
-
+                              
                         for (key in recommend_data) {
                             var tp_listcontainer = [];
                             var tp_infocontainer = [];
@@ -562,6 +563,7 @@ $(document).ready(() => {
                             var thumb = [listdata[3]];
                             var registered = listdata[1];
                             var errdic = listdata[2];
+                            
                             cnt = 0;
                             for (listkey in errdic) { //{waist: , length: , ...}
                                 for (sizeinfo in errdic[listkey]) {
@@ -588,10 +590,40 @@ $(document).ready(() => {
                         alert("정보 등록 후 이용해주세요");
                     }
                 });
+            
+                $("#collapse-content").show("fast");
+                
+                $(document).on('click', '#del', function (){
+                    //alert("clicked");
+                    var tmp = $(this).parent().attr("id");
+                    var del_data = tmp.replace(/[^0-9]/g, "");
+                    container.splice(Number(del_data), 1);
+                    paging((Object.keys(container).length) - 1, dataPerPage, pageCount, 1, container, index);
+                    var cate = $("#cate_ui").attr("src");
+                    cate = cate.replace(/[^A-Z]/g, "");
+                    
+                    $.ajax({
+                        type: "DELETE",
+                        ContentType: 'application/json',
+                        url: "http://15.164.138.38:8000/recommend/delete/",
+                        data: JSON.stringify({del_data : del_data, cate:cate, fit: fit_data}),
+                        dataType: "json",
+                        success: function (data) {                    
+                            console.log("success");
+                        },
+                        failure:
+                            function (err) {
+                                console.log(err);
+                            },
+                        error: function (request, status, error) {
+                            alert("정보 등록 후 이용해주세요");
+                        }
+
+                    });
+                });
             });
-            $("#collapse-content").show("fast");
         } else {
-            $("#collapse-content").hide("fast");
+        $("#collapse-content").hide("fast");
         }
     });
 
@@ -615,14 +647,16 @@ $(document).ready(() => {
             for (i = 1; i < urlArray.length; i++) {
                 if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                     == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                    categoryUrl = urlArray[i];
-                    break;
+                    if (currentUrl != urlArray[i]) {
+                        categoryUrl = urlArray[i];
+                        break;
+                    }
                 }
             }
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://127.0.0.1:8000/recommend/trend/",
+                url: "http://15.164.138.38:8000/recommend/trend/",
                 data: { fit: '보통핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -670,14 +704,16 @@ $(document).ready(() => {
             for (i = 1; i < urlArray.length; i++) {
                 if (currentUrl.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]
                     == urlArray[i].replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0]) {
-                    categoryUrl = urlArray[i];
-                    break;
+                    if (currentUrl != urlArray[i]) {
+                        categoryUrl = urlArray[i];
+                        break;
+                    }
                 }
             }
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://127.0.0.1:8000/recommend/trend/",
+                url: "http://15.164.138.38:8000/recommend/trend/",
                 data: { fit: '오버핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -704,7 +740,8 @@ $(document).ready(() => {
             });
         });
     });
-
+    
+    
 
     $(".tab-slider--body").hide();
     $(".tab-slider--body:first").show();

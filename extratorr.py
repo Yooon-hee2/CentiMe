@@ -52,7 +52,6 @@ def parse(sel_size, find_category, current_url, category_url):
                         result = finder.find_category_in_size_image()
                         if result:
                             break
-    print(result)
     key_list = list(result.keys())
     # if sel_size == 0:
     #     return url, result

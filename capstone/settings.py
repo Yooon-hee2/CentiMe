@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('15.164.138.38',)
 
 ROOT_URLCONF = 'capstone.urls'
 
@@ -148,8 +148,7 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
+    'http://15.164.138.38:8000',
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHOD = [

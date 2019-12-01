@@ -10,6 +10,7 @@ from django.views.generic import ListView, DetailView
 from django.apps import apps
 from django.template import loader
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 import json
 import extratorr
 import category
@@ -188,7 +189,22 @@ def all_list(request):
         for ct in range(len(date_list)):
             reco_dic[ct] = [date_list[ct], calc_list[ct], res[ct], thumburl_list[ct]]
         context = {'reco_dic':reco_dic}
-        print(reco_dic)
         return JsonResponse(context)
 
+@csrf_exempt
+def delete(request):
+    if request.method == 'DELETE':
+        jsondata = json.loads(request.body)
+        category = jsondata['cate']
+        fit = jsondata['fit']
+        del_pk = jsondata['del_data']
+        query = Category.objects.filter(category=category).first().category
+        clothes_info = apps.get_model('clothes', query)
+        clothes_id = list(clothes_info.objects.all().filter(user=request.user, fit=fit).order_by('-id').values())
+        tmp = clothes_id[int(del_pk)]['id']
+       
+        clothes_info.objects.all().filter(user=request.user, fit=fit)[id==tmp].delete()
+        
+        context = {'success':"success"}
+        return JsonResponse(context)
 

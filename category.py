@@ -51,9 +51,12 @@ def category_parse(url):
                 title = soup.find('title')
                 category = re.sub('[=+,#/\?:^$@*\"※~&%ㆍ!』│\\‘|\(\)\[\]\<\>`\'…》0-9a-zA-Z\-]', '', str(title))
                 category = category.split()[0]
-
+    
     for dic_key, val in searching_dic.items():
         for vl in val:
-            if vl == category:
+            if vl == category.upper():
                 sh = dic_key
     return sh
+
+
+

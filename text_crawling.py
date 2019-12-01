@@ -50,7 +50,7 @@ def split_word(slist, content_list):
         text = re.sub('[=+,#/\?:^$@*\"※~&%ㆍ!』│\\‘|\(\)\[\]\<\>`\'…》cm]', '', content_list[i])
         # print("text ; ", text)
         mid_list.append(text.replace('/', "") and text.replace('\\xa0', '') and text.split())
-    #print(mid_list)
+
     # 수치, 항목 모두 다 떼고 리스트에 저장함. 인덱싱으로 필요 정보 따로 result에 옮겨 담기
     for k in mid_list:
         for j in size:
@@ -214,7 +214,6 @@ def textcrawling(str, fi_category):
     return re_data
 
 
-
 # method for extracting thumbnail 썸네일추출
 def thumbnail_finder(categoryUrl, currentUrl):
     
@@ -253,6 +252,9 @@ def thumbnail_finder(categoryUrl, currentUrl):
         if image.get('href') and urljoin(currentUrl,image.get('href')) == currentUrl:
             if image.img:
                 return get_image_url(image.img['src'])
+
+
+
 
 # if __name__ == '__main__':
 #     #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")

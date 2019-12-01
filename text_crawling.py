@@ -41,24 +41,22 @@ def split_word(slist, content_list):
     ary = []
     size_call = []
     size_num = []
-    size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl']
+    size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl', 'one']
     # 넘어온 리스트에서 중복된 문장 지우기
     content_list = orderedset(content_list)
-    # print("content_list = ", content_list)
 
     for i in range(len(content_list)):
         text = re.sub('[=+,#/\?:^$@*\"※~&%ㆍ!』│\\‘|\(\)\[\]\<\>`\'…》cm]', '', content_list[i])
         # print("text ; ", text)
         mid_list.append(text.replace('/', "") and text.replace('\\xa0', '') and text.split())
-
+    # print(mid_list)
     # 수치, 항목 모두 다 떼고 리스트에 저장함. 인덱싱으로 필요 정보 따로 result에 옮겨 담기
     for k in mid_list:
         for j in size:
             if j in k:
                 ary.append(k.index(j))
                 size_call.append(j)
-    # print("ary : ", ary)
-    # print("size_call : ", size_call)
+
     for ins in range(len(ary)):
         if (ins == len(ary) - 1):
             size_num.append(k[ary[ins] + 1:])
@@ -67,8 +65,8 @@ def split_word(slist, content_list):
 
     result_list = [[0] for low in range(len(mid_list))]
     count = 0
-    tmp = [0] * len(slist)
-
+    # tmp = [0] * len(slist) ####여기를 바꿨어요
+    tmp = []
     for x in mid_list:
         for sl in slist:
             exitOuterLoop = False
@@ -82,7 +80,8 @@ def split_word(slist, content_list):
                             if re.compile('[0-9]+').search(mid_list[count][store_id + 1]):
                                 result_list[count].append(mid_list[count][store_id + 1])  # size의 항목 다음번째 애를 result_list에 담아라
                             else:
-                                tmp[store_id] = sh  # 숫자가 아니면 tmp에 담아라
+                                # tmp[store_id] = sh  # 숫자가 아니면 tmp에 담아라 ###여기를 바꿨어요
+                                tmp.append(sh)
                             break
                         except IndexError:
                             pass
@@ -93,7 +92,6 @@ def split_word(slist, content_list):
         result_list[count].insert(0, mid_list[count][0])
         # result_list[count].insert(0, size_call[count])
         count += 1
-
     alt = False
     for item in tmp:
         if item is not 0:
@@ -173,6 +171,7 @@ def textcrawling(str, fi_category):
     dic_list = category.prepare_category(fi_category)
     search_list = prepare_index(category.prepare_category(fi_category))
     str_list = []
+
     query = ["기장", "총길이+", "총장+", "총기장+", "전체길이+"]
     for i in query:
         tf = soup.find_all(text=re.compile(i))
@@ -201,9 +200,10 @@ def textcrawling(str, fi_category):
                 #     print(tf)
                 else:
                     tf = j.parent
-                    # print("tf4 : ", tf)
+
                 str_list.append(tf.text)
-    # print(remove_tag(''.join(str_list))) 치수랑 수치랑 다른 곳에 있어서 잘 나뉘지 않을때 사용할 것
+
+    # print(remove_tag(''.joi,n(str_list))) 치수랑 수치랑 다른 곳에 있어서 잘 나뉘지 않을때 사용할 것
     # print("str_list : ", str_list)
     # print("search list  ; ", search_list)
     result = split_word(search_list, str_list)
@@ -212,7 +212,6 @@ def textcrawling(str, fi_category):
     for item in result:
         re_data[item[0]] = {name: value for name, value in zip(dic_list, item[1:])}
     return re_data
-
 
 # method for extracting thumbnail 썸네일추출
 def thumbnail_finder(categoryUrl, currentUrl):

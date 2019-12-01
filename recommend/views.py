@@ -60,9 +60,12 @@ def trend_recommend(request):
         current_url = unquote(request.GET['url_send'])
         category_url = unquote(request.GET['category_url'])
         fit = request.GET['fit']
-        cate = category.category_parse(category_url)
-        url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate, current_url, category_url)
-        #key_set = list(size_data_all.keys())
+        # cate = category.category_parse(category_url)
+        # url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate, current_url, category_url)
+        # #key_set = list(size_data_all.keys())
+        size_data_all = request.session['size_dict_recommend']
+        cate = request.session['category_recommend']
+        key_set = request.session['key_set']
         value_set = list(size_data_all.values())  #딕셔너리 리스트
         query = Category.objects.filter(category=cate).first().category
         clothes_info = apps.get_model('clothes', query)
@@ -116,7 +119,11 @@ def recent_recommend(request):  #기본 추천 - 절대값 결과 두개 일 때
         fit = request.GET['fit']
         cate = category.category_parse(category_url)
         url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate, current_url, category_url)
-
+        request.session['url_recommend'] = url_parsed
+        request.session['key_set'] = key_set
+        request.session['thumbnail_recommend'] = thumbnail_temp
+        request.session['size_dict_recommend'] = size_data_all
+        request.session['category_recommend'] = cate
         #key_set = list(size_data_all.keys())
         value_set = list(size_data_all.values())  #딕셔너리 리스트
         query = Category.objects.filter(category=cate).first().category
@@ -147,9 +154,13 @@ def all_list(request):
         current_url = unquote(request.GET['url_send'])
         category_url = unquote(request.GET['category_url'])
         fit = request.GET['fit']
-        cate = category.category_parse(category_url)
-        url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate,current_url, category_url)
-        #key_set = list(size_data_all.keys())
+        # cate = category.category_parse(category_url)
+        # url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate,current_url, category_url)
+        # #key_set = list(size_data_all.keys())
+
+        key_set = request.session['key_set']
+        size_data_all = request.session['size_dict_recommend']
+        cate = request.session['category_recommend']
         value_set = list(size_data_all.values())  #딕셔너리 리스트
         query = Category.objects.filter(category=cate).first().category
         clothes_info = apps.get_model('clothes', query)

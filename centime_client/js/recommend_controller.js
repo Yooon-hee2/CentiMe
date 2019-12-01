@@ -20,9 +20,18 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
     for (cnt = index; cnt < index + 4; cnt++) {
         var slicenum = container[cnt].slice(2, container[0].length+1).length * (1 / 2);
         var ins = "";
-        ins += '<p><div id="size-history-'+cnt+'" style="height: 60px;">';
-        ins += '<span style="font-size: 15px; margin-right: 190px;">' + container[cnt][0] + '</span><span id="del" style="color:red; font-size: 15px; margin-right: 12px; float: right;">삭제</span>';
-        ins += '<div id="thumbnail" style="float: left; width: 20%;"><img src="'+container[cnt][1]+'" style="width: 60px; height: 90px;"></div>';
+        src_temp = container[cnt][1];
+        if (src_temp == 'OPS' || src_temp == 'OUTER' || src_temp == 'PANTS' || src_temp == 'TOP' || src_temp == 'SKIRT') {
+            src_temp = "./images/img_" + container[cnt][1] + ".png";
+        }
+        src_temp = container[cnt][1];
+        if (src_temp == 'OPS' || src_temp == 'OUTER' || src_temp == 'PANTS' || src_temp == 'TOP' || src_temp == 'SKIRT') {
+            src_temp = "./images/img_" + container[cnt][1] + ".png";
+        }
+
+        ins += '<p><div id="size-history" style="height: 60px;">';
+        ins += '<span style="font-size: 15px; margin-right: 190px;">' + container[cnt][0] + '</span><span style="color:red; font-size: 15px; margin-right: 12px; float: right; "> 삭제 </span>';
+        ins += '<div id="thumbnail" style="float: left; width: 20%; margin-left:5px"><img src="'+ src_temp+'" style="height: 125px; width: 100px; border-radius: 15px; border: 0px;"></div>';        ins += '<div style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;"><table class="size-table"><thead><tr id = "registered_info">';
         ins += '<div style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;"><table class="size-table"><thead><tr id = "registered_info">';
         ins += container[cnt].slice(2,2+slicenum) + '</tr></thead><tbody><tr id = "registered_num">' + container[cnt].slice(slicenum+2,container[cnt].length) + '</tr></tbody></table></div></div></p><br/><br/><br/>';
         html += ins;
@@ -92,7 +101,7 @@ $(document).ready(() => {
         $.ajax({
             type: "GET",
             ContentType: 'application/json',
-            url: "http://15.164.138.38:8000/recommend/recent/",
+            url: "http://15.164.138.38:80/recommend/recent/",
             data: { fit: '보통핏', url_send :encodeURIComponent(currentUrl), category_url:encodeURIComponent(categoryUrl)},
             dataType: "json",
             success: function (data) {
@@ -110,6 +119,9 @@ $(document).ready(() => {
                         $("#size-table-info").append(tmp_info);
                     }
                 }
+            },
+            beforeSend: function () {
+                $("#cate_ui").attr("src", "https://berserkon.com/images/loading-transparent-animated-gif.gif");
             },
             failure:
                 function (err) {
@@ -406,5 +418,5 @@ $(document).ready(() => {
 
     $(".tab-slider--body").hide();
     $(".tab-slider--body:first").show();
-});
+})
 

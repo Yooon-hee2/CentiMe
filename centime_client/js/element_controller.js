@@ -505,9 +505,6 @@ $(document).ready(() => {
                         }
                     }
                 },
-                beforeSend: function () {
-                    $("#cate_ui").attr("src", "https://berserkon.com/images/loading-transparent-animated-gif.gif");
-                },
                 failure:
                     function (err) {
                         console.log(err);
@@ -648,7 +645,6 @@ $(document).ready(() => {
                 }
             });
         });
-
     });
     $("#tab2_trend").click(function () {
         $("#size-table-list-large *").remove();

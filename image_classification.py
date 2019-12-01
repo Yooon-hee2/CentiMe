@@ -80,7 +80,7 @@ def preprocess(image):
 
 def dilate(gray_image):
     kernel = np.ones((7, 7), np.uint8)
-    dilation_image = cv2.dilate(gray_image, kernel, iterations=7)
+    dilation_image = cv2.dilate(gray_image, kernel, iterations=6)
     return dilation_image
 
 
@@ -169,17 +169,20 @@ def classification (url):
                                    borderType=cv2.BORDER_CONSTANT, value=[255, 255, 255])
         # cv2.imshow('image', image)
         # cv2.waitKey(0)
-        image_gray = preprocess(image)
-        image_dilation = dilate(image_gray)
-        image_edge = canny(image_dilation)
-        contours_dict = draw_boundingbox(image_edge, image)
-        possible_contours = possible_box(contours_dict)
-        image_temp = draw_possible_contours(possible_contours, image)
-        gray = cv2.cvtColor(image_temp, cv2.COLOR_RGB2GRAY)
-        ret, dst = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
-        contours_dict1 = draw_boundingbox(dst, image)
-        possible_contours1 = possible_box(contours_dict1)
-        crop_image(possible_contours1, crop_list, image)
+        try:
+            image_gray = preprocess(image)
+            image_dilation = dilate(image_gray)
+            image_edge = canny(image_dilation)
+            contours_dict = draw_boundingbox(image_edge, image)
+            possible_contours = possible_box(contours_dict)
+            image_temp = draw_possible_contours(possible_contours, image)
+            gray = cv2.cvtColor(image_temp, cv2.COLOR_RGB2GRAY)
+            ret, dst = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+            contours_dict1 = draw_boundingbox(dst, image)
+            possible_contours1 = possible_box(contours_dict1)
+            crop_image(possible_contours1, crop_list, image)
+        except:
+            pass
         #resize_image(crop_list)
         #print(resize_list)
         # cv2.imshow('crop', crop_list[cnt])
@@ -192,7 +195,7 @@ def classification (url):
 
     resize_list = np.array(resize_list)
     resize_list = resize_list.astype(float)/255
-    model = load_model('./crop_VGGNet.h5')
+    model = load_model('./new_crop_VGGNet.h5')
     prediction = model.predict(resize_list)
 
     table = []
@@ -202,15 +205,15 @@ def classification (url):
         argmax = np.argmax(i)
         if argmax == 1:
             # print("line")
-            # cv2.imshow('line', crop_list[cnt])
-            # cv2.waitKey()
-            # cv2.destroyAllWindows()
+            cv2.imshow('line', crop_list[cnt])
+            cv2.waitKey()
+            cv2.destroyAllWindows()
             line.append(crop_list[cnt])
         elif argmax == 2:
             # print("table")
-            # cv2.imshow('table', crop_list[cnt])
-            # cv2.waitKey()
-            # cv2.destroyAllWindows()
+            cv2.imshow('table', crop_list[cnt])
+            cv2.waitKey()
+            cv2.destroyAllWindows()
             table.append(crop_list[cnt])
         cnt += 1
 

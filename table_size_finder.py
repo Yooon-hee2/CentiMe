@@ -15,10 +15,10 @@ class TableSizeFinder():
         self.size_number_list = []
         self.category_type = category_type
         self.result = {}
-        self.ocr_dict = { 'length': ['총길이', '총장', '총기장', '전체길이'], 'bust': ['가슴', '품'],  'shoulder': ['어깨'], 'armhole': ['암홀', '팔통'],
-                 'waist': ['허리'], 'hip': ['엉덩이', '힙'], 'hem': ['밑단', '끝단', '밑폭', '발목'], 'crotch_rise': ['밑위'],
-                'sleeve': ['소매', '팔', '팔길이', '소매기장'], 'sleevewidth': ['소매단면', '팔둘레', '팔뚝단면', '팔단면'], 
-                 'thigh': ['허벅지']}
+        self.ocr_dict = { 'length': ['총길이', '총장', '총기장', '전체길이'], 'bust': ['가슴', '품', '가슴단면'],  'shoulder': ['어깨', '어깨단면'], 'armhole': ['암홀', '팔통', '암홀단면'],
+                 'waist': ['허리', '허리단면'], 'hip': ['엉덩이', '힙'], 'hem': ['밑단', '끝단', '밑폭', '발목', '밑단단면'], 'crotch_rise': ['밑위'],
+                'sleeve': ['소매', '팔', '팔길이', '소매기장', '소매길이'], 'sleevewidth': ['소매단면', '팔둘레', '팔뚝단면', '팔단면'], 
+                 'thigh': ['허벅지', '허벅지단면']}
 
     def is_digit(self, str):
         try:

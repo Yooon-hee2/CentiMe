@@ -60,10 +60,12 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    font-family: 'Do Hyeon';
   }
 
   .tab-slider--trigger.active {
     color: #fff;
+    font-family: 'Do Hyeon';
   }
 
   .tab-slider--body {
@@ -97,7 +99,7 @@
   }
 
   table.size-table th {
-    font-size: 7px;
+    font-size: 9px;
     padding: 10px;
     font-weight: bold;
     color: #fff;

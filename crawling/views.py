@@ -15,15 +15,26 @@ import json
 from urllib.parse import unquote
 
 def main(request):
+    extracted_size_dict = {}
+    url_parsed = ""
+    thumbnail = ""
+    size_name_list = {}
+    cate = ""
     if request.method == 'GET':
-
         #url_data = json.loads( request.body)
         current_url = unquote(request.GET['url_send'])
         category_url = unquote(request.GET['category_url'])
         cate = category.category_parse(category_url)
-        url_parsed, size_data_all = extratorr.parse(0, cate, current_url, category_url)
-        context = {'re_dic':size_data_all}
+        request.session['category'] = cate
+        #url_parsed, size_data_all = extratorr.parse(0, cate, current_url, category_url)
+        url_parsed, size_name_list, extracted_size_dict, thumbnail = extratorr.parse(0, cate, current_url, category_url)
+        request.session['url'] = url_parsed
+        request.session['thumbnail'] = thumbnail
+        request.session['size_dict'] = extracted_size_dict
+        context = {'re_dic':extracted_size_dict}
         return JsonResponse(context)
+
+
    
 #########카테고리어찌담아올지 생각해############
 @csrf_exempt     
@@ -70,29 +81,33 @@ def CrawlingStore(request):
         sel_tab = unquote(jsondata['url_send'])
         sel_fit = jsondata['fit']
         sel_size = jsondata['size']
-        cate = category.category_parse(sel_cate)
-        url_parsed, size, data_dic, thumbnail = extratorr.parse(sel_size, cate, sel_tab, sel_cate)  #입력된 사이즈의 정보들만 가져옴
-        save_val = list(data_dic.values())
-    
+        cate = request.session['category']
+        #url_parsed, size, data_dic, thumbnail = extratorr.parse(sel_size, cate, sel_tab, sel_cate)  #입력된 사이즈의 정보들만 가져옴
+        size_dic_temp = request.session['size_dict']
+        size_dict = size_dic_temp[sel_size]
+        thumbnail = request.session['thumbnail']
+        url_parsed = request.session['url']
+        save_val = list(size_dict.values())
+
         if cate == 'OUTER':
             query = Category.objects.filter(category=cate).first()
-            Outer.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=size, bust=save_val[0],
+            Outer.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=sel_size, bust=save_val[0],
             shoulder=save_val[1],armhole=save_val[2],sleeve=save_val[3], sleevewidth=save_val[4],length=save_val[5])
         elif cate == 'TOP':
             query = Category.objects.filter(category=cate).first()
-            Top.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=size, bust=save_val[0],
+            Top.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=sel_size, bust=save_val[0],
             shoulder=save_val[1],armhole=save_val[2],sleeve=save_val[3], sleevewidth=save_val[4],length=save_val[5])
         elif cate == 'SKIRT':
             query = Category.objects.filter(category=cate).first()
-            Skirt.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=size, waist=save_val[0],
+            Skirt.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=sel_size, waist=save_val[0],
             hip=save_val[1], hem=save_val[2], length=save_val[3])
         elif cate == 'PANTS':
             query = Category.objects.filter(category=cate).first()
-            Pants.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=size, waist=save_val[0],
+            Pants.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=sel_size, waist=save_val[0],
             hip=save_val[1], thigh=save_val[2], hem=save_val[3],crotch_rise=save_val[4],length=save_val[5]) 
         elif cate == 'OPS':
             query = Category.objects.filter(category=cate).first()
-            Ops.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=size, waist=save_val[0],
+            Ops.objects.create(thumbnail = thumbnail, url = url_parsed, user = request.user, fit=sel_fit, feature=query, size=sel_size, waist=save_val[0],
             shoulder=save_val[1], armhole=save_val[2], sleeve=save_val[3], sleevewidth=save_val[4], hip=save_val[5], length=save_val[6])
         
         response_data['result'] = 'Create post successful!'

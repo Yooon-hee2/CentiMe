@@ -25,7 +25,6 @@ def parse(sel_size, find_category, current_url, category_url):
     #url = "https://www.daybin.co.kr/product/detail.html?product_no=5428&cate_no=152&display_group=1"
     #url = "https://www.daybin.co.kr/product/detail.html?product_no=5273&cate_no=152&display_group=1"
     result = text_crawling.textcrawling(url, find_category)
-    key_list = list(result.keys())
     #result = ''
     if not result:
         import image_classification
@@ -52,18 +51,18 @@ def parse(sel_size, find_category, current_url, category_url):
                         finder = text_size_finder.TextSizeFinder(find_category,completed_data)
                         result = finder.find_category_in_size_image()
                         if result:
-                            
                             break
-    #print(result)
-    if sel_size == 0:
-        return url, result
-    sel_num=0
-    for li in key_list:
-        if li == sel_size:
-            sel_num = key_list.index(li)
-            break
-    re_result = result[key_list[sel_num]]
-    return url, key_list[sel_num], re_result, thumbnail_url
+    print(result)
+    key_list = list(result.keys())
+    # if sel_size == 0:
+    #     return url, result
+    # sel_num=0
+    # for li in key_list:
+    #     if li == sel_size:
+    #         sel_num = key_list.index(li)
+    #         break
+    # re_result = result[key_list[sel_num]]
+    return url, key_list, result, thumbnail_url
 
 # if __name__ == '__main__':
 #      #textcrawling("http://ba-on.com/product/detail.html?product_no=2011&cate_no=35&display_group=2", "PANTS")

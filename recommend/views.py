@@ -60,8 +60,8 @@ def trend_recommend(request):
         category_url = unquote(request.GET['category_url'])
         fit = request.GET['fit']
         cate = category.category_parse(category_url)
-        url_parsed, size_data_all = extratorr.parse(0, cate, current_url, category_url)
-        key_set = list(size_data_all.keys())
+        url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate, current_url, category_url)
+        #key_set = list(size_data_all.keys())
         value_set = list(size_data_all.values())  #딕셔너리 리스트
         query = Category.objects.filter(category=cate).first().category
         clothes_info = apps.get_model('clothes', query)
@@ -114,9 +114,9 @@ def recent_recommend(request):  #기본 추천 - 절대값 결과 두개 일 때
         category_url = unquote(request.GET['category_url'])
         fit = request.GET['fit']
         cate = category.category_parse(category_url)
-        url_parsed, size_data_all = extratorr.parse(0, cate, current_url, category_url)
+        url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate, current_url, category_url)
 
-        key_set = list(size_data_all.keys())
+        #key_set = list(size_data_all.keys())
         value_set = list(size_data_all.values())  #딕셔너리 리스트
         query = Category.objects.filter(category=cate).first().category
         clothes_info = apps.get_model('clothes', query)
@@ -147,8 +147,8 @@ def all_list(request):
         category_url = unquote(request.GET['category_url'])
         fit = request.GET['fit']
         cate = category.category_parse(category_url)
-        url_parsed, size_data_all = extratorr.parse(0, cate,current_url, category_url)
-        key_set = list(size_data_all.keys())
+        url_parsed, key_set, size_data_all, thumbnail_temp = extratorr.parse(0, cate,current_url, category_url)
+        #key_set = list(size_data_all.keys())
         value_set = list(size_data_all.values())  #딕셔너리 리스트
         query = Category.objects.filter(category=cate).first().category
         clothes_info = apps.get_model('clothes', query)
@@ -164,7 +164,10 @@ def all_list(request):
                     calc_item.append(vl)
             date = clothes_info[cnt]
             thumb = clothes_info[cnt]
-            thumbnail = thumb['thumbnail']
+            if thumb['thumbnail']:
+                thumbnail = thumb['thumbnail']
+            else:
+                thumbnail = cate
             registerdate = date['date'].strftime("%Y-%m-%d")
             date_list.append(registerdate)
             thumburl_list.append(thumbnail)
@@ -185,6 +188,7 @@ def all_list(request):
         for ct in range(len(date_list)):
             reco_dic[ct] = [date_list[ct], calc_list[ct], res[ct], thumburl_list[ct]]
         context = {'reco_dic':reco_dic}
+        print(reco_dic)
         return JsonResponse(context)
 
 

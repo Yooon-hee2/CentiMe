@@ -79,8 +79,8 @@ def preprocess(image):
 
 
 def dilate(gray_image):
-    kernel = np.ones((5, 5), np.uint8)
-    dilation_image = cv2.dilate(gray_image, kernel, iterations=5)
+    kernel = np.ones((7, 7), np.uint8)
+    dilation_image = cv2.dilate(gray_image, kernel, iterations=7)
     return dilation_image
 
 

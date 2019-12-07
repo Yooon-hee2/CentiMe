@@ -25,10 +25,7 @@ SECRET_KEY = '^2a$wq$phdn)z5(tdvn*)+=nxdjw@j=$8h-5g230a)u5hn4=^3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '15.164.138.38',
-    '.ap-northeast-2.compute.amazonaws.com',
-]
+ALLOWED_HOSTS = ['*','127.0.0.1',]
 
 # Application definition
 
@@ -63,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-INTERNAL_IPS = ('15.164.138.38',)
+INTERNAL_IPS = ('127.0.0.1:8000',)
 
 ROOT_URLCONF = 'capstone.urls'
 
@@ -151,7 +148,7 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    'http://15.164.138.38:8000',
+    'http://127.0.0.1:8000',
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHOD = [

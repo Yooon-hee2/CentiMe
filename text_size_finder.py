@@ -91,7 +91,7 @@ class TextSizeFinder():
 
         if len(size_data_list) > 1:
             for j, size_list in enumerate(size_data_list):
-                temp_dict = dict_without_size
+                temp_dict = dict(dict_without_size)
                 for jj, size in enumerate(size_list):
                     for category_title, category_name in ocr_dict.items():
                         for category in category_name:
@@ -100,7 +100,7 @@ class TextSizeFinder():
                 complete_size_dict[size_name[j]] = temp_dict
         else:
             for n, size_list in enumerate(size_data_list):
-                temp_dict = dict_without_size
+                temp_dict = dict(dict_without_size)
                 for m, size in enumerate(size_list):
                     for category_title, category_name in ocr_dict.items():
                         for category in category_name:

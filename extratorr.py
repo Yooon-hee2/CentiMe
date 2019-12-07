@@ -61,6 +61,7 @@ def parse(sel_size, find_category, current_url, category_url):
     #         sel_num = key_list.index(li)
     #         break
     # re_result = result[key_list[sel_num]]
+    #print(result)
     return url, key_list, result, thumbnail_url
 
 # if __name__ == '__main__':

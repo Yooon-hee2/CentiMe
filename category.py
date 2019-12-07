@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 import requests as req
 import re
 
-searching_dic = {'OUTER': ['아우터', 'OUTER', '자켓', '코트', '가디건', 'KNIT', 'CARDIGAN', 'KNIT & CARDIGAN'],
-                     'TOP': ['TOP', 'top', 'KNIT', 'knit', '상의', '탑', 'SHIRTS', 'BLOUSE','셔츠', '블라우스', 'BLOUSE & SHIRTS'],
+searching_dic = {'OUTER': ['아우터', 'OUTER', '자켓', '코트', '가디건', 'CARDIGAN', 'KNIT & CARDIGAN'],
+                     'TOP': ['TOP', 'top', 'KNIT', 'knit', '상의', '탑', '니트', 'SHIRTS', 'BLOUSE','셔츠', '블라우스', 'BLOUSE & SHIRTS'],
                      'SKIRT': ['SKIRT','스커트','skirt'],
                      'PANTS': ['BOTTOM', 'bottom', 'pants', 'PANTS', '바지', '하의','팬츠'],
                      'OPS': ['DRESS','드레스','dress','OPS','ops', '원피스']}  # 카테고리 딕셔너리 만들기

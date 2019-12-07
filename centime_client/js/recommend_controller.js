@@ -101,7 +101,7 @@ $(document).ready(() => {
         $.ajax({
             type: "GET",
             ContentType: 'application/json',
-            url: "http://15.164.138.38:80/recommend/recent/",
+            url: "http://127.0.0.1:8000/recommend/recent/",
             data: { fit: '보통핏', url_send :encodeURIComponent(currentUrl), category_url:encodeURIComponent(categoryUrl)},
             dataType: "json",
             success: function (data) {
@@ -184,7 +184,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/recent/",
+                url: "http://127.0.0.1:8000/recommend/recent/",
                 data: { fit: '오버핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -241,7 +241,7 @@ $(document).ready(() => {
                 $.ajax({
                     type: "GET",
                     ContentType: 'application/json',
-                    url: "http://15.164.138.38:8000/recommend/all/",
+                    url: "http://127.0.0.1:8000/recommend/all/",
                     data: { fit: fit_data, url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                     dataType: "json",
                     success: function (data) {
@@ -326,7 +326,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/trend/",
+                url: "http://127.0.0.1:8000/recommend/trend/",
                 data: { fit: '보통핏',url_send :encodeURIComponent(currentUrl), category_url:encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -383,7 +383,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/trend/",
+                url: "http://127.0.0.1:8000/recommend/trend/",
                 data: { fit: '오버핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {

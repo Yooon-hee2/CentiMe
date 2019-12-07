@@ -160,7 +160,7 @@ class TableSizeFinder():
 
         if len(self.size_list[0]) > 1:
             for num in range(len(self.size_list[0])):
-                temp_dict = dict_without_size
+                temp_dict = dict(dict_without_size)
                 for n in range(len(self.size_list)):
                     for category_title, category_name in self.ocr_dict.items():
                         for category in category_name:
@@ -168,7 +168,7 @@ class TableSizeFinder():
                                 temp_dict[category_title] = self.size_list[n][num].text
                 complete_size_dict[size_name[num]] = temp_dict
         else:
-            temp_dict = dict_without_size
+            temp_dict = dict(dict_without_size)
             for n in range(len(self.size_list)):
                 for category_title, category_name in self.ocr_dict.items():
                     for category in category_name:

@@ -196,6 +196,7 @@ def classification (url):
     resize_list = np.array(resize_list)
     resize_list = resize_list.astype(float)/255
     model = load_model('./new_crop_VGGNet.h5')
+    model._make_predict_function()
     prediction = model.predict(resize_list)
 
     table = []

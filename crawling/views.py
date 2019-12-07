@@ -35,7 +35,15 @@ def main(request):
         return JsonResponse(context)
 
 
-   
+def cate(request):
+    if request.method == 'GET':
+        #url_data = json.loads( request.body)
+        current_url = unquote(request.GET['url_send'])
+        category_url = unquote(request.GET['category_url'])
+        cate = category.category_parse(category_url)
+        context = {'cate':cate}
+        return JsonResponse(context)
+         
 #########카테고리어찌담아올지 생각해############
 @csrf_exempt     
 def PersonalStore(request): #추천할때 사이즈 없는걸로 쿼리해서 추천

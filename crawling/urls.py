@@ -6,6 +6,7 @@ app_name = 'crawling'
 
 urlpatterns = [
     path('', views.main, name='main'),
+    path('more/', views.cate, name='cate'),
     path('personal/', views.PersonalStore, name='personalsize'),
     path('store/', views.CrawlingStore, name='crawlingstore'),
     #path('crawling/pants/', PantsRecommendListView.as_view(), name='pants'),

@@ -44,19 +44,52 @@ def split_word(slist, content_list):
     size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl', 'one']
     # 넘어온 리스트에서 중복된 문장 지우기
     content_list = orderedset(content_list)
-
+   
     for i in range(len(content_list)):
         text = re.sub('[=+,#/\?:^$@*\"※~&%ㆍ!』│\\‘|\(\)\[\]\<\>`\'…》cm]', '', content_list[i])
         # print("text ; ", text)
         mid_list.append(text.replace('/', "") and text.replace('\\xa0', '') and text.split())
-    # print(mid_list)
+    
+    trash = []
+    safe = []
+    check = 0
+    for check in range(len(mid_list)):
+        cnt = 0
+        for check_list in slist:    
+            out = False
+            for check_item in check_list:
+                for sh_item in mid_list[check]:
+                    if re.compile(check_item).search(sh_item):
+                        cnt += 1
+                        out = True
+                        break
+                if out == True:
+                    break
+            if cnt >= 3:
+                safe.append(mid_list[check])
+                break
+        if cnt < 3:
+            trash.append(mid_list[check])           
+    mid_list = safe
+    re_safe = []
+    for m_list in range(len(mid_list)):
+        count = 0
+        for it in mid_list[m_list]:
+            if re.compile('[0-9]+').search(it):
+                count += 1
+        if count >= 4:
+            re_safe.append(mid_list[m_list])
+        
+    mid_list = re_safe
+
+    #print(re_safe)
     # 수치, 항목 모두 다 떼고 리스트에 저장함. 인덱싱으로 필요 정보 따로 result에 옮겨 담기
     for k in mid_list:
         for j in size:
             if j in k:
                 ary.append(k.index(j))
                 size_call.append(j)
-
+    
     for ins in range(len(ary)):
         if (ins == len(ary) - 1):
             size_num.append(k[ary[ins] + 1:])
@@ -67,6 +100,7 @@ def split_word(slist, content_list):
     count = 0
     # tmp = [0] * len(slist) ####여기를 바꿨어요
     tmp = []
+    
     for x in mid_list:
         for sl in slist:
             exitOuterLoop = False
@@ -92,22 +126,23 @@ def split_word(slist, content_list):
         result_list[count].insert(0, mid_list[count][0])
         # result_list[count].insert(0, size_call[count])
         count += 1
+    
     alt = False
     for item in tmp:
         if item is not 0:
             alt = True
             break
-
+    
     if alt == False:
         for key in result_list:
             del key[1]
         modify_result(result_list, size_call)
-        # print(result_list)
+        
         return result_list
     else:
         result_list = strange_ary(slist, size_num, tmp, size_call)
         modify_result(result_list, size_call)
-        # print(result_list)
+        
         return result_list
 
 
@@ -118,7 +153,7 @@ def strange_ary(slist, size_num, tmp, ary):
     for it in tmp:
         if it != 0:
             tmp_result.append(it)
-
+    
     for t in range(len(size_num)):
         for y in slist:
             exitOuterLoop = False
@@ -172,7 +207,8 @@ def textcrawling(str, fi_category):
     search_list = prepare_index(category.prepare_category(fi_category))
     str_list = []
 
-    query = ["기장", "총길이+", "총장+", "총기장+", "전체길이+"]
+    query = ["기장", "총길이+", "총장+", "총기장+", "전체길이+", "총"]
+
     for i in query:
         tf = soup.find_all(text=re.compile(i))
         if (tf != None):

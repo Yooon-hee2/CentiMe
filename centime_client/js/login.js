@@ -3,7 +3,7 @@ $(document).ready(() => {
     $.ajax({
         type: "GET",
         ContentType: 'application/json',
-        url: "http://15.164.138.38:8000/checklogin",
+        url: "http://127.0.0.1:8000/checklogin",
         success: function (data) {
             if(data.message == "already logined"){
                 alert("already logined");
@@ -21,9 +21,9 @@ $(document).ready(() => {
         $.ajax({
             type: "GET",
             ContentType: 'application/json',
-            url: "http://15.164.138.38:8000/accounts/google/login",
+            url: "http://127.0.0.1:8000/accounts/google/login",
             success: function (data) {
-                chrome.windows.create({ 'url': 'http://15.164.138.38:8000/accounts/google/login', 'type' : 'popup' }, function (window) {});
+                chrome.windows.create({ 'url': 'http://127.0.0.1:8000/accounts/google/login', 'type' : 'popup' }, function (window) {});
                 window.close();
             },
             failure:

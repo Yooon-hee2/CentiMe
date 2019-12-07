@@ -1,3 +1,12 @@
+var cate_dic = {
+    'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
+    'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
+    'SKIRT': ['waist', 'hip', 'hem', 'length'],
+    'PANTS': ['waist', 'hip', 'thigh', 'hem', 'crotch_rise', 'length'],
+    'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']
+};
+
+
 //var totalData = 1000;    // 총 데이터 수
 var dataPerPage = 4;      // 한 페이지에 나타낼 데이터 수
 var pageCount = 5;        // 한 화면에 나타낼 페이지 수
@@ -24,8 +33,8 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
             src_temp = "./images/img_" + container[cnt][1] + ".png";
         }
 
-        ins += '<p><div id="size-history" style="height: 60px;">';
-        ins += '<span style="font-size: 15px; margin-right: 190px;">' + container[cnt][0] + '</span><span style="color:red; font-size: 15px; margin-right: 12px; float: right; "> 삭제 </span>';
+        ins += '<p><div id="size-history-'+cnt+'" style="height: 60px;">';
+        ins += '<span style="font-size: 15px; margin-right: 190px;">' + container[cnt][0] + '</span><span id="del" style="color:red; font-size: 15px; margin-right: 12px; float: right; "> 삭제 </span>';
         ins += '<div id="thumbnail" style="float: left; width: 20%; margin-left:5px"><img src="'+ src_temp+'" style="height: 125px; width: 100px; border-radius: 15px; border: 0px;"></div>';        ins += '<div style="float: left; width: 77%; vertical-align: middle; margin-left: 5px;"><table class="size-table"><thead><tr id = "registered_info">';
         ins += container[cnt].slice(2, 2 + slicenum) + '</tr></thead><tbody><tr id = "registered_num">' + container[cnt].slice(slicenum + 2, container[cnt].length) + '</tr></tbody></table></div></div></p><br/><br/><br/>';
         html += ins;
@@ -67,19 +76,83 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
     });
 
 }
+function add_register(currentUrl, categoryUrl) {
+    alert("정보를 찾을 수 없습니다. 수치를 입력해주세요 :)")
+    $("#size-form *").remove();
+    $.ajax({
+        type: "GET",
+        ContentType: 'application/json',
+        url: "http://127.0.0.1:8000/info/more",
+        data: { url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
+        dataType: "json",
+        success: function (data) {
+            var sel_category = data['cate'];
+            $("#like_container").hide();
+            //alert(sel_category)
+            $("#clothes_size_input_container").show();
+            $('body').css({
+                'background-color': '#fff'
+            });
+            var tmp = Object.keys(cate_dic);
+            var sel_list = cate_dic[sel_category];
+            for (var i = 0; i < sel_list.length; i++) {
+                var info = '<div class="input_group"><input name="' + sel_list[i] + '" type="number" required /><span class="highlight"></span><span class="bar"></span><label class="clothes_size">' + sel_list[i] + '</label></div>';
+                $("#size-form").append(info);
+            }
+            $("#size-form").append('<strong style="margin-bottom: 20px; font-size: 12px;">어떤 핏으로 입으셨나요 ?</strong>');
+            $("#size-form").append('<label class="clothes_fit_container">몸에 딱 맞는 보통핏<input type="radio" checked="checked" name="fit-radio" value="보통핏"><span class="checkmark" ></span></label>');
+            $("#size-form").append('<label class="clothes_fit_container">넉넉한 오버핏<input type="radio" name="fit-radio" value="오버핏"><span class="checkmark"></span></label>');
+            $("#size-form").append('<div id="btn-box"><button class="submit_button_small">등록하기</button></div>');
+            
+            var sel_fit = $("input[name='fit-radio']:checked").val();
 
+            $("#size-form").submit(() => {
+                if ($("#size-form").get(0).checkValidity()) {
+                    $("input[name='radio']").prop("checked", false);
+                    $('#clothes_size_input_container').hide().prop('required', false);
+                    $('body').css({
+                        'background-color': '#fff'
+                    });
+                    var data = '';
+                    $.each($("#size-form").serializeArray(), function (key, val) {
+                        data += ',"' + val.name + '":"' + val.value + '"';
+                    });
+                    data = '{' + data.substr(1) + '}';
+
+                    $.ajax({
+                        type: "POST",
+                        ContentType: 'application/json',
+                        url: "http://127.0.0.1:8000/info/personal/",
+                        data: JSON.stringify({ sel_category: sel_category, data: data }),
+                        dataType: "json",
+                        success: function (data) {
+                            alert("success");
+                            $('#main-wrapper').show();
+                        },
+                        failure:
+                            function (err) {
+                                console.log(err);
+                            },
+                        error: function (request, status, error) {
+                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        }
+                    }); alert("수치가 등록됩니다.")
+
+                }
+            });
+        },
+    failure:
+        function (err) {
+            console.log(err);
+        },
+        error: function (request, status, error) {
+            alert("수치 등록이 실패했습니다. 다음에 다시 이용해주세요!");
+        }
+    });
+}
 
 
 $(document).ready(() => {
-
-    var cate_dic = {
-        'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
-        'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
-        'SKIRT': ['waist', 'hip', 'hem', 'length'],
-        'PANTS': ['waist', 'hip', 'thigh', 'hem', 'crotch_rise', 'length'],
-        'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']
-    };
-
     $("#input-size-menu").click(() => {
         $("#register-container").hide();
         $("#clothes_category_input_container").show();
@@ -123,7 +196,7 @@ $(document).ready(() => {
                     $.ajax({
                         type: "POST",
                         ContentType: 'application/json',
-                        url: "http://15.164.138.38:8000/info/personal/",
+                        url: "http://127.0.0.1:8000/info/personal/",
                         data: JSON.stringify({ sel_category: sel_category, data: data }),
                         dataType: "json",
                         success: function (data) {
@@ -197,11 +270,14 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/info/",
+                url: "http://127.0.0.1:8000/info/",
                 data: { url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
                     var re_data = data['re_dic'];
+                    if (re_data = '') {
+                        add_register(currentUrl, categoryUrl);
+                    }
                     var button = document.getElementById("fit1");
                     button.addEventListener("click", function () {
                         fit = $("#fit1").text();
@@ -235,12 +311,14 @@ $(document).ready(() => {
                     $("#loading").hide();
                 },
                 failure: function (err) {
-                    alert("정보를 찾을 수 없습니다.")
-                },
+                    add_register(currentUrl, categoryUrl);
+                    },
                 error: function (request, status, error) {
+                    add_register(currentUrl, categoryUrl);
                     //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    alert("잘못된 url 정보가 입력되었습니다.")
+                    //alert("잘못된 url 정보가 입력되었습니다.")
                 }
+                    
             });
         });
         var checked = false;
@@ -252,7 +330,7 @@ $(document).ready(() => {
                     $.ajax({
                         type: "POST",
                         ContentType: 'application/json',
-                        url: "http://15.164.138.38:8000/info/store/",
+                        url: "http://127.0.0.1:8000/info/store/",
                         data: JSON.stringify({ fit: fit, size: size, url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) }),
                         dataType: "json",
                         success: function (data) {
@@ -273,7 +351,7 @@ $(document).ready(() => {
                                 console.log(err);
                             },
                         error: function (request, status, error) {
-                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                            alert("저장에 실패했습니다! 다음에 다시 시도해주세요!");
                         }
                     });
                 }
@@ -319,7 +397,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/recent/",
+                url: "http://127.0.0.1:8000/recommend/recent/",
                 data: { fit: '보통핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -358,8 +436,9 @@ $(document).ready(() => {
     });
     var togglecount = 0;
     $("#recotoggle").click(() => {
-        $("#size-table-list *").remove();
-        $("#size-table-info *").remove();
+        //$("#back_button").hide();
+        // $("#size-table-list *").remove();
+        // $("#size-table-info *").remove();
         //alert(togglecount)
 
         if (togglecount == 0) {
@@ -392,7 +471,7 @@ $(document).ready(() => {
         chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
             currentUrl = tabs[0].url;
         });
-        chrome.history.search({ text: '', maxResults: 10 }, function (data) {
+        chrome.history.search({ text: '', maxResults: 20 }, function (data) {
             var i, j = 0;
             data.forEach(function (page) {
                 urlArray.push(page.url)
@@ -412,7 +491,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/recent/",
+                url: "http://127.0.0.1:8000/recommend/recent/",
                 data: { fit: '보통핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -489,7 +568,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/recent/",
+                url: "http://127.0.0.1:8000/recommend/recent/",
                 data: { fit: '오버핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -546,7 +625,7 @@ $(document).ready(() => {
                 $.ajax({
                     type: "GET",
                     ContentType: 'application/json',
-                    url: "http://15.164.138.38:8000/recommend/all/",
+                    url: "http://127.0.0.1:8000/recommend/all/",
                     data: { fit: fit_data, url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                     dataType: "json",
                     success: function (data) {
@@ -600,11 +679,11 @@ $(document).ready(() => {
                     paging((Object.keys(container).length) - 1, dataPerPage, pageCount, 1, container, index);
                     var cate = $("#cate_ui").attr("src");
                     cate = cate.replace(/[^A-Z]/g, "");
-                    
+                    alert(tmp)
                     $.ajax({
                         type: "DELETE",
                         ContentType: 'application/json',
-                        url: "http://15.164.138.38:8000/recommend/delete/",
+                        url: "http://127.0.0.1:8000/recommend/delete/",
                         data: JSON.stringify({del_data : del_data, cate:cate, fit: fit_data}),
                         dataType: "json",
                         success: function (data) {                    
@@ -655,7 +734,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/trend/",
+                url: "http://127.0.0.1:8000/recommend/trend/",
                 data: { fit: '보통핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {
@@ -712,7 +791,7 @@ $(document).ready(() => {
             $.ajax({
                 type: "GET",
                 ContentType: 'application/json',
-                url: "http://15.164.138.38:8000/recommend/trend/",
+                url: "http://127.0.0.1:8000/recommend/trend/",
                 data: { fit: '오버핏', url_send: encodeURIComponent(currentUrl), category_url: encodeURIComponent(categoryUrl) },
                 dataType: "json",
                 success: function (data) {

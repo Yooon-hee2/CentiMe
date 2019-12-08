@@ -83,19 +83,18 @@ def PersonalStore(request): #추천할때 사이즈 없는걸로 쿼리해서 �
 def CrawlingStore(request):
     response_data={}
     if request.method == 'POST':
-        #cate = category.category_parse("https://m.ba-on.com/product/list.html?cate_no=35")
         jsondata = json.loads(request.body)
         sel_cate = unquote(jsondata['category_url'])
         sel_tab = unquote(jsondata['url_send'])
         sel_fit = jsondata['fit']
         sel_size = jsondata['size']
         cate = request.session['category']
-        #url_parsed, size, data_dic, thumbnail = extratorr.parse(sel_size, cate, sel_tab, sel_cate)  #입력된 사이즈의 정보들만 가져옴
         size_dic_temp = request.session['size_dict']
         size_dict = size_dic_temp[sel_size]
         thumbnail = request.session['thumbnail']
         url_parsed = request.session['url']
         save_val = list(size_dict.values())
+        #url_parsed, size, data_dic, thumbnail = extratorr.parse(sel_size, cate, sel_tab, sel_cate)  #입력된 사이즈의 정보들만 가져옴
 
         if cate == 'OUTER':
             query = Category.objects.filter(category=cate).first()

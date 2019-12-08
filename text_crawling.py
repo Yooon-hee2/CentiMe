@@ -81,8 +81,7 @@ def split_word(slist, content_list):
             re_safe.append(mid_list[m_list])
         
     mid_list = re_safe
-
-    #print(re_safe)
+    
     # 수치, 항목 모두 다 떼고 리스트에 저장함. 인덱싱으로 필요 정보 따로 result에 옮겨 담기
     for k in mid_list:
         for j in size:
@@ -141,11 +140,19 @@ def split_word(slist, content_list):
         return result_list
     else:
         result_list = strange_ary(slist, size_num, tmp, size_call)
-        modify_result(result_list, size_call)
-        
+        result_list = modify_result(result_list, size_call)
+        #print(result_list)
         return result_list
 
 
+# def arrange_list(slist, mixedlist, numlist):
+#     re_li = [0] * len(slist)
+#     cnt = 0
+#     for item in slist:
+#         for ditem in item:
+#             for it in mixedlist:
+#                 if re.compile(ditem).search(it):
+#                     re_li[cnt] = 
 def strange_ary(slist, size_num, tmp, ary):
     tmp_result = []
     result_list = [[0] for low in range(len(size_num))]
@@ -171,7 +178,7 @@ def strange_ary(slist, size_num, tmp, ary):
         result_list[t].insert(0, ary[t])
     for key in result_list:
         del key[1]
-
+    
     return result_list
 
 
@@ -243,10 +250,11 @@ def textcrawling(str, fi_category):
     # print("str_list : ", str_list)
     # print("search list  ; ", search_list)
     result = split_word(search_list, str_list)
-    # print(result)
+    #print(result)
     re_data = {}
     for item in result:
         re_data[item[0]] = {name: value for name, value in zip(dic_list, item[1:])}
+   
     return re_data
 
 # method for extracting thumbnail 썸네일추출

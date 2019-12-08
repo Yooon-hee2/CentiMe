@@ -16,8 +16,6 @@ class Product(models.Model):
     class Meta:
         ordering = ['-id']
         
-    # def __str__(self):
-    #     return self.url
 
 class Outer(Product):
     bust = models.FloatField(default=0)

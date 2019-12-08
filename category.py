@@ -6,12 +6,14 @@ searching_dic = {'OUTER': ['아우터', 'OUTER', '자켓', '코트', '가디건'
                      'TOP': ['TOP', 'top', 'KNIT', 'knit', '상의', '탑', '니트', 'SHIRTS', 'BLOUSE','셔츠', '블라우스', 'BLOUSE & SHIRTS'],
                      'SKIRT': ['SKIRT','스커트','skirt'],
                      'PANTS': ['BOTTOM', 'bottom', 'pants', 'PANTS', '바지', '하의','팬츠'],
-                     'OPS': ['DRESS','드레스','dress','OPS','ops', '원피스']}  # 카테고리 딕셔너리 만들기
+                     'OPS': ['DRESS','드레스','dress','OPS','ops', 'ONEPIECE','onepiece','ONE-PIECE','one piece','원피스']}  # 카테고리 딕셔너리 만들기
 cate_dic = {'OUTER': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
                 'TOP': ['bust', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'length'],
                 'SKIRT': ['waist', 'hip', 'hem', 'length'],
                 'PANTS': ['waist', 'hip', 'thigh', 'hem', 'crotch_rise', 'length'],
                 'OPS': ['waist', 'shoulder', 'armhole', 'sleeve', 'sleevewidth', 'hip', 'length']}
+
+
 def prepare_category(dic_val):
     for dic, val in searching_dic.items():
         for vl in val:

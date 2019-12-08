@@ -20,9 +20,8 @@ function paging(totalData, dataPerPage, pageCount, currentPage, container, index
     var prev = currentPage - 1;
     var html = "";
     var cnt = 0;
-
     for (cnt = index; cnt < index + 4; cnt++) {
-        var slicenum = container[cnt].slice(2, container[0].length + 1).length * (1 / 2);
+        var slicenum = container[cnt].slice(2, container[cnt].length + 1).length * (1 / 2);
         var ins = "";
         src_temp = container[cnt][1];
         if (src_temp == 'OPS' || src_temp == 'OUTER' || src_temp == 'PANTS' || src_temp == 'TOP' || src_temp == 'SKIRT') {
@@ -275,7 +274,7 @@ $(document).ready(() => {
                 dataType: "json",
                 success: function (data) {
                     var re_data = data['re_dic'];
-                    if (re_data = '') {
+                    if (re_data == '') {
                         add_register(currentUrl, categoryUrl);
                     }
                     var button = document.getElementById("fit1");
@@ -679,7 +678,7 @@ $(document).ready(() => {
                     paging((Object.keys(container).length) - 1, dataPerPage, pageCount, 1, container, index);
                     var cate = $("#cate_ui").attr("src");
                     cate = cate.replace(/[^A-Z]/g, "");
-                    alert(tmp)
+                    // alert(tmp)
                     $.ajax({
                         type: "DELETE",
                         ContentType: 'application/json',

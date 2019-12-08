@@ -199,7 +199,7 @@ def all_list(request):
 
         for ct in range(len(date_list)):
             reco_dic[ct] = [date_list[ct], calc_list[ct], res[ct], thumburl_list[ct]]
-        context = {'reco_dic':reco_dic}
+        context = {'reco_dic': reco_dic}
         return JsonResponse(context)
 
 @csrf_exempt

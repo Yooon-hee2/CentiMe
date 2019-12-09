@@ -41,7 +41,7 @@ def split_word(slist, content_list):
     ary = []
     size_call = []
     size_num = []
-    size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl', 'one']
+    size = ['XS', 'xs', 'S', 's', 'M', 'm', 'L', 'l', 'XL', 'xl', 'XXL', 'xxl', 'one', 'ONE', 'free', 'FREE']
     # 넘어온 리스트에서 중복된 문장 지우기
     content_list = orderedset(content_list)
    
@@ -49,7 +49,7 @@ def split_word(slist, content_list):
         text = re.sub('[=+,#/\?:^$@*\"※~&%ㆍ!』│\\‘|\(\)\[\]\<\>`\'…》cm]', '', content_list[i])
         # print("text ; ", text)
         mid_list.append(text.replace('/', "") and text.replace('\\xa0', '') and text.split())
-    
+    #print(mid_list)
     trash = []
     safe = []
     check = 0
@@ -81,7 +81,18 @@ def split_word(slist, content_list):
             re_safe.append(mid_list[m_list])
         
     mid_list = re_safe
-    
+    #print(mid_list)
+    if mid_list:
+        if len(mid_list[0][2])>3:
+            for item in mid_list:
+                for st in item[1:]:
+                    #print(st)
+                    if re.findall("\d+", st):
+                        num = re.findall("\d+", st)
+                        item.insert(item.index(st) + 1, str(num[0]))
+    #print(mid_list)
+
+
     # 수치, 항목 모두 다 떼고 리스트에 저장함. 인덱싱으로 필요 정보 따로 result에 옮겨 담기
     for k in mid_list:
         for j in size:
@@ -99,7 +110,8 @@ def split_word(slist, content_list):
     count = 0
     # tmp = [0] * len(slist) ####여기를 바꿨어요
     tmp = []
-    
+    if mid_list:
+        tmp2 = [0] * len(mid_list[0])
     for x in mid_list:
         for sl in slist:
             exitOuterLoop = False
@@ -115,6 +127,7 @@ def split_word(slist, content_list):
                             else:
                                 # tmp[store_id] = sh  # 숫자가 아니면 tmp에 담아라 ###여기를 바꿨어요
                                 tmp.append(sh)
+                                tmp2[x.index(sh)] = sh
                             break
                         except IndexError:
                             pass
@@ -125,7 +138,7 @@ def split_word(slist, content_list):
         result_list[count].insert(0, mid_list[count][0])
         # result_list[count].insert(0, size_call[count])
         count += 1
-    
+    #print(tmp2)
     alt = False
     for item in tmp:
         if item is not 0:
@@ -135,24 +148,51 @@ def split_word(slist, content_list):
     if alt == False:
         for key in result_list:
             del key[1]
-        modify_result(result_list, size_call)
         
+        result_list = modify_result(result_list, size_call)
         return result_list
     else:
         result_list = strange_ary(slist, size_num, tmp, size_call)
+        
+        result_list = arrange_list(slist,tmp2,size_num, size_call)
         result_list = modify_result(result_list, size_call)
         #print(result_list)
         return result_list
 
 
-# def arrange_list(slist, mixedlist, numlist):
-#     re_li = [0] * len(slist)
-#     cnt = 0
-#     for item in slist:
-#         for ditem in item:
-#             for it in mixedlist:
-#                 if re.compile(ditem).search(it):
-#                     re_li[cnt] = 
+def arrange_list(slist, tmp2, size_num, size_call):
+    chg = []
+    
+    tmp2_ch = []
+    for i in tmp2:
+        if i != 0:
+            tmp2_ch.append(i)
+    
+    for it in range(len(size_num)):
+        line = []
+        for i in size_num[it]:
+            if re.findall("\d+", i):
+                line.append(i)
+        chg.append(line)
+    
+    
+    
+    result = [[0]* len(slist) for low in range(len(size_num))]
+    re_li = [[0] * len(slist)]
+    for i in range(len(size_num)):
+        for item in range(len(slist)):
+            for ditem in slist[item]:
+                for itr in range(len(size_num)):
+                    for it in range(len(tmp2_ch)):
+                        if re.compile(ditem).search(tmp2_ch[it]):
+                            #print(tmp2_ch[it])
+                            result[itr][item] = chg[itr][it]
+
+    for idx in range(len(result)):
+        result[idx].insert(0, size_call[idx])
+    return result               
+                
+    
 def strange_ary(slist, size_num, tmp, ary):
     tmp_result = []
     result_list = [[0] for low in range(len(size_num))]
@@ -201,6 +241,7 @@ def modify_result(result_list, size_call):
     else:
         for i in range(len(result_list)):
             result_list[i][0] = size_call[i]
+    #print(result_list)
     return result_list
 
 def textcrawling(str, fi_category):
@@ -210,10 +251,11 @@ def textcrawling(str, fi_category):
     response = req.get(url, headers=headers)
     html = response.content
     soup = BeautifulSoup(html, "lxml", from_encoding='ANSI')
+    print(soup)
     dic_list = category.prepare_category(fi_category)
     search_list = prepare_index(category.prepare_category(fi_category))
     str_list = []
-
+    
     query = ["기장", "총길이+", "총장+", "총기장+", "전체길이+", "총"]
 
     for i in query:
@@ -250,11 +292,13 @@ def textcrawling(str, fi_category):
     # print("str_list : ", str_list)
     # print("search list  ; ", search_list)
     result = split_word(search_list, str_list)
+
+
     #print(result)
     re_data = {}
     for item in result:
         re_data[item[0]] = {name: value for name, value in zip(dic_list, item[1:])}
-   
+    
     return re_data
 
 # method for extracting thumbnail 썸네일추출

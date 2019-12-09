@@ -141,6 +141,9 @@ def crop_image(possible_contours, crop_list, image):
     #     cv2.rectangle(image, pt1=(d['x'], d['y']), pt2=(d['x'] + d['w'], d['y'] + d['h']), color=(0, 0, 255),
     #                   thickness=2)
     # cv2.imwrite("crop imagedkdkkdd.jpg", image)
+        # cv2.imshow('ccc', crop_image)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
 
 # def resize_image(crop_list):

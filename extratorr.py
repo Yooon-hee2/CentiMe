@@ -25,6 +25,7 @@ def parse(sel_size, find_category, current_url, category_url):
     #url = "https://www.daybin.co.kr/product/detail.html?product_no=5428&cate_no=152&display_group=1"
     #url = "https://www.daybin.co.kr/product/detail.html?product_no=5273&cate_no=152&display_group=1"
     result = text_crawling.textcrawling(url, find_category)
+
     #result = ''
     if not result:
         import image_classification

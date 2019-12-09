@@ -6,7 +6,7 @@ $(document).ready(() => {
         url: "http://127.0.0.1:8000/checklogin",
         success: function (data) {
             if(data.message == "already logined"){
-                alert("already logined");
+                alert("already logged in");
                 window.location.href = "popup.html";
                 chrome.browserAction.setPopup({ popup:"popup.html" });
             }
